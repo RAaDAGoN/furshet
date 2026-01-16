@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${orderDto.FIO} + ' | Детали заказа'">Детали заказа</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-[1746px] mx-auto px-4 sm:px-5 py-8">
+        <!-- Кнопка назад -->
+        <a th:href="@{/admin/orders}"
+           class="inline-flex items-center text-[#97AB94] hover:text-[#7a9185] mb-6 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                      clip-rule="evenodd"/>
+            </svg>
+            Назад к списку заказов
+        </a>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Заголовок -->
+            <div class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-white" th:text="${orderDto.FIO}"></h1>
+                    <div class="flex space-x-3">
+                        <a th:href="@{/admin/orders/{id}/edit(id=${orderDto.id})}"
+                           class="bg-white text-[#97AB94] px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                            Редактировать
+                        </a>
+                        <button
+                                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium">
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Основная информация -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Левая колонка - основная информация -->
+                    <form th:action="@{/admin/order/submitProduct}" th:object="${orderDto}" method="post">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Основная информация</h2>
+
+                        <dl class="space-y-4">
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">ID заказа:</dt>
+                                <dd class="font-medium">
+                                    <input type="hidden" th:field="*{id}">
+                                    <span th:text="*{id}"></span>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">ФИО:</dt>
+                                <dd class="font-medium">
+                                    <label>
+                                        <input class="border rounded w-10" th:field="*{FIO}" type="text">
+                                    </label>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Телефон:</dt>
+                                <dd class="font-bold text-lg text-[#97AB94]">
+                                    <label>
+                                        <input class="border rounded w-10" th:field="*{phone}" type="text">
+                                    </label>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Email:</dt>
+                                <dd>
+                                    <span class="px-3 py-1 rounded-full font-medium">
+                                        <label>
+                                            <input class="border rounded w-10" th:field="*{email}" type="text">
+                                        </label>
+                                    </span>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Тип доставки:</dt>
+                                <dd>
+                                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+                                        <label>
+                                            <select th:field="*{delivery}">
+                                                <option th:each="type : ${typeDelivery}"
+                                                        th:value="${type.name}"
+                                                        th:text="${type.name}">
+                                                </option>
+                                            </select>
+                                        </label>
+                                    </span>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Город:</dt>
+                                <dd>
+                                    <label class="px-3 py-1 rounded-full font-medium">
+                                        <input class="border rounded w-10" th:field="*{city}" type="text">
+                                    </label>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Адрес доставки:</dt>
+                                <dd>
+                                    <label class="px-3 py-1 rounded-full font-medium">
+                                        <input class="border rounded w-10" th:field="*{address}" type="text">
+                                    </label>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Комментарий к заказу:</dt>
+                                <dd>
+                                    <label class="px-3 py-1 rounded-full font-medium">
+                                        <input class="border rounded w-10" th:field="*{comment}" type="text">
+                                    </label>
+                                </dd>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <dt class="text-gray-600">Тип оплаты:</dt>
+                                <dd>
+
+                                    <label class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+                                        <select th:field="*{paymentMethod}">
+                                            <option th:each="method : ${paymentMethod}"
+                                                    th:value="${method.name}"
+                                                    th:text="${method.name}">
+                                            </option>
+                                        </select>
+                                    </label>
+                                </dd>
+                            </div>
+
+                        </dl>
+
+                        <!-- Действия -->
+                        <div class="mt-8 pt-6 border-t border-gray-200">
+                            <div class="flex space-x-4">
+                                <a th:href="@{/admin/orders}"
+                                   class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+                                    ← Назад к списку
+                                </a>
+                                <button type="submit"
+                                        class="bg-[#97AB94] text-white px-6 py-3 rounded-lg hover:bg-[#7a9185] transition-colors font-medium">
+                                    Сохранить
+                                </button>
+                            </div>
+                        </div>
+
+                        <table id="order-items-table">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    Товар
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    количество
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    Действия
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item, stat : *{orderItems}">
+                                <!-- ID позиции -->
+                                <input type="hidden"
+                                       th:field="*{orderItems[__${stat.index}__].id}"/>
+
+                                <td>
+                                    <label>
+                                        <select th:field="*{orderItems[__${stat.index}__].productId}">
+                                            <option th:each="prod : ${products}"
+                                                    th:value="${prod.id}"
+                                                    th:text="${prod.name}">
+                                            </option>
+                                        </select>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label>
+                                        <input type="number"
+                                               min="1"
+                                               th:field="*{orderItems[__${stat.index}__].quantity}"/>
+                                    </label>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" id="add-item-btn"
+                                class="mt-4 bg-gray-200 px-4 py-2 rounded">
+                            + Добавить
+                        </button>
+                    </form>
+
+                    <form th:action="@{/admin/order/delete/{id}(id=${orderDto.id})}"
+                          method="post"
+                          onsubmit="return confirm('Удалить заказ?');">
+
+                        <button type="submit"
+                                class="bg-red-600 text-white px-6 py-3 rounded-lg">
+                            Удалить заказ
+                        </button>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        let itemIndex = [[${orderDto.orderItems != null ? orderDto.orderItems.size() : 0}]];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document
+                .getElementById('add-item-btn')
+                .addEventListener('click', addOrderItem);
+        });
+
+        function addOrderItem() {
+            const tableBody = document.querySelector('#order-items-table tbody');
+
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+            <td>
+                <select name="orderItems[${itemIndex}].productId">
+                    ${getProductOptions()}
+                </select>
+            </td>
+            <td>
+                <input type="number"
+                       name="orderItems[${itemIndex}].quantity"
+                       min="1"
+                       value="1"/>
+            </td>
+            <td>
+                <button type="button" onclick="removeRow(this)">✖</button>
+            </td>
+        `;
+
+            tableBody.appendChild(row);
+            itemIndex++;
+        }
+
+        function removeRow(button) {
+            button.closest('tr').remove();
+        }
+
+        function getProductOptions() {
+            let options = '';
+            /*[# th:each="prod : ${products}"]*/
+            options += `<option value="[[${prod.id}]]">[[${prod.name}]]</option>`;
+            /*[/]*/
+            return options;
+        }
+    </script>
+
+</div>
+
+
+
+
+</body>
+
+
+</html>

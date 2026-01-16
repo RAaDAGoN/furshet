@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Панель администратора</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="max-w-[1746px] mx-auto py-[10px] flex justify-center items-center px-4 sm:px-5">
+        <a  th:href="@{/admin/products}">
+            <button class="w-40 h-40 border border-black text-lg font-medium rounded mx-2" >
+                Продукты
+            </button>
+        </a>
+
+        <a th:href="@{/admin/categories}">
+            <button class="w-40 h-40 border border-black text-lg font-medium rounded mx-2">
+                Категории
+            </button>
+        </a>
+
+        <a th:href="@{/admin/orders}">
+            <button class="w-40 h-40 border border-black text-lg font-medium rounded mx-2">
+                Заказы
+            </button>
+        </a>
+
+        <a th:href="@{/admin/callbacks}">
+            <button class="w-40 h-40 border border-black text-lg font-medium rounded mx-2">
+                Заявки
+            </button>
+        </a>
+
+    </div>
+</div>
+
+</body>
+</html>
