@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="/favicon.ico">
+    <title layout:title-pattern="$CONTENT_TITLE | Админ-панель">Админ-панель</title>
+    <link th:href="@{/css/output.css}" rel="stylesheet">
+</head>
+<body>
+<header class="text-[30px] bg-[#97AB94] py-3 px-2 text-white">
+    <div class="max-w-[1746px] mx-auto py-[10px] flex justify-between items-center px-4 sm:px-5">
+        <div>
+            <h1><a href="/admin">Панель администратора | Фуршет</a></h1>
+        </div>
+        <div>
+            <a href="/logout" class="underline cursor-pointer hover:opacity-80 transition-opacity">Выйти</a>
+        </div>
+    </div>
+    <div class="border border-white w-full h-full"></div>
+    <div class="max-w-[1746px] mx-auto py-[10px] flex justify-between items-center px-4 sm:px-5">
+        <ul class="text-lg flex space-x-8">
+            <li><a th:href="@{/admin/products}" class="hover:text-gray-200 transition-colors font-medium">Товары</a></li>
+            <li><a th:href="@{/admin/categories}" class="hover:text-gray-200 transition-colors">Категории</a></li>
+            <li><a th:href="@{/admin/orders}" class="hover:text-gray-200 transition-colors">Заказы</a></li>
+            <li><a th:href="@{/admin/callbacks}" class="hover:text-gray-200 transition-colors">Заявки</a></li>
+        </ul>
+    </div>
+</header>
+
+<main layout:fragment="content">
+</main>
+</body>
+</html>
