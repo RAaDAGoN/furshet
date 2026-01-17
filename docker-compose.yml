@@ -1,18 +1,26 @@
 version: "3.9"
 
+networks:
+  dev:
+
 services:
-  frontend:
-    build:
-      context: ./furshet
-    container_name: furshet-frontend
+  nginx:
+    image: nginx:stable-alpine
+    container_name: furshet-nginx
     ports:
       - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+      - ./frontend/deploy/furshet/dist:/usr/share/nginx/html:ro
     depends_on:
       - backend
+    networks:
+      - dev
 
   backend:
     build:
-      context: ../../Spring/furshet
+      context: ./backend/furshet
     container_name: furshet-backend
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/furshet
@@ -20,8 +28,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: pgpwd4habr
     depends_on:
       - postgres
-    ports:
-      - "8080:8080"
+    networks:
+      - dev
 
   postgres:
     image: postgres:17
@@ -32,6 +40,8 @@ services:
       POSTGRES_PASSWORD: pgpwd4habr
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - dev
 
 volumes:
   pgdata:
