@@ -155,7 +155,7 @@ const fetchProduct = async () => {
   isLoading.value = true
 
   try {
-    const {data: products} = await axios.get('http://localhost:8080/products')
+    const {data: products} = await axios.get('/products')
     const foundProduct = products.find(p => {
       const productSlug = slugify(p.name)
       return productSlug === route.params.productSlug
@@ -163,7 +163,7 @@ const fetchProduct = async () => {
 
     if (foundProduct) {
       product.value = foundProduct
-      const {data: categories} = await axios.get('http://localhost:8080/categories')
+      const {data: categories} = await axios.get('/categories')
       const category = categories.find(c => c.id === foundProduct.category.id)
       categoryName.value = category ? category.name : 'Категория'
     }

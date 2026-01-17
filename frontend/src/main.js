@@ -19,6 +19,7 @@ import Product from "@/pages/Product.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
 import Order from "@/pages/Order.vue";
 // import Login from "@/pages/back/Login.vue";
+import axios from 'axios';
 
 const app = createApp(App)
 
@@ -46,6 +47,8 @@ export const router = createRouter({
         return { top: 0 }
     }
 })
+
+axios.defaults.baseURL = 'http://144.31.165.137/api';
 
 app.use(router)
 app.use(autoAnimatePlugin)

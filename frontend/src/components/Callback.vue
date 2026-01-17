@@ -82,7 +82,7 @@ const callbackOrder = async () => {
       typeCallbackRequest: 'CALCULATION'
     };
 
-    const { data } = await axios.post('http://localhost:8080/callbacks', orderRequest);
+    const { data } = await axios.post('/callbacks', orderRequest);
 
     Object.keys(orderData).forEach(key => {
       orderData[key] = '';

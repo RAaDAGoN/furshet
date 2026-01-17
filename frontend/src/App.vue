@@ -56,7 +56,7 @@ const createOrder = async (orderData) => {
       orderItems: orderItems
     };
 
-    const { data } = await axios.post('http://localhost:8080/orders', orderRequest);
+    const { data } = await axios.post('/orders', orderRequest);
 
     cart.value = [];
     localStorage.removeItem("cart");

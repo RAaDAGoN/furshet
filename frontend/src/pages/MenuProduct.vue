@@ -24,7 +24,7 @@ const route = useRoute()
 // Функция для получения ID категории по slug
 const getCategoryIdBySlug = async (slug) => {
   try {
-    const { data } = await axios.get('http://localhost:8080/categories');
+    const { data } = await axios.get('/categories');
 
     // Ищем категорию по slug
     const foundCategory = data.find(cat => {
@@ -43,7 +43,7 @@ const getCategoryIdBySlug = async (slug) => {
 // Получаем информацию о категории
 const fetchCategory = async (categoryId) => {
   try {
-    const { data } = await axios.get('http://localhost:8080/categories');
+    const { data } = await axios.get('/categories');
     category.value = data.find(cat => cat.id === categoryId);
     if (!category.value) {
       error.value = 'Категория не найдена';
@@ -60,7 +60,7 @@ const fetchProducts = async (categoryId) => {
   error.value = '';
 
   try {
-    const { data } = await axios.get(`http://localhost:8080/products/category/${categoryId}`);
+    const { data } = await axios.get(`/products/category/${categoryId}`);
     products.value = data;
   } catch (err) {
     console.error('Ошибка загрузки товаров:', err);

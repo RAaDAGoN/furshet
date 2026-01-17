@@ -46,7 +46,7 @@ const props = defineProps({
 const fetchMenu = async () => {
   try {
     isLoading.value = true
-    const {data} = await axios.get('http://localhost:8080/categories');
+    const {data} = await axios.get('/categories');
 
     categories.value = data
 

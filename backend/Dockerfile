@@ -1,4 +1,7 @@
+# ---------- stage 1: build ----------
 FROM maven:3.9.9-eclipse-temurin-21 AS build
+
+WORKDIR /app
 
 COPY pom.xml .
 RUN mvn dependency:go-offline
@@ -15,4 +18,4 @@ COPY --from=build /app/target/furshet-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8000
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.address=0.0.0.0"]

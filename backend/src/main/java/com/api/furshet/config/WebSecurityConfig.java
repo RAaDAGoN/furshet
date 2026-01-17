@@ -24,6 +24,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         // Публичные пути
                         .requestMatchers(
@@ -38,15 +39,13 @@ public class WebSecurityConfig {
                                 "/orders/**",
                                 "/callbacks/**"
                         ).permitAll()
-                        // API пользователей (регистрация) - публичное
                         .requestMatchers("/api/users/**").permitAll()
-                        // Все остальное требует авторизации
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")                     // GET - страница логина
-                        .defaultSuccessUrl("/admin", true)       // После успеха
-                        .failureUrl("/login?error=true")         // При ошибке
+                        .loginPage("/login")                     
+                        .defaultSuccessUrl("/admin", true)       
+                        .failureUrl("/login?error=true")         
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -54,7 +53,7 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf.disable()); // Временно для отладки
+                .csrf(csrf -> csrf.disable()); 
 
         return http.build();
     }
@@ -67,7 +66,11 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of(
+		"http://144.31.165.137",
+        "http://localhost:5173",
+        "http://localhost:3000"
+		));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
