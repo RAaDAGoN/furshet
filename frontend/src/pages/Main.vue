@@ -5,12 +5,12 @@
 
     <Content1/>
 
-    <div class="bg-[#EBF0E8]">
+    <div class="bg-[#EBF0E8] ">
       <Menu title="Ознакомьтесь с нашим разнообразным меню для вашего фуршетного стола" :limit="8" />
     </div>
     <div class="bg-[#30592A80] mt-[213px] relative ">
       <div class="max-w-[1755px] mx-auto flex flex-col justify-start ">
-        <div class="text-white sm:px-5 py-6">
+        <div class="text-white px-5 py-6">
           <h1 class="font-comfort font-semibold text-2xl md:text-5xl">Не знаете что выбрать?</h1>
           <p class="font-montserrat text-base md:text-2xl">Поможем выбрать фуршетные боксы, которые понравятся всем!</p>
           <Button @click="openCart" class="mt-[30px]" title="Заказать звонок"/>

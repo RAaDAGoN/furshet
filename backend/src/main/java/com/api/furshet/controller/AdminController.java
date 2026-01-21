@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,7 @@ public class AdminController {
 
         model.addAttribute("productDto", productDto);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("productImages", new ArrayList<>());
 //        model.addAttribute("mode", "create"); // опционально
 
         return "products/product";
@@ -73,19 +75,21 @@ public class AdminController {
         dto.setPrice(product.getPrice());
         dto.setAmount(product.getAmount());
         dto.setCategoryId(product.getCategory().getId());
-        dto.setFilename(product.getFilename());
+//        dto.setFilename(product.getFilename());
         dto.setActive(product.getActive());
 
         model.addAttribute("productDto", dto);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("productImages", product.getProductImages());
 
         return "products/product";
     }
 
     @PostMapping("/products/submitProduct")
     public String updateProduct(@ModelAttribute ProductDTO productDTO,
-                                @RequestParam("file")MultipartFile file) {
-        productService.update(productDTO, file);
+                                @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                                @RequestParam(value = "deleteImageIds", required = false) List<Long> deleteId) {
+        productService.update(productDTO, images, deleteId);
         return "redirect:/admin/products";
     }
 

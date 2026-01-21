@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                                 "/login",
                                 "/error",
                                 "/css/**",
+                                "/media/**",
                                 "/js/**",
                                 "/images/**",
                                 "/categories/**",

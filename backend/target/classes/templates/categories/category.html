@@ -24,79 +24,82 @@
             <div class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] px-6 py-4">
                 <div class="flex justify-between items-center">
                     <h1 class="text-2xl font-bold text-white" th:text="${categoryDto.name}"></h1>
-                    <div class="flex space-x-3">
-                        <a th:href="@{/admin/categories/{id}/edit(id=${categoryDto.id})}"
-                           class="bg-white text-[#97AB94] px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium">
-                            Редактировать
-                        </a>
-                        <button
-                                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium">
+                    <form th:action="@{/admin/category/delete/{id}(id=${categoryDto.id})}"
+                          method="post"
+                          onsubmit="return confirm('Удалить товар?');">
+
+                        <button type="submit"
+                                class="bg-red-600 text-white px-6 py-3 rounded-lg">
                             Удалить
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
             <!-- Основная информация -->
             <div class="p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="">
                     <!-- Левая колонка - основная информация -->
-                    <form th:action="@{/admin/category/submitProduct}" th:object="${categoryDto}" method="post" enctype="multipart/form-data">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Основная информация</h2>
+                    <form class="flex justify-between gap-5" th:action="@{/admin/category/submitProduct}" th:object="${categoryDto}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="w-full">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Основная информация</h2>
 
-                        <dl class="space-y-4">
-                            <div class="flex justify-between border-b pb-2">
-                                <dt class="text-gray-600">ID категории:</dt>
-                                <dd class="font-medium">
-                                    <input type="hidden" th:field="*{id}">
-                                    <span th:text="*{id}"></span>
-                                </dd>
-                            </div>
-                            <div class="flex justify-between border-b pb-2">
-                                <dt class="text-gray-600">Название:</dt>
-                                <dd class="font-medium">
-                                    <label>
-                                        <input class="border rounded w-10" th:field="*{name}" type="text">
-                                    </label>
-                                </dd>
-                            </div>
-                            <div>
-                                <dt class="text-gray-600">Активен:</dt>
-                                <dd>
-                                    <input type="checkbox" th:field="*{active}">
-                                </dd>
-                            </div>
+                            <dl class="space-y-4">
+                                <div class="flex justify-between border-b pb-2">
+                                    <dt class="text-gray-600">ID категории:</dt>
+                                    <dd class="font-medium">
+                                        <input type="hidden" th:field="*{id}">
+                                        <span th:text="*{id}"></span>
+                                    </dd>
+                                </div>
+                                <div class="flex justify-between border-b pb-2">
+                                    <dt class="text-gray-600">Название:</dt>
+                                    <dd class="font-medium">
+                                        <label>
+                                            <input class="border rounded" th:field="*{name}" type="text">
+                                        </label>
+                                    </dd>
+                                </div>
+                                <div class="flex justify-between border-b pb-2">
+                                    <dt class="text-gray-600">Активен:</dt>
+                                    <dd>
+                                        <input type="checkbox" th:field="*{active}">
+                                    </dd>
+                                </div>
 
-                        </dl>
-
-
-                        <!-- Действия -->
-                        <div class="mt-8 pt-6 border-t border-gray-200">
-                            <div class="flex space-x-4">
-                                <a th:href="@{/admin}"
-                                   class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium">
-                                    ← Назад к списку
-                                </a>
-                                <button type="submit"
-                                        class="bg-[#97AB94] text-white px-6 py-3 rounded-lg hover:bg-[#7a9185] transition-colors font-medium">
-                                    Сохранить
-                                </button>
+                            </dl>
 
 
+                            <!-- Действия -->
+                            <div class="mt-8 pt-6 border-t border-gray-200">
+                                <div class="flex space-x-4">
+                                    <a th:href="@{/admin/categories}"
+                                       class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+                                        ← Назад
+                                    </a>
+                                    <button type="submit"
+                                            class="bg-[#97AB94] text-white px-6 py-3 rounded-lg hover:bg-[#7a9185] transition-colors font-medium">
+                                        Сохранить
+                                    </button>
+
+
+                                </div>
                             </div>
                         </div>
 
-                        <div>
+                        <div class="w-full">
                             <h2 class="text-xl font-semibold text-gray-800 mb-4">Изображение товара</h2>
 
                             <div class="mb-4">
                                 <label class="block text-gray-700 mb-2">Выберите изображение:</label>
                                 <input type="file" name="file" accept="image/*"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                                <p class="text-sm text-gray-500 mt-1">Оставьте поле пустым, если не хотите менять изображение</p>
+                                <p class="text-sm text-gray-500 mt-1">Оставьте поле пустым, если не хотите менять
+                                    изображение</p>
                             </div>
 
-                            <div th:if="*{filename}" class="mt-4 max-w-[50%]">
+                            <div th:if="*{filename}" class="mt-4 max-w-[20%]">
                                 <p class="text-gray-600 mb-2">Текущее изображение:</p>
                                 <img th:src="@{/media/{name}(name=*{filename})}"
                                      alt="Изображение товара"
@@ -110,15 +113,7 @@
                         </div>
                     </form>
 
-                    <form th:action="@{/admin/category/delete/{id}(id=${categoryDto.id})}"
-                          method="post"
-                          onsubmit="return confirm('Удалить товар?');">
 
-                        <button type="submit"
-                                class="bg-red-600 text-white px-6 py-3 rounded-lg">
-                            Удалить товар
-                        </button>
-                    </form>
                 </div>
 
 

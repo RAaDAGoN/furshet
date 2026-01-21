@@ -9,14 +9,14 @@ import './assets/main.css'
 
 import {createRouter, createWebHistory} from 'vue-router'
 import Main from "@/pages/Main.vue";
-import AboutUs from "@/pages/AboutUs.vue";
+import AboutUs from "@/pages/staticPage/AboutUs.vue";
 import Menu from "@/pages/Menu.vue";
-import Delivery from "@/pages/Delivery.vue";
-import Contacts from "@/pages/Contacts.vue";
+import Delivery from "@/pages/staticPage/Delivery.vue";
+import Contacts from "@/pages/staticPage/Contacts.vue";
 import Cart from "@/pages/Cart.vue";
 import MenuProduct from "@/pages/MenuProduct.vue";
 import Product from "@/pages/Product.vue";
-import PageNotFound from "@/pages/PageNotFound.vue";
+import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
 import Order from "@/pages/Order.vue";
 // import Login from "@/pages/back/Login.vue";
 import axios from 'axios';
@@ -55,3 +55,5 @@ app.use(autoAnimatePlugin)
 app.use(Toast);
 
 app.mount('#app')
+
+export const API_URL = import.meta.env.VITE_API_URL

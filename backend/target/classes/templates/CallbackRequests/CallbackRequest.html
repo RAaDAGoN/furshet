@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title th:text="${callbackDTO.FIO} + ' | Детали заявки'">Детали заявки</title>
+    <title th:text="'Заявка № ' + ${callbackDTO.id} + ' | Детали заявки'">Детали заявки</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -23,17 +23,16 @@
             <!-- Заголовок -->
             <div class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] px-6 py-4">
                 <div class="flex justify-between items-center">
-                    <h1 class="text-2xl font-bold text-white" th:text="${callbackDTO.FIO}"></h1>
-                    <div class="flex space-x-3">
-                        <a th:href="@{/admin/categories/{id}/edit(id=${callbackDTO.id})}"
-                           class="bg-white text-[#97AB94] px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium">
-                            Редактировать
-                        </a>
-                        <button
-                                class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium">
-                            Удалить
+                    <h1 class="text-2xl font-bold text-white" th:text="'Заявка № ' + ${callbackDTO.id}"></h1>
+                    <form th:action="@{/admin/callback/delete/{id}(id=${callbackDTO.id})}"
+                          method="post"
+                          onsubmit="return confirm('Удалить заявку?');">
+
+                        <button type="submit"
+                                class="bg-red-600 text-white px-6 py-3 rounded-lg">
+                            Удалить заявку
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -119,7 +118,7 @@
                             <div class="flex space-x-4">
                                 <a th:href="@{/admin/callbaks}"
                                    class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium">
-                                    ← Назад к списку
+                                    ← Назад
                                 </a>
                                 <button type="submit"
                                         class="bg-[#97AB94] text-white px-6 py-3 rounded-lg hover:bg-[#7a9185] transition-colors font-medium">
@@ -131,15 +130,7 @@
 
                     </form>
 
-                    <form th:action="@{/admin/callback/delete/{id}(id=${callbackDTO.id})}"
-                          method="post"
-                          onsubmit="return confirm('Удалить заявку?');">
 
-                        <button type="submit"
-                                class="bg-red-600 text-white px-6 py-3 rounded-lg">
-                            Удалить заявку
-                        </button>
-                    </form>
                 </div>
 
 

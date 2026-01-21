@@ -1,7 +1,9 @@
 package com.api.furshet.controller;
 
+import com.api.furshet.domain.entity.Category;
 import com.api.furshet.dto.ProductDTO;
 import com.api.furshet.domain.entity.Product;
+import com.api.furshet.service.CategoryService;
 import com.api.furshet.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +24,11 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductService productService;
-
-
-
-
-//    @PostMapping
-//    public ResponseEntity<Product> create(@RequestBody ProductDTO dto) {
-//        return new ResponseEntity<>(productService.create(dto), HttpStatus.OK);
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<List<Product>> create(@RequestBody List<ProductDTO> dto) {
-//        List<Product> products = dto.stream()
-//                .map(productService::create)
-//                .collect(Collectors.toList());
-//        return new ResponseEntity<>(products, HttpStatus.CREATED);
-//    }
+    private final CategoryService categoryService;
 
     @PostMapping
     public ResponseEntity<List<Product>> create(@RequestPart("products") List<ProductDTO> dtolist,
-                                                @RequestPart("file") MultipartFile file){
+                                                @RequestParam List<MultipartFile> file){
         List<Product> products = dtolist.stream()
                 .map(dto -> productService.create(dto, file))
                 .collect(Collectors.toList());
@@ -55,13 +42,16 @@ public class ProductController {
 
     @GetMapping("/category/{id}")
     public ResponseEntity<List<Product>> readByCategoryId(@PathVariable Long id) {
-        return new ResponseEntity<>(productService.findByCategoryId(id), HttpStatus.OK);
-    }
+        Category category = categoryService.findById(id);
+        if(category == null || Boolean.FALSE.equals(category.getActive())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
 
-//    @PutMapping
-//    public ResponseEntity<Product> update(@RequestBody Product product) {
-//        return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
-//    }
+        // Получаем только активные продукты
+        List<Product> activeProducts = productService.findByCategoryIdAndActiveTrue(id);
+
+        return ResponseEntity.ok(activeProducts);
+    }
 
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable Long id) {

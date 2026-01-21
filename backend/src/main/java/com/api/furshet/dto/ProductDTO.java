@@ -2,6 +2,9 @@ package com.api.furshet.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class ProductDTO {
     private Long id;
@@ -9,6 +12,6 @@ public class ProductDTO {
     private int amount;
     private Integer price;
     private Long categoryId;
-    private String filename;
     private Boolean active;
+
 }

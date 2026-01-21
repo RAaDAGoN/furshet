@@ -7,7 +7,7 @@
     <Header :total-price="totalPrice" @cart-open="openCart" :menuOpen="menuOpen" @openMenu="openMenu" @closeMenu="closeMenu"/>
 
     <div v-auto-animate class="min-h-svh">
-      <div class="h-[35px] md:h-[135px]"></div>
+      <div class="h-[56px] md:h-[135px]"></div>
       <router-view ></router-view>
     </div>
 

@@ -5,13 +5,14 @@
          v-auto-animate>
       <MenuItem v-for="product in products"
                 :key="product.id"
+                :active="product.active"
+                :block="product.blockedByCategory"
                 :title="product.name"
+                :image="product.productImages?.length
+                ? `${API_URL}/media/${product.productImages[0].filename}`
+                : null"
                 :to="{name: 'Product', params: { categorySlug: $route.params.slug, productSlug: slugify(product.name) }}"
       />
-    </div>
-
-    <div v-else class="text-center py-8 text-gray-500">
-      В этой категории пока нет товаров 123
     </div>
   </div>
 </template>
@@ -19,9 +20,8 @@
 <script setup>
 import MenuItem from "@/components/MenuItem.vue";
 import { slugify } from "@/utils/slugify.js";
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
+import {API_URL} from "@/main.js";
+import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
 
 defineProps({
   products: Array,
