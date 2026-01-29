@@ -1,8 +1,12 @@
 package com.api.furshet.service;
 
+import com.api.furshet.domain.entity.Label;
 import com.api.furshet.domain.entity.ProductImages;
+import com.api.furshet.domain.entity.ProductLabel;
+import com.api.furshet.domain.enums.ProductLabelType;
 import com.api.furshet.dto.ProductDTO;
 import com.api.furshet.domain.entity.Product;
+import com.api.furshet.repository.LabelRepository;
 import com.api.furshet.repository.OrderItemRepository;
 import com.api.furshet.repository.ProductImagesRepository;
 import com.api.furshet.repository.ProductRepository;
@@ -25,6 +29,7 @@ public class ProductService {
     private final CategoryService categoryService;
     private final ProductImagesRepository productImagesRepository;
     private final OrderItemRepository orderItemRepository;
+    private final LabelRepository labelRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -107,6 +112,7 @@ public class ProductService {
     }
 
     public Product update(ProductDTO dto, List<MultipartFile> newImages, List<Long> deleteId) {
+        System.out.println(dto);
         // если приходит id, то обновляем, иначе создаём новый
         if (dto.getId() != null) {
 
@@ -133,6 +139,22 @@ public class ProductService {
             product.setAmount(dto.getAmount());
             product.setCategory(categoryService.findById(dto.getCategoryId()));
             product.setActive(dto.getActive());
+
+            product.getProductLabel().clear();
+
+            if (dto.getLabelIds() != null) {
+                List<ProductLabel> productLabels = dto.getLabelIds().stream()
+                        .map(labelId -> {
+                            Label label = labelRepository.findById(labelId).orElseThrow();
+
+                            ProductLabel productLabel = new ProductLabel();
+                            productLabel.setLabel(label);
+                            productLabel.setProduct(product);
+                            return productLabel;
+                        }).toList();
+
+                product.getProductLabel().addAll(productLabels);
+            }
 
             if (newImages != null && !newImages.isEmpty()) {
                 for (MultipartFile file : newImages) {

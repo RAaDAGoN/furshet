@@ -20,6 +20,7 @@ import {useRoute} from "vue-router";
 import ProductList from "@/components/ProductList.vue";
 import {slugify} from "@/utils/slugify.js";
 import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
+import {API_URL} from "@/main.js";
 
 const products = ref([])
 const category = ref(null)
@@ -30,7 +31,7 @@ const route = useRoute()
 // Функция для получения ID категории по slug
 const getCategoryIdBySlug = async (slug) => {
   try {
-    const {data} = await axios.get('http://localhost:8080/categories');
+    const {data} = await axios.get(`${API_URL}/categories`);
 
     // Ищем категорию по slug
     const foundCategory = data.find(cat => {
@@ -48,7 +49,7 @@ const getCategoryIdBySlug = async (slug) => {
 // Получаем информацию о категории
 const fetchCategory = async (categoryId) => {
   try {
-    const {data} = await axios.get('http://localhost:8080/categories');
+    const {data} = await axios.get(`${API_URL}/categories`);
     category.value = data.find(cat => cat.id === categoryId);
 
   } catch (err) {
@@ -62,7 +63,7 @@ const fetchProducts = async (categoryId) => {
   error.value = '';
 
   try {
-    const {data} = await axios.get(`http://localhost:8080/products/category/${categoryId}`);
+    const {data} = await axios.get(`${API_URL}/products/category/${categoryId}`);
     products.value = data;
   } catch (err) {
     products.value = [];

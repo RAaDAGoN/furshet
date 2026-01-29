@@ -28,6 +28,8 @@
                           method="post"
                           onsubmit="return confirm('Удалить товар?');">
 
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
                         <button type="submit"
                                 class="bg-red-600 text-white px-6 py-3 rounded-lg">
                             Удалить
@@ -70,6 +72,8 @@
 
                             </dl>
 
+
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                             <!-- Действия -->
                             <div class="mt-8 pt-6 border-t border-gray-200">

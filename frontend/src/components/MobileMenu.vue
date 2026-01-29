@@ -9,9 +9,11 @@
 
     <ul class="flex flex-col items-center gap-6 text-lg font-montserrat font-semibold lg:gap-12 md:gap-8 mt-12 ">
       <router-link to="/about" @click="()=> emit('closeMenu')">О нас</router-link>
+      <router-link to="/catering" @click="()=> emit('closeMenu')">Кейтеринг</router-link>
       <router-link to="/menu" @click="()=> emit('closeMenu')">Меню</router-link>
       <router-link to="/delivery" @click="()=> emit('closeMenu')">Доставка</router-link>
       <router-link to="/contacts" @click="()=> emit('closeMenu')">Контакты</router-link>
+
     </ul>
 
   </div>

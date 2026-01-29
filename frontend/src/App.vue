@@ -67,7 +67,6 @@ const createOrder = async (orderData) => {
   } catch (error) {
     console.log('Ошибка при создании заказа:', error);
     orderSuccess.value = 'error';
-    throw error;
   }
 }
 

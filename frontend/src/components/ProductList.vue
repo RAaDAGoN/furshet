@@ -7,6 +7,7 @@
                 :key="product.id"
                 :active="product.active"
                 :block="product.blockedByCategory"
+                :mark="product.productLabel"
                 :title="product.name"
                 :image="product.productImages?.length
                 ? `${API_URL}/media/${product.productImages[0].filename}`
@@ -26,4 +27,5 @@ import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
 defineProps({
   products: Array,
 })
+
 </script>

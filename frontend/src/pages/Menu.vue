@@ -30,6 +30,7 @@ import axios from 'axios'
 import {computed, onMounted, ref} from "vue";
 import {slugify} from "@/utils/slugify.js";
 import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
+import {API_URL} from "@/main.js";
 
 const categories = ref([])
 
@@ -47,7 +48,7 @@ const props = defineProps({
 const fetchMenu = async () => {
   try {
     isLoading.value = true
-    const {data} = await axios.get('http://localhost:8080/categories');
+    const {data} = await axios.get(`${API_URL}/categories`);
 
     categories.value = data.filter(category => category.active)
 
@@ -72,6 +73,7 @@ const sort = computed(() => {
   }
   return result
 })
+
 
 onMounted(async () => {
   await fetchMenu()

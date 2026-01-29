@@ -2,7 +2,6 @@ package com.api.furshet.dto;
 
 import com.api.furshet.domain.enums.PaymentMethods;
 import com.api.furshet.domain.enums.TypeDelivery;
-import jakarta.persistence.JoinColumn;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -27,6 +26,5 @@ public class OrderRequestDTO {
     private PaymentMethods paymentMethod;
 
     //Состав заказа
-
     private List<OrderItemRequestDTO> orderItems = new ArrayList<>();
 }

@@ -20,6 +20,7 @@ import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
 import Order from "@/pages/Order.vue";
 // import Login from "@/pages/back/Login.vue";
 import axios from 'axios';
+import Catering from "@/pages/staticPage/Catering.vue";
 
 const app = createApp(App)
 
@@ -31,6 +32,7 @@ const routes = [
     { path: '/contacts', component: Contacts, name: 'Contacts', meta: { breadcrumb: 'Контакты'} },
     { path: '/cart', component: Cart, name: 'Cart', meta: { breadcrumb: 'Корзина'} },
     { path: '/cart/order', component: Order, name: 'Order', meta: { breadcrumb: 'Оформление заказа'} },
+    { path: '/catering', component: Catering, name: 'Catering', meta: { breadcrumb: 'Кейтеринг'} },
     // { path: '/Login', component: Login, name: 'Cart', meta: { breadcrumb: 'Корзина'} },
     // { path: '/menu/:id', component: MenuProduct, name: 'ProductLegacy', meta: { breadcrumb: 'Товар'} },
 
@@ -48,12 +50,17 @@ export const router = createRouter({
     }
 })
 
-axios.defaults.baseURL = 'http://144.31.165.137/api';
+// axios.defaults.baseURL = 'http://144.31.165.137/api';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 app.use(router)
 app.use(autoAnimatePlugin)
 app.use(Toast);
 
 app.mount('#app')
+
+axios.defaults.withCredentials = true
+axios.defaults.xsrfCookieName = 'XSRF-TOKEN'
+axios.defaults.xsrfHeaderName = 'X-CSRF-TOKEN'
 
 export const API_URL = import.meta.env.VITE_API_URL

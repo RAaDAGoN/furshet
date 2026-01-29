@@ -23,6 +23,11 @@ public class Product {
     private int amount;
     private Integer price;
 
+    // Список типов акций
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<ProductLabel> productLabel = new ArrayList<>();
+
 //    Ручное изменение активности товара
     @Builder.Default
     private Boolean active = true;

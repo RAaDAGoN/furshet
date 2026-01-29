@@ -25,15 +25,33 @@
         <p class="font-montserrat font-regular text-base md:text-[21px] text-[#393939] leading-[110%]">Хотите получить персональное предложение? Оставьте данные и мы свяжемся с вами в ближайшее время!</p>
 
         <form @submit.prevent="callbackOrder" class="flex flex-col gap-[10px] md:gap-5 font-montserrat font-medium text-base md:text-lg text-[#393939] leading-[110%]" action="">
-          <input class="py-[18px] pl-[25px] border-b-2 border-[#D2D2D2] placeholder:opacity-25 outline-none" type="text" placeholder="Имя и фамилия" v-model="orderData.FIO">
-          <input class="py-[18px] pl-[25px] border-b-2 border-[#D2D2D2] placeholder:opacity-25 outline-none" type="text" placeholder="Номер телефона" v-model="orderData.phone">
-          <input class="py-[18px] pl-[25px] border-b-2 border-[#D2D2D2] placeholder:opacity-25 outline-none" type="text" placeholder="Email" v-model="orderData.email">
+          <input
+              class="py-[18px] pl-[25px] border-b-2 border-[#D2D2D2] placeholder:opacity-25 outline-none"
+              type="text"
+              placeholder="Имя и фамилия"
+              v-model="orderData.FIO"
+              :class="inputClass(errors.FIO)"
+          >
+          <input
+              class="py-[18px] pl-[25px] border-b-2 border-[#D2D2D2] placeholder:opacity-25 outline-none"
+              type="text"
+              placeholder="Номер телефона"
+              v-model="orderData.phone"
+              :class="inputClass(errors.phone)"
+          >
+          <input
+              class="py-[18px] pl-[25px] border-b-2 border-[#D2D2D2] placeholder:opacity-25 outline-none"
+              type="email"
+              placeholder="Email"
+              v-model="orderData.email"
+              :class="inputClass(errors.email)"
+          >
 
           <CartButton type="submit" class="mt-4 md:mt-5 mb-2 md:mb-4" title="Оставить заявку" />
         </form>
 
         <div class="flex items-start space-x-3">
-          <input class="appearance-none w-6 h-6 border-2 border-[#97AB94] checked:bg-[#97AB94] cursor-pointer mt-1" type="checkbox" value="1">
+          <input v-model="personalData" class="appearance-none w-6 h-6 border-2 border-[#97AB94] checked:bg-[#97AB94] cursor-pointer mt-1" type="checkbox" value="1">
           <p class="font-montserrat font-medium text-xs md:text-lg text-[#3C3C3C] leading-[110%]">
             Отправляя форму, вы соглашаетесь<br/>
             <span class="text-[#97AB94] underline cursor-pointer">на обработку персональных данных</span>
@@ -53,11 +71,14 @@
 
 <script setup>
 import CartButton from "@/components/ui/CartButton.vue";
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import {API_URL} from "@/main.js";
 
 const emit = defineEmits(["cartClose"])
+
+const personalData = ref(false);
 
 const orderData = reactive({
   FIO: "",
@@ -65,9 +86,44 @@ const orderData = reactive({
   email: "",
 })
 
+const errors = reactive({
+  FIO: false,
+  phone: false,
+  email: false,
+});
+
+const inputClass = (hasError) => [
+  "py-[18px] pl-[25px] border-b-2 placeholder:opacity-25 outline-none transition",
+  hasError ? "border-red-500" : "border-[#D2D2D2]",
+];
+
+const validateForm = () => {
+  errors.FIO = !orderData.FIO.trim();
+  errors.phone = orderData.phone.replace(/\D/g, "").length !== 11;
+  errors.email = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(orderData.email);
+
+  return !Object.values(errors).some(Boolean);
+};
+
 const toast = useToast();
 
 const callbackOrder = async () => {
+  if (!validateForm()) {
+    toast.error("Заполните поля корректно", {
+      position: "bottom-right",
+      timeout: 3000
+    })
+    return;
+  }
+
+  if (!personalData) {
+    toast.error("Пункт не отмечен", {
+      position: "bottom-right",
+      timeout: 3000
+    })
+    return;
+  }
+
   try {
     const orderRequest = {
       FIO: orderData.FIO,
@@ -76,7 +132,7 @@ const callbackOrder = async () => {
       typeCallbackRequest: 'SIMPLE'
     };
 
-    const { data } = await axios.post('http://localhost:8080/callbacks', orderRequest);
+    const { data } = await axios.post(`${API_URL}/callbacks`, orderRequest);
 
     Object.keys(orderData).forEach(key => {
       orderData[key] = '';

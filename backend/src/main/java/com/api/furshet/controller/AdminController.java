@@ -1,17 +1,12 @@
 package com.api.furshet.controller;
 
-import com.api.furshet.domain.entity.CallbackRequest;
-import com.api.furshet.domain.entity.Category;
-import com.api.furshet.domain.entity.Order;
-import com.api.furshet.domain.entity.Product;
+import com.api.furshet.domain.entity.*;
 import com.api.furshet.domain.enums.PaymentMethods;
+import com.api.furshet.domain.enums.ProductLabelType;
 import com.api.furshet.domain.enums.TypeCallbackRequest;
 import com.api.furshet.domain.enums.TypeDelivery;
 import com.api.furshet.dto.*;
-import com.api.furshet.service.CallbackRequestService;
-import com.api.furshet.service.CategoryService;
-import com.api.furshet.service.OrderService;
-import com.api.furshet.service.ProductService;
+import com.api.furshet.service.*;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminController {
 
+
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -36,6 +32,7 @@ public class AdminController {
     private final CategoryService categoryService;
     private final OrderService orderService;
     private final CallbackRequestService callbackRequestService;
+    private final LabelService labelService;
 
     @GetMapping("")
     public String mainPage(){
@@ -66,8 +63,7 @@ public class AdminController {
     @GetMapping("/products/edit/{id}")
     public String editProduct(@PathVariable Long id, Model model) {
 
-        Product product = productService.findById(id)
-                .orElseThrow();
+        Product product = productService.findById(id).orElseThrow();
 
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
@@ -75,11 +71,18 @@ public class AdminController {
         dto.setPrice(product.getPrice());
         dto.setAmount(product.getAmount());
         dto.setCategoryId(product.getCategory().getId());
-//        dto.setFilename(product.getFilename());
         dto.setActive(product.getActive());
+
+        dto.setLabelIds(
+                product.getProductLabel().stream()
+                        .map(pl -> pl.getLabel().getId())
+                        .toList()
+        );
+
 
         model.addAttribute("productDto", dto);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("labels", labelService.findAllActive());
         model.addAttribute("productImages", product.getProductImages());
 
         return "products/product";
@@ -89,7 +92,12 @@ public class AdminController {
     public String updateProduct(@ModelAttribute ProductDTO productDTO,
                                 @RequestParam(value = "images", required = false) List<MultipartFile> images,
                                 @RequestParam(value = "deleteImageIds", required = false) List<Long> deleteId) {
-        productService.update(productDTO, images, deleteId);
+        try {
+            productService.update(productDTO, images, deleteId);
+        } catch (Exception e) {
+            System.out.println("Ошибка при попытке вызвать update " + e.getMessage());
+        }
+
         return "redirect:/admin/products";
     }
 
