@@ -1,14 +1,19 @@
 <template>
-  <header class="bg-[#97AB94] text-white fixed top-0 left-0 right-0 w-full z-30" >
+  <header
+          :class="[
+      'bg-[#97AB94] text-white fixed top-0 left-0 right-0 w-full z-30 transition-transform duration-300 ease-in-out',
+      isHeaderHidden ? '-translate-y-full md:translate-y-0' : 'translate-y-0'
+    ]"
+  >
     <div class="border-b border-white border-opacity-50 hidden md:block ">
-      <ul class="max-w-[1746px] mx-auto py-[10px] flex items-center justify-center gap-12 lg:justify-end sm:text-lg w-full font-montserrat font-normal px-4 sm:px-5">
+      <ul class="max-w-[1746px] mx-auto py-[10px] flex items-center justify-center gap-12 lg:justify-end sm:text-lg w-full font-montserrat font-normal px-5 md:px-0">
         <li>Вологда</li>
         <li>+7 (817) 393-47-47</li>
         <li>Ежедневно 24/7</li>
       </ul>
     </div>
 
-    <div class="max-w-[1746px] mx-auto py-[10px] flex items-center px-4 sm:px-5"
+    <div class="max-w-[1746px] mx-auto py-[10px] flex items-center px-5 md:px-0"
          :class="{
         'justify-normal': isActive,
         'justify-between': !isActive,
@@ -45,7 +50,7 @@
               <p class="text-[14px] font-medium text-[#97AB94] mr-1">Товар</p>
               <span class="border-b-[1px] border-[#97AB94] w-full h-[1px] opacity-50"></span>
             </div>
-            <ul class="flex flex-col gap-[5px]" v-auto-animate>
+            <ul class="flex flex-col gap-[5px]">
               <router-link
                   v-for="p in filterProducts"
                   :key="p.id"
@@ -66,7 +71,7 @@
               <p class="text-[14px] font-medium text-[#97AB94] mr-1">Категории</p>
               <span class="border-b-[1px] border-[#97AB94] w-full h-[1px] opacity-50"></span>
             </div>
-            <ul class="flex gap-[10px]" v-auto-animate>
+            <ul class="flex gap-[10px]">
               <router-link
                   v-for="c in filterCategories"
                   :key="c.id"
@@ -82,11 +87,15 @@
           </div>
 
           <div :class="searchQuery ? 'border-t-[1px] border-[#97AB94] border-opacity-50' : ''" class="mt-[10px]">
-            <ul class="grid grid-rows-2 grid-cols-2 gap-[10px] font-montserrat text-[#BEBEBE] font-medium text-[18px] mt-[10px]">
-              <router-link  to="" ><span class="hover:text-[#303030] transition-all duration-300 ease-in-out">Кейтеринг</span></router-link>
-              <router-link to="" ><span class="hover:text-[#303030] transition-all duration-300 ease-in-out">Фуршет</span></router-link>
-              <router-link to="" ><span class="hover:text-[#303030] transition-all duration-300 ease-in-out">Закуски</span></router-link>
-              <router-link to="" ><span class="hover:text-[#303030] transition-all duration-300 ease-in-out">Гастробоксы</span></router-link>
+            <ul  class="grid grid-rows-2 grid-cols-2 gap-[10px] font-montserrat text-[#BEBEBE] font-medium text-[18px] mt-[10px]">
+              <router-link to="/catering" ><span class="hover:text-[#303030] transition-all duration-300 ease-in-out">Кейтеринг</span></router-link>
+              <router-link
+                  v-for="c in isOutputToSearch"
+                  :to="{
+                    path: `/menu/${slugify(c.name)}`
+                  }" >
+                <span class="hover:text-[#303030] transition-all duration-300 ease-in-out">{{ c.name }}</span>
+              </router-link>
             </ul>
           </div>
 
@@ -114,12 +123,17 @@
         </button>
 
 
-        <router-link to="/cart"
-                     :class="{
-        'hidden md:block': isActive,
-        'block': !isActive,
-         }">
-          <img class="mx-[25px]" src="/image/icons/cart.svg" alt="cart">
+        <router-link to="/cart" :class="{'hidden md:block': isActive, 'block': !isActive,}">
+          <img v-if="cart.length === 0" class="mx-[25px]" src="/image/icons/cart.svg" alt="cart">
+
+          <div v-else class="relative mx-[25px]">
+            <span class="absolute top-0 right-0 -mt-1 -mr-2 flex size-3">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FFC013] opacity-75"></span>
+              <span class="relative inline-flex size-3 rounded-full bg-[#FFC013]"></span>
+            </span>
+            <img class="" src="/image/icons/cart.svg" alt="cart">
+          </div>
+
         </router-link>
 
         <div class="transition-all duration-200 ease-in-out transform">
@@ -139,11 +153,11 @@
 <script setup>
 
 import Button from "@/components/ui/Button.vue";
-import debounce from 'lodash.debounce'
-import {computed, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
-import axios from "axios";
+import {computed, inject, nextTick, onMounted, onUnmounted, ref} from "vue";
 import {slugify} from "@/utils/slugify.js";
-import {API_URL} from "@/main.js";
+import api from "@/utils/api";
+
+const {cart} = inject("cart");
 
 defineProps(["menuOpen", "totalPrice"]);
 const emit = defineEmits(["openMenu", "closeMenu", "cartOpen"]);
@@ -151,14 +165,34 @@ const emit = defineEmits(["openMenu", "closeMenu", "cartOpen"]);
 const isActive = ref(false);
 const element = ref(null);
 
+// Для скрытия/показа header при скролле
+const isHeaderHidden = ref(false);
+let lastScrollTop = 0;
+const headerHeight = 100; // Примерная высота header, можно измерить точнее
+
+const handleScroll = () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
+    // Скроллим вниз - скрываем header
+    isHeaderHidden.value = true;
+  } else {
+    // Скроллим вверх - показываем header
+    isHeaderHidden.value = false;
+  }
+
+  lastScrollTop = scrollTop;
+};
+
 // Для поиска
 const searchQuery= ref("");
 const categories = ref([])
 const products = ref([])
 
+
 const fetchCategories = async () => {
   try {
-    const {data} = await axios.get(`${API_URL}/categories`);
+    const {data} = await api.get("/categories");
     categories.value = data.filter(category => category.active)
   } catch (error) {
     console.log(error)
@@ -167,12 +201,16 @@ const fetchCategories = async () => {
 
 const fetchProducts = async () => {
   try {
-    const {data} = await axios.get(`${API_URL}/products`);
+    const {data} = await api.get("/products");
     products.value = data.filter(product => product.active)
   } catch (error) {
     console.log(error)
   }
 }
+
+const isOutputToSearch = computed(() => {
+  return categories.value.filter(category => category.outputToSearch)
+})
 
 const filterCategories = computed(() => {
   if (!searchQuery.value) return [];
@@ -209,12 +247,14 @@ const handleClickOutside = (event) => {
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
+  window.addEventListener("scroll", handleScroll);
   fetchCategories();
   fetchProducts();
 })
 
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
+  window.removeEventListener("scroll", handleScroll);
 })
 
 

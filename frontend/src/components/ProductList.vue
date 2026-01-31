@@ -1,8 +1,8 @@
 <template>
-  <div class="max-w-[1746px] mx-auto sm:px-5 ">
+  <div class="max-w-[1746px] mx-auto">
     <div v-if="products.length > 0"
          class="grid grid-cols-2 auto-rows-fr md:grid-cols-4 gap-5 md:gap-11 text-base font-comfort font-medium text-white md:text-4xl min-h-[200px]"
-         v-auto-animate>
+         >
       <MenuItem v-for="product in products"
                 :key="product.id"
                 :active="product.active"

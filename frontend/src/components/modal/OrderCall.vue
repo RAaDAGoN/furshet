@@ -1,7 +1,7 @@
 <template>
-  <div @click="()=>emit('cartClose')" class="fixed top-0 left-0 h-full w-full bg-black z-40 opacity-70 "  v-auto-animate></div>
+  <div @click="()=>emit('cartClose')" class="fixed top-0 left-0 h-full w-full bg-black z-40 opacity-70 "></div>
 
-  <div class="relative h-full w-full"  v-auto-animate>
+  <div class="relative h-full w-full">
     <div class="bg-white w-[340px] md:w-[1100px] h-[610px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:p-6 z-50 rounded-sm flex flex-col md:flex-row justify-between ">
       <picture class="min-w-[50%]">
         <!-- Мобильная версия -->
@@ -72,9 +72,9 @@
 <script setup>
 import CartButton from "@/components/ui/CartButton.vue";
 import {reactive, ref} from "vue";
-import axios from "axios";
+import api from "@/utils/api";
 import { useToast } from "vue-toastification";
-import {API_URL} from "@/main.js";
+
 
 const emit = defineEmits(["cartClose"])
 
@@ -132,7 +132,7 @@ const callbackOrder = async () => {
       typeCallbackRequest: 'SIMPLE'
     };
 
-    const { data } = await axios.post(`${API_URL}/callbacks`, orderRequest);
+    const { data } = await api.post("/callbacks", orderRequest);
 
     Object.keys(orderData).forEach(key => {
       orderData[key] = '';

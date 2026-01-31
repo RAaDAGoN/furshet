@@ -89,7 +89,8 @@ public class WebSecurityConfig {
         config.setAllowedOrigins(List.of(
 		"http://144.31.165.137",
         "http://localhost:5173",
-        "http://localhost:3000"
+        "http://localhost:3000",
+                "http://192.168.31.147:5173"
 		));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));

@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-10 px-5">
+  <div class="max-w-[1746px] mx-auto pt-10 px-5 md:px-0">
     <div class="font-montserrat font-medium text-base md:text-2xl leading-[140%] text-[#3C3C3C] flex flex-col">
       <h1 class="font-comfort font-bold text-[36px] md:text-[60px] text-[#97AB94] mb-10">Кейтеринг</h1>
 

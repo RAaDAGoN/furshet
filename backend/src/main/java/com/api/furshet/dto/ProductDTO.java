@@ -1,6 +1,5 @@
 package com.api.furshet.dto;
 
-import com.api.furshet.domain.enums.ProductLabelType;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -14,6 +13,9 @@ public class ProductDTO {
     private Integer price;
     private Long categoryId;
     private Boolean active;
+    private String description;
 
     private List<Long> labelIds = new ArrayList<>();
+    private List<Long> attributeIds = new ArrayList<>();
+
 }

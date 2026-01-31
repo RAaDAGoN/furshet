@@ -1,5 +1,6 @@
 <template>
-  <div class="max-w-[1746px] mx-auto py-10 px-5">
+  <div class="max-w-[1746px] mx-auto">
+
     <MenuList v-if="!isLoading" :title="title" :categories="sort"/>
 
     <div v-else class="animate-pulse">
@@ -26,11 +27,11 @@
 <script setup>
 
 import MenuList from "@/components/main/MenuList.vue";
-import axios from 'axios'
+
 import {computed, onMounted, ref} from "vue";
 import {slugify} from "@/utils/slugify.js";
-import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
-import {API_URL} from "@/main.js";
+import api from "@/utils/api";
+
 
 const categories = ref([])
 
@@ -48,7 +49,7 @@ const props = defineProps({
 const fetchMenu = async () => {
   try {
     isLoading.value = true
-    const {data} = await axios.get(`${API_URL}/categories`);
+    const {data} = await api.get("/categories");
 
     categories.value = data.filter(category => category.active)
 

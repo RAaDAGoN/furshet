@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-5 md:pt-10 px-4 md:px-5">
+  <div class="max-w-[1746px] mx-auto pt-5 md:pt-10 px-5 md:px-0">
 
     <div v-if="product" class="flex flex-col">
       <div v-if="isLoading">
@@ -61,14 +61,13 @@
 
             <p class="flex flex-col gap-1 font-montserrat font-medium text-base md:text-xl lg:text-2xl leading-[140%]">
               <span>{{ product.amount }} шт.</span>
-              <span>2 вида</span>
+<!--              <span>2 вида</span>-->
             </p>
 
             <div class="font-comfort leading-[140%] space-y-2">
               <h2 class="font-bold text-xl md:text-2xl lg:text-4xl">Состав:</h2>
-              <ul class="font-medium text-base md:text-xl lg:text-2xl space-y-1">
-                <li>Бекон с томатами/8 шт</li>
-                <li>Курица с грибами/8 шт</li>
+              <ul v-for="attr in product.productAttribute" class="font-medium text-base md:text-xl lg:text-2xl space-y-1">
+                <li>{{attr.attribute.name}}</li>
               </ul>
             </div>
           </div>
@@ -102,20 +101,10 @@
         <h1 class="font-comfort font-bold text-xl md:2text-xl lg:text-4xl text-[#97AB94] uppercase text-center md:text-left">
           Описание
         </h1>
-        <p class="text-lg md:text-xl">Как уже неоднократно упомянуто, диаграммы связей, инициированные исключительно
-          синтетически, объединены в целые кластеры себе подобных. Равным образом, существующая теория обеспечивает
-          широкому кругу (специалистов) участие в формировании переосмысления внешнеэкономических политик. В целом,
-          конечно, укрепление и развитие внутренней структуры представляет собой интересный эксперимент проверки
-          укрепления моральных ценностей. Кстати, непосредственные участники технического прогресса освещают чрезвычайно
-          интересные особенности картины в целом, однако конкретные выводы, разумеется, описаны максимально подробно.
-          Господа, высокое качество позиционных исследований однозначно фиксирует необходимость новых принципов
-          формирования материально-технической и кадровой базы. Есть над чем задуматься: интерактивные прототипы
-          представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть своевременно
-          верифицированы.
-        </p>
+        <p class="text-lg md:text-xl">{{product.description}}</p>
       </div>
       <!--Рекомендации-->
-      <div v-if="recommendations && recommendations.length > 0" class="mt-8 md:mt-16 lg:mt-[110px]" v-auto-animate>
+      <div v-if="recommendations && recommendations.length > 0" class="mt-8 md:mt-16 lg:mt-[110px]">
         <div v-if="!isLoading">
           <h1 class="font-comfort font-bold text-2xl md:text-4xl lg:text-6xl text-[#97AB94] uppercase text-center md:text-left">
             Рекомендуемые позиции
@@ -160,7 +149,6 @@
 <script setup>
 import { ref, onMounted, watch, inject, computed } from "vue"
 import { useRoute } from "vue-router"
-import axios from "axios"
 import { slugify } from "@/utils/slugify.js"
 import Counter from "@/components/ui/Counter.vue"
 import CartButton from "@/components/ui/CartButton.vue"
@@ -170,7 +158,9 @@ import { Swiper, SwiperSlide } from "swiper/vue"
 import { Thumbs } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/thumbs"
-import { API_URL } from "@/main.js"
+import api from "@/utils/api";
+import { API_URL } from "@/main.js";
+import { useBreadcrumbsStore } from "@/components/stores/breadcrumbs.js";
 
 const route = useRoute()
 const product = ref(null)
@@ -185,28 +175,25 @@ const currentCount = ref(1)
 const modules = [Thumbs]
 const thumbsSwiper = ref(null)
 const mainSwiper = ref(null)
+const bcStore = useBreadcrumbsStore();
 
 const isInCart = computed(() => cart.value.some(item => item.id === product.value?.id))
 
-// ======== SWIPER HANDLERS ========
 const setThumbsSwiper = (swiper) => { thumbsSwiper.value = swiper }
 const setMainSwiper = (swiper) => { mainSwiper.value = swiper }
 
-// ======== КОРЗИНА ========
 const addToCartHandler = () => addToCart(product.value, currentCount.value)
 const deleteHandler = () => { removeFromCart(product.value.id); currentCount.value = 1 }
 
-// ======== ФУНКЦИИ ДЛЯ ЗАГРУЗКИ ДАННЫХ ========
-
 // Получаем все продукты и фильтруем по активности
 const fetchAllProducts = async () => {
-  const { data } = await axios.get(`${API_URL}/products`)
+  const { data } = await api.get("/products")
   return data.filter(p => p.active)
 }
 
 // Получаем все категории
 const fetchAllCategories = async () => {
-  const { data } = await axios.get(`${API_URL}/categories`)
+  const { data } = await api.get("/categories")
   return data
 }
 
@@ -223,7 +210,7 @@ const findCategoryById = (categories, id) => {
 // Получаем рекомендации (активные продукты категории, кроме текущего)
 const fetchRecommendations = async (catId, excludeProductId) => {
   try {
-    const { data } = await axios.get(`${API_URL}/products/category/${catId}`)
+    const { data } = await api.get(`/products/category/${catId}`)
     let rec = data || []
     rec = rec.filter(p => p.id !== excludeProductId)
     // случайная сортировка
@@ -274,10 +261,12 @@ const loadData = async () => {
     thumbsSwiper.value = null
     mainSwiper.value = null
 
+    bcStore.setCategory(category.value);
+    bcStore.setProduct(product.value);
+
     // Загружаем рекомендации
     recommendations.value = await fetchRecommendations(categoryId.value, product.value.id)
   } catch (err) {
-    console.error("Ошибка загрузки товара:", err)
     product.value = null
     category.value = null
     recommendations.value = []
@@ -289,6 +278,8 @@ const loadData = async () => {
 
 
 onMounted(loadData)
+
+
 watch(() => route.params.productSlug, loadData)
 </script>
 

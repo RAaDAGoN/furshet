@@ -1,15 +1,9 @@
 package com.api.furshet.service;
 
-import com.api.furshet.domain.entity.Label;
-import com.api.furshet.domain.entity.ProductImages;
-import com.api.furshet.domain.entity.ProductLabel;
-import com.api.furshet.domain.enums.ProductLabelType;
+import com.api.furshet.domain.entity.*;
 import com.api.furshet.dto.ProductDTO;
-import com.api.furshet.domain.entity.Product;
-import com.api.furshet.repository.LabelRepository;
-import com.api.furshet.repository.OrderItemRepository;
-import com.api.furshet.repository.ProductImagesRepository;
-import com.api.furshet.repository.ProductRepository;
+import com.api.furshet.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,12 +18,14 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final ProductImagesRepository productImagesRepository;
     private final OrderItemRepository orderItemRepository;
     private final LabelRepository labelRepository;
+    private final AttributeRepository attributeRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -41,32 +37,58 @@ public class ProductService {
                 .amount(dto.getAmount())
                 .price(dto.getPrice())
                 .category(categoryService.findById(dto.getCategoryId()))
+                .active(dto.getActive())
+                .description(dto.getDescription())
+                .productImages(new ArrayList<>())
+                .productAttribute(new ArrayList<>())
+                .productLabel(new ArrayList<>())
                 .build();
 
-        if (product.getProductImages() == null) {
-            product.setProductImages(new ArrayList<>());
+        // ---------- LABELS ----------
+        if (dto.getLabelIds() != null) {
+            dto.getLabelIds().forEach(labelId -> {
+                Label label = labelRepository.findById(labelId).orElseThrow();
+
+                ProductLabel pl = new ProductLabel();
+                pl.setLabel(label);
+                pl.setProduct(product);
+
+                product.getProductLabel().add(pl);
+            });
         }
 
-        productRepository.save(product);
+        // ---------- ATTRIBUTES ----------
+        if (dto.getAttributeIds() != null) {
+            dto.getAttributeIds().forEach(attributeId -> {
+                Attribute attribute = attributeRepository.findById(attributeId).orElseThrow();
 
-        if (files != null) {
+                ProductAttribute pa = new ProductAttribute();
+                pa.setAttribute(attribute);
+                pa.setProduct(product);
+
+                product.getProductAttribute().add(pa);
+            });
+        }
+
+        // ---------- IMAGES ----------
+        if (files != null && !files.isEmpty()) {
             for (MultipartFile file : files) {
                 if (file.isEmpty()) continue;
 
-                String fileName = saveFile(file);
+                String filename = saveFile(file);
 
-                ProductImages productImages = ProductImages.builder()
-                        .filename(fileName)
+                ProductImages image = ProductImages.builder()
+                        .filename(filename)
                         .product(product)
                         .build();
 
-                product.getProductImages().add(productImages);
+                product.getProductImages().add(image);
             }
         }
 
-        productRepository.save(product);
-        return product;
+        return productRepository.save(product);
     }
+
 
     private String saveFile(MultipartFile file) {
         try {
@@ -82,17 +104,6 @@ public class ProductService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public Product create(ProductDTO dto) {
-        Product product = Product.builder()
-                .name(dto.getName())
-                .amount(dto.getAmount())
-                .price(dto.getPrice())
-                .category(categoryService.findById(dto.getCategoryId()))
-                .build();
-
-        return productRepository.save(product);
     }
 
     public List<Product> findAll() {
@@ -112,7 +123,6 @@ public class ProductService {
     }
 
     public Product update(ProductDTO dto, List<MultipartFile> newImages, List<Long> deleteId) {
-        System.out.println(dto);
         // если приходит id, то обновляем, иначе создаём новый
         if (dto.getId() != null) {
 
@@ -139,6 +149,7 @@ public class ProductService {
             product.setAmount(dto.getAmount());
             product.setCategory(categoryService.findById(dto.getCategoryId()));
             product.setActive(dto.getActive());
+            product.setDescription(dto.getDescription());
 
             product.getProductLabel().clear();
 
@@ -154,6 +165,22 @@ public class ProductService {
                         }).toList();
 
                 product.getProductLabel().addAll(productLabels);
+            }
+
+            product.getProductAttribute().clear();
+
+            if (dto.getAttributeIds() != null) {
+                List<ProductAttribute> productAttributes = dto.getAttributeIds().stream()
+                        .map(attributeId -> {
+                            Attribute attribute = attributeRepository.findById(attributeId).orElseThrow();
+
+                            ProductAttribute productAttribute = new ProductAttribute();
+                            productAttribute.setProduct(product);
+                            productAttribute.setAttribute(attribute);
+                            return productAttribute;
+                        }).toList();
+
+                product.getProductAttribute().addAll(productAttributes);
             }
 
             if (newImages != null && !newImages.isEmpty()) {
@@ -182,7 +209,9 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Продукт не найден"));
 
-        if (Boolean.FALSE.equals(product.getActive())) { return; }
+        if (Boolean.FALSE.equals(product.getActive())) {
+            return;
+        }
 
         if (orderItemRepository.existsByProductId(product.getId())) {
             product.setActive(false);

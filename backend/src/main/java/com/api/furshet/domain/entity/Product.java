@@ -28,6 +28,10 @@ public class Product {
     @JsonManagedReference
     private List<ProductLabel> productLabel = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<ProductAttribute> productAttribute = new ArrayList<>();
+
 //    Ручное изменение активности товара
     @Builder.Default
     private Boolean active = true;
@@ -43,4 +47,6 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<ProductImages> productImages = new ArrayList<>();
+
+    private String description;
 }

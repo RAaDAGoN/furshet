@@ -5,7 +5,7 @@
 
     <Content1/>
 
-    <div class="bg-[#EBF0E8] ">
+    <div class="bg-[#EBF0E8] pt-[30px] pb-[60px]">
       <Menu title="Ознакомьтесь с нашим разнообразным меню для вашего фуршетного стола" :limit="8" />
     </div>
     <div class="bg-[#30592A80] mt-[50px] md:mt-[110px] relative ">
@@ -24,6 +24,7 @@
     <Content2/>
 
     <Content3/>
+    <Content4/>
 
 
   </div>
@@ -39,6 +40,7 @@ import Content3 from "@/components/main/Content3.vue";
 import Menu from "@/pages/Menu.vue";
 import {inject} from "vue";
 import OrderCall from "@/components/modal/OrderCall.vue";
+import Content4 from "@/components/main/Content4.vue";
 
 
 

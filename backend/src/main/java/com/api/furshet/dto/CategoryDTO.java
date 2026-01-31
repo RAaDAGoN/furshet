@@ -8,4 +8,5 @@ public class CategoryDTO {
     private String name;
     private String filename;
     private Boolean active;
+    private Boolean outputToSearch;
 }

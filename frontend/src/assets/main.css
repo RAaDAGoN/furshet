@@ -97,7 +97,8 @@
 
 /* Основной контент */
 html {
-    overflow-y: scroll; /* Всегда показывать скроллбар */
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 body {

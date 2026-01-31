@@ -33,6 +33,7 @@ public class AdminController {
     private final OrderService orderService;
     private final CallbackRequestService callbackRequestService;
     private final LabelService labelService;
+    private final AttributeService attributeService;
 
     @GetMapping("")
     public String mainPage(){
@@ -50,12 +51,17 @@ public class AdminController {
     @GetMapping("/product/new")
     public String createProductForm(Model model) {
 
-        ProductDTO productDto = new ProductDTO(); // ПУСТОЙ DTO
+        ProductDTO productDto = new ProductDTO();
+
+        model.addAttribute("canDelete", true);
+        model.addAttribute("hasBlockedAttribute", null);
 
         model.addAttribute("productDto", productDto);
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("productImages", new ArrayList<>());
-//        model.addAttribute("mode", "create"); // опционально
+        model.addAttribute("labels", labelService.findAllActive());
+        model.addAttribute("attributes", attributeService.getAttributes());
+
 
         return "products/product";
     }
@@ -72,6 +78,7 @@ public class AdminController {
         dto.setAmount(product.getAmount());
         dto.setCategoryId(product.getCategory().getId());
         dto.setActive(product.getActive());
+        dto.setDescription(product.getDescription());
 
         dto.setLabelIds(
                 product.getProductLabel().stream()
@@ -79,20 +86,38 @@ public class AdminController {
                         .toList()
         );
 
+        dto.setAttributeIds(
+                product.getProductAttribute().stream()
+                        .map(attr -> attr.getAttribute().getId())
+                        .toList()
+        );
+
+
+        boolean hasBlockedAttribute = product.getProductAttribute().stream()
+                        .anyMatch(pa -> Boolean.TRUE.equals(pa.getAttribute().getBanOnDeletion()));
+
+        model.addAttribute("canDelete", !hasBlockedAttribute);
+        model.addAttribute("hasBlockedAttribute", hasBlockedAttribute ? "Невозможно удалить товар: присутствует атрибут с запретом на удаление" : null);
+
 
         model.addAttribute("productDto", dto);
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("labels", labelService.findAllActive());
         model.addAttribute("productImages", product.getProductImages());
+        model.addAttribute("labels", labelService.findAllActive());
+        model.addAttribute("attributes", attributeService.getAttributes());
+
 
         return "products/product";
     }
 
     @PostMapping("/products/submitProduct")
     public String updateProduct(@ModelAttribute ProductDTO productDTO,
-                                @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                                @RequestParam(value = "newImages", required = false) List<MultipartFile> images,
                                 @RequestParam(value = "deleteImageIds", required = false) List<Long> deleteId) {
         try {
+            for(MultipartFile file : images) {
+                System.out.println(file.getOriginalFilename());
+            }
             productService.update(productDTO, images, deleteId);
         } catch (Exception e) {
             System.out.println("Ошибка при попытке вызвать update " + e.getMessage());
@@ -122,6 +147,9 @@ public class AdminController {
     public String createCategory(Model model) {
 
         CategoryDTO categoryDto = new CategoryDTO();
+        if (categoryDto.getActive() == null) {
+            categoryDto.setActive(true);
+        }
 
         model.addAttribute("categoryDto", categoryDto);
 
@@ -137,6 +165,7 @@ public class AdminController {
         dto.setName(category.getName());
         dto.setFilename(category.getFilename());
         dto.setActive(category.getActive());
+        dto.setOutputToSearch(category.getOutputToSearch());
 
         model.addAttribute("categoryDto", dto);
         model.addAttribute("categories", categoryService.findAll());
@@ -288,4 +317,43 @@ public class AdminController {
         callbackRequestService.delete(id);
         return "redirect:/admin/callbacks";
     }
+
+    // Конец заявки
+
+    // Начало аттрибуты
+    @GetMapping("/attributes")
+    public String attributePage(Model model) {
+        List<Attribute> attributes = attributeService.getAttributes();
+        model.addAttribute("attributes", attributes);
+        return "attributes/attributes";
+    }
+
+    @GetMapping("/attribute/new")
+    public String createAttribute(Model model) {
+        Attribute attribute = new Attribute();
+        model.addAttribute("attributeDTO", attribute);
+
+        return "attributes/attribute";
+    }
+
+    @GetMapping("/attribute/edit/{id}")
+    public String editAttribute(@PathVariable Long id, Model model) {
+        Attribute attribute = attributeService.findById(id);
+
+        AttributeDTO attributeDTO = new AttributeDTO();
+        attributeDTO.setId(attribute.getId());
+        attributeDTO.setName(attribute.getName());
+        attributeDTO.setBanOnDeletion(attribute.getBanOnDeletion());
+
+        model.addAttribute("attributeDTO", attributeDTO);
+
+        return "attributes/attribute";
+    }
+
+    @PostMapping("/attribute/submitAttribute")
+    public String updateAttribute(@ModelAttribute AttributeDTO attributeDTO) {
+        attributeService.update(attributeDTO);
+        return "redirect:/admin/attributes";
+    }
+
 }

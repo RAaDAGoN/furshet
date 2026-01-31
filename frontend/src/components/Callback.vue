@@ -1,10 +1,10 @@
 <template>
-  <div class="relative w-full bg-black bg-[url(/image/FooterMobile.png)] bg-cover bg-center bg-no-repeat aspect-[380/665] md:bg-[url(/image/Food2.png)] md:aspect-auto md:min-h-[600px] mt-12 md:mt-28 pt-5 md:pt-[55px] pb-16">
+  <div class="relative w-full bg-black bg-[url(/image/FooterMobile.png)] bg-cover bg-center bg-no-repeat aspect-[380/665] md:bg-[url(/image/Food2.png)] md:aspect-auto md:min-h-[600px] mt-12 md:mt-28 ">
     <div class="absolute inset-0 bg-black/30">
       <div class="absolute inset-0 bg-black/30"></div>
 
-      <div class="relative z-10 max-w-[1746px] mx-auto px-4 md:px-8 h-full flex ">
-        <div class="py-5">
+      <div class="relative z-10 max-w-[1746px] mx-auto px-4 md:px-8  flex py-[0px] pt-[20px] md:py-[60px]">
+        <div class="">
           <h1 class="text-white text-[22px] md:text-[45px] font-comfort font-bold mb-2 md:mb-6 leading-[130%]">
             Важное событие,<br class="hidden md:block"/>
             но не знаете как рассчитать?
@@ -64,10 +64,9 @@
 
 <script setup>
 import Button from "@/components/ui/Button.vue";
-import axios from "axios";
 import {reactive, ref} from "vue";
 import {useToast} from "vue-toastification";
-import {API_URL} from "@/main.js";
+import api from "@/utils/api";
 
 const orderData = reactive({
   FIO: "",
@@ -119,7 +118,7 @@ const callbackOrder = async () => {
       typeCallbackRequest: 'CALCULATION'
     };
 
-    const {data} = await axios.post(`${API_URL}/callbacks`, orderRequest);
+    const {data} = await api.post("/callbacks", orderRequest);
 
     Object.keys(orderData).forEach(key => {
       orderData[key] = '';

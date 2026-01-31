@@ -2,7 +2,7 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import {autoAnimatePlugin} from '@formkit/auto-animate/vue'
 import Toast from "vue-toastification";
-// Import the CSS or use your own!
+
 import "vue-toastification/dist/index.css";
 
 import './assets/main.css'
@@ -17,8 +17,8 @@ import Cart from "@/pages/Cart.vue";
 import MenuProduct from "@/pages/MenuProduct.vue";
 import Product from "@/pages/Product.vue";
 import PageNotFound from "@/pages/staticPage/PageNotFound.vue";
+import { createPinia } from "pinia";
 import Order from "@/pages/Order.vue";
-// import Login from "@/pages/back/Login.vue";
 import axios from 'axios';
 import Catering from "@/pages/staticPage/Catering.vue";
 
@@ -32,13 +32,11 @@ const routes = [
     { path: '/contacts', component: Contacts, name: 'Contacts', meta: { breadcrumb: 'Контакты'} },
     { path: '/cart', component: Cart, name: 'Cart', meta: { breadcrumb: 'Корзина'} },
     { path: '/cart/order', component: Order, name: 'Order', meta: { breadcrumb: 'Оформление заказа'} },
-    { path: '/catering', component: Catering, name: 'Catering', meta: { breadcrumb: 'Кейтеринг'} },
-    // { path: '/Login', component: Login, name: 'Cart', meta: { breadcrumb: 'Корзина'} },
-    // { path: '/menu/:id', component: MenuProduct, name: 'ProductLegacy', meta: { breadcrumb: 'Товар'} },
+    { path: '/catering', component: Catering, name: 'Catering', meta: { breadcrumb: 'Кейтеринг' } },
 
 
-    { path: '/menu/:categorySlug', component: MenuProduct, name: 'MenuProduct', meta: { breadcrumb: 'Категория'} },
-    { path: '/menu/:categorySlug/:productSlug', component: Product, name: 'Product', meta: { breadcrumb: 'Товар'} },
+    { path: '/menu/:categorySlug', component: MenuProduct, name: 'MenuProduct' },
+    { path: '/menu/:categorySlug/:productSlug', component: Product, name: 'Product' },
     { path: '/:pathMatch(.*)*', component: PageNotFound, name: '404'},
 ]
 
@@ -50,11 +48,18 @@ export const router = createRouter({
     }
 })
 
+router.beforeEach((to, from, next) => {
+    document.title = `${to.meta.breadcrumb} | Фуршет`;
+    next();
+})
+
 // axios.defaults.baseURL = 'http://144.31.165.137/api';
 axios.defaults.baseURL = 'http://localhost:8080';
 
+const pinia = createPinia();
+
+app.use(pinia);
 app.use(router)
-app.use(autoAnimatePlugin)
 app.use(Toast);
 
 app.mount('#app')
@@ -63,4 +68,4 @@ axios.defaults.withCredentials = true
 axios.defaults.xsrfCookieName = 'XSRF-TOKEN'
 axios.defaults.xsrfHeaderName = 'X-CSRF-TOKEN'
 
-export const API_URL = import.meta.env.VITE_API_URL
+export const API_URL = import.meta.env.VITE_API_URL;

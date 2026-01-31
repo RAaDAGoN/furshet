@@ -14,49 +14,55 @@
         </div>
 
         <div class="hidden md:flex gap-4 items-center">
-          <img src="/image/icons/vk.svg" class="w-8 h-8 object-contain" />
-          <img src="/image/icons/ok.svg" class="w-8 h-8 object-contain" />
-          <img src="/image/icons/dzen.svg" class="w-8 h-8 object-contain" />
-          <img src="/image/icons/telegram.svg" class="w-8 h-8 object-contain" />
-          <img src="/image/icons/whatsapp.svg" class="w-8 h-8 object-contain" />
-          <img src="/image/icons/viber.svg" class="w-8 h-8 object-contain" />
+          <a href="https://vk.com/furshet_vol35" target="_blank">
+            <img src="/image/icons/vk.svg" class="w-8 h-8 object-contain" alt="vk" />
+          </a>
+
+<!--          <img src="/image/icons/ok.svg" class="w-8 h-8 object-contain" />-->
+<!--          <img src="/image/icons/dzen.svg" class="w-8 h-8 object-contain" />-->
+<!--          <img src="/image/icons/telegram.svg" class="w-8 h-8 object-contain" />-->
+<!--          <img src="/image/icons/whatsapp.svg" class="w-8 h-8 object-contain" />-->
+<!--          <img src="/image/icons/viber.svg" class="w-8 h-8 object-contain" />-->
         </div>
       </div>
 
       <nav>
-        <ul class="hidden md:flex flex-col gap-6 text-[#F4F6FB] font-montserrat">
+        <ul class="hidden md:block font-montserrat font-semibold text-[21px] md:flex flex-col gap-6 text-[#FFFFFF] ">
           <router-link to="/about">
-            <li>О нас</li>
+            <li class="hover:opacity-50">О нас</li>
+          </router-link>
+          <router-link to="/catering">
+            <li class="hover:opacity-50">Кейтеринг</li>
           </router-link>
           <router-link to="/menu">
-            <li>Меню</li>
+            <li class="hover:opacity-50">Меню</li>
           </router-link>
           <router-link to="/delivery">
-            <li>Доставка</li>
+            <li class="hover:opacity-50">Доставка</li>
           </router-link>
           <router-link to="/contacts">
-            <li>Контакты</li>
+            <li class="hover:opacity-50">Контакты</li>
           </router-link>
           <router-link to="/cart">
-            <li>Корзина</li>
+            <li class="hover:opacity-50">Корзина</li>
           </router-link>
         </ul>
       </nav>
 
-      <div class="font-montserrat text-[#595959]">
-        <h1 class="text-xl w-full border-b border-[#5F6577] mb-2 pb-2 text-white">Помощь</h1>
+      <div class="font-montserrat font-medium text-[#A2A2A2] text-[18px] ">
+        <h1 class="text-xl w-full border-b border-[#595959] mb-2 pb-2 text-white text-[21px]">Помощь</h1>
 
-        <div class="flex flex-col gap-4 md:flex-row justify-between">
-          <ul class="flex flex-col gap-4">
-            <li>Оплата</li>
-            <li>Гарантия качества</li>
-            <li>Возврат товара</li>
+        <div class="flex flex-col gap-[30px] md:flex-row justify-between">
+          <ul class="flex flex-col gap-[18px] ">
+            <li class="hover:text-[#FFFFFF] cursor-pointer">Оплата</li>
+            <li class="hover:text-[#FFFFFF] cursor-pointer">Гарантия качества</li>
+            <li class="hover:text-[#FFFFFF] cursor-pointer">Возврат товара</li>
           </ul>
 
-          <ul class="flex flex-col gap-4">
-            <li>Персональные данные</li>
-            <li>Конфиденциальность</li>
-            <li>Публичная оферта</li>
+          <ul class="flex flex-col gap-[18px]">
+            <li class="hover:text-[#FFFFFF] cursor-pointer">Персональные данные</li>
+            <li class="hover:text-[#FFFFFF] cursor-pointer">Конфиденциальность</li>
+            <li class="hover:text-[#FFFFFF] cursor-pointer">Публичная оферта</li>
           </ul>
         </div>
       </div>

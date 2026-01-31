@@ -24,14 +24,18 @@
             <div class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] px-6 py-4">
                 <div class="flex justify-between items-center">
                     <h1 class="text-2xl font-bold text-white" th:text="${productDto.name}"></h1>
-                    <form th:action="@{/admin/product/delete/{id}(id=${productDto.id})}"
+                    <form th:if="productDto != null" th:action="@{/admin/product/delete/{id}(id=${productDto.id})}"
                           method="post"
                           onsubmit="return confirm('Вы уверены, что хотите удалить товар ' + document.getElementById('productName').innerText + '?');">
 
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                         <button type="submit"
-                                class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                th:disabled="${!canDelete}"
+                                th:title="${!canDelete ? hasBlockedAttribute : ''}"
+                                class="px-6 py-3 rounded-lg font-medium transition-colors
+               bg-red-600 text-white
+               disabled:bg-gray-400 disabled:cursor-not-allowed">
                             Удалить товар
                         </button>
                     </form>
@@ -64,7 +68,8 @@
                                 <div class="flex justify-between border-b pb-2">
                                     <dt class="text-gray-600">Цена:</dt>
                                     <dd class="font-bold text-lg text-[#97AB94]">
-                                        <input class="border rounded px-2 py-1 w-full" th:field="*{price}" type="number">
+                                        <input class="border rounded px-2 py-1 w-full" th:field="*{price}"
+                                               type="number">
                                     </dd>
                                 </div>
                                 <div class="flex justify-between border-b pb-2">
@@ -93,8 +98,56 @@
                                     </dd>
                                 </div>
 
+                                <div class="">
+                                    <dt class="text-gray-600">Описание:</dt>
+                                    <dd>
+                                        <textarea th:field="*{description}" rows="10" cols="50" class="border border-[#000000]"></textarea>
+                                    </dd>
+                                </div>
+
 
                             </dl>
+
+                            <div class="w-full">
+                                <table id="order-items-table">
+                                    <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Атрибут
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Действия
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item, stat : *{attributeIds}">
+                                        <!-- ID позиции -->
+                                        <td>
+                                            <label>
+                                                <select th:field="*{attributeIds[__${stat.index}__]}">
+                                                    <option th:each="attr : ${attributes}"
+                                                            th:value="${attr.id}"
+                                                            th:text="${attr.name}">
+                                                    </option>
+                                                </select>
+                                            </label>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" onclick="removeRow(this)">✖</button>
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button" id="add-item-btn"
+                                        class="mt-4 bg-gray-200 px-4 py-2 rounded">
+                                    + Добавить
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Правая колонка - изображение -->
@@ -176,7 +229,6 @@
                     </div>
 
 
-
                     <div class="mt-6">
                         <h3 class="text-lg font-semibold mb-2">Метки товара</h3>
 
@@ -186,7 +238,7 @@
 
                                 <input type="checkbox"
                                        th:value="${label.id}"
-                                       th:field="*{labelIds}" />
+                                       th:field="*{labelIds}"/>
 
                                 <span th:text="${label.name}"></span>
                             </label>
@@ -197,33 +249,77 @@
         </div>
     </div>
 
+    <script th:inline="javascript">
+        let itemIndex = [[${productDto.attributeIds != null ? productDto.attributeIds.size() : 0}]];
 
-    <script>
-        function openImageDialog() {
-            document.getElementById('imageInput').click();
+        document.addEventListener('DOMContentLoaded', function () {
+            document
+                .getElementById('add-item-btn')
+                .addEventListener('click', addAttributeRow);
+        });
+
+        function addAttributeRow() {
+            const tableBody = document.querySelector('#order-items-table tbody');
+
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+            <td>
+                <select name="attributeIds[${itemIndex}]"
+                        class="border rounded px-2 py-1 w-full">
+                    ${getAttributeOptions()}
+                </select>
+            </td>
+            <td class="text-center">
+                <button type="button" onclick="removeRow(this)">✖</button>
+            </td>
+        `;
+
+            tableBody.appendChild(row);
+            itemIndex++;
         }
 
-        document.getElementById('imageInput').addEventListener('change', function () {
-            const tbody = document.getElementById('imagesTable');
+        function removeRow(button) {
+            button.closest('tr').remove();
+        }
 
-            for (let file of this.files) {
+        function getAttributeOptions() {
+            let options = '';
+            /*[# th:each="attr : ${attributes}"]*/
+            options += `<option value="[[${attr.id}]]">[[${attr.name}]]</option>`;
+            /*[/]*/
+            return options;
+        }
+    </script>
+
+    <script>
+        const input = document.getElementById('imageInput');
+        const tbody = document.getElementById('imagesTable');
+        const dataTransfer = new DataTransfer();
+
+        function openImageDialog() {
+            input.click();
+        }
+
+        input.addEventListener('change', function () {
+            for (const file of this.files) {
+                // защита от дублей
+                if ([...dataTransfer.files].some(f => f.name === file.name)) continue;
+
+                dataTransfer.items.add(file);
+
                 const tr = document.createElement('tr');
-                tr.className = 'text-center align-middle';
 
                 const imgTd = document.createElement('td');
-                imgTd.className = 'py-3';
-
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
                 img.className = 'mx-auto max-w-[20%]';
                 imgTd.appendChild(img);
 
                 const nameTd = document.createElement('td');
-                nameTd.className = 'py-3';
                 nameTd.textContent = file.name;
 
                 const actionTd = document.createElement('td');
-                actionTd.className = 'py-3';
                 actionTd.textContent = 'новое';
 
                 tr.appendChild(imgTd);
@@ -232,6 +328,9 @@
 
                 tbody.appendChild(tr);
             }
+
+            // 🔥 самое важное
+            input.files = dataTransfer.files;
         });
     </script>
 </div>

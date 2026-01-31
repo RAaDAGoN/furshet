@@ -6,9 +6,18 @@
   <div class="flex flex-col ">
     <Header :total-price="totalPrice" @cart-open="openCart" :menuOpen="menuOpen" @openMenu="openMenu" @closeMenu="closeMenu"/>
 
-    <div v-auto-animate class="min-h-svh">
+
+    <div class="min-h-svh">
       <div class="h-[56px] md:h-[135px]"></div>
-      <router-view ></router-view>
+      <Breadcrumbs />
+
+      <RouterView v-slot="{ Component }">
+        <Transition name="page" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </RouterView>
+
+
     </div>
 
     <Callback />
@@ -21,12 +30,13 @@
 // функция для открытия корзины (по умолчанию корзина скрыта)
 // меняется состояние при клике
 import {computed, onMounted, provide, ref, watch} from "vue";
+import api from "@/utils/api";
 import MobileMenu from "@/components/MobileMenu.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import OrderCall from "@/components/modal/OrderCall.vue";
-import axios from "axios";
 import Callback from "@/components/Callback.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 const menuOpen = ref(false)
 
@@ -56,12 +66,16 @@ const createOrder = async (orderData) => {
       orderItems: orderItems
     };
 
-    const { data } = await axios.post('/orders', orderRequest);
+    const { data } = await api.post("/orders", orderRequest);
 
     cart.value = [];
     localStorage.removeItem("cart");
 
-    console.log(data);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+
     orderSuccess.value = 'finally';
     return data;
   } catch (error) {
@@ -120,22 +134,24 @@ const countCart = computed(() => {
 
 const closeMenu = () => {
   menuOpen.value = false
+  document.body.style.overflow = "";
 }
 
 const openMenu = () => {
   menuOpen.value = true
+  document.body.style.overflow = "hidden";
 }
 
 // закрыть заявку звонка
 const closeCart = () => {
   cartOpen.value = false
-  console.log(2)
+  document.body.style.overflow = "";
 }
 
 // открыть заявку звонка
 const openCart = () => {
   cartOpen.value = true
-  console.log(1)
+  document.body.style.overflow = "hidden";
 }
 
 watch(cart, ()=>{
@@ -164,3 +180,27 @@ onMounted(async () => {
   cart.value = localCart ? JSON.parse(localCart) : []
 })
 </script>
+
+<style>
+/* Tailwind + CSS для перехода */
+.page-enter-active,
+.page-leave-active {
+  @apply transition duration-500 ease-in-out;
+}
+
+.page-enter-from {
+  @apply opacity-0 translate-x-10;
+}
+
+.page-enter-to {
+  @apply opacity-100 translate-x-0;
+}
+
+.page-leave-from {
+  @apply opacity-100 translate-x-0;
+}
+
+.page-leave-to {
+  @apply opacity-0 -translate-x-10;
+}
+</style>

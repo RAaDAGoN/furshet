@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1746px] mx-auto p-5 pt-10" v-auto-animate>
+  <div class="max-w-[1746px] mx-auto p-5 pt-10" >
     <h1 class="font-comfort font-bold text-[27px] md:text-[60px] text-[#97AB94] mb-[10px] md:mb-10">Оформление заказа</h1>
 
     <div v-if="localOrderSuccess === null">
@@ -58,7 +58,7 @@
                 </button>
               </div>
 
-              <div class="flex flex-col gap-5 max-w-[1000px] mt-[30px]" v-auto-animate>
+              <div class="flex flex-col gap-5 max-w-[1000px] mt-[30px]">
                 <div v-if="orderForm.delivery === 'COURIER'" class="flex flex-col justify-between gap-5">
                   <OrderInput placeholder="Город / населённый пункт" name="city" v-model="orderForm.city"/>
                   <OrderInput placeholder="Адрес" name="address" v-model="orderForm.address"/>
@@ -100,7 +100,7 @@
 
         <div class="md:ml-12 mt-12 md:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px] md:min-w-[455px]">
           <h1 class="font-comfort font-bold text-16px md:text-[30px] text-[#2E2F2A] mb-3">Состав заказа</h1>
-          <div class="flex flex-col justify-between gap-5 py-5 border-y-[2px] border-[#ECEBE4] font-montserrat mb-10 text-[#2E2F2A]" v-auto-animate>
+          <div class="flex flex-col justify-between gap-5 py-5 border-y-[2px] border-[#ECEBE4] font-montserrat mb-10 text-[#2E2F2A]">
             <div class="flex justify-between text-base md:text-[22px]">
 
               <table class="w-full">
@@ -123,8 +123,8 @@
               </table>
             </div>
 
-            <div class="flex justify-between text-base md:text-[22px]" v-if="orderForm.delivery === 'COURIER'" v-auto-animate>
-              <table class="w-full" v-auto-animate>
+            <div class="flex justify-between text-base md:text-[22px]" v-if="orderForm.delivery === 'COURIER'">
+              <table class="w-full">
                 <tbody class="w-full" >
                 <tr class="flex justify-between">
                   <td>
@@ -154,6 +154,7 @@
               </tbody>
             </table>
           </div>
+
 
           <CartButton @click="createOrder(orderForm)" class="mx-auto w-full mt-7" title="Оформить заказ"/>
 

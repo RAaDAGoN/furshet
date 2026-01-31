@@ -25,7 +25,10 @@ public class CategoryService {
     private String uploadPath;
 
     public Category create(CategoryDTO dto, MultipartFile file) {
-        Category category = Category.builder().name(dto.getName()).build();
+        Category category = Category.builder()
+                .name(dto.getName())
+                .outputToSearch(dto.getOutputToSearch())
+                .build();
 
         if (file != null && !file.isEmpty()) {
             String fileName = saveFile(file);
@@ -41,6 +44,8 @@ public class CategoryService {
             Category category = categoryRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("Category not found " + dto.getId()));
 
             category.setName(dto.getName());
+            category.setOutputToSearch(dto.getOutputToSearch());
+
 
             if (Boolean.TRUE.equals(category.getActive()) && Boolean.FALSE.equals(dto.getActive())) {
                 List<Product> product = productRepository.findByCategoryId(category.getId());

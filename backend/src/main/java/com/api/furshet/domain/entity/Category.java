@@ -1,13 +1,11 @@
 package com.api.furshet.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.beans.factory.annotation.Value;
 
 @Entity
@@ -23,5 +21,10 @@ public class Category {
     private String filename;
 
     @Builder.Default
+    @ColumnDefault("false")
+    private Boolean outputToSearch = false;
+
+    @Builder.Default
+    @ColumnDefault("true")
     private Boolean active = true;
 }
