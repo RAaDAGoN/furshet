@@ -16,32 +16,33 @@
         </router-link>
       </div>
 
-      <div v-else class="flex flex-col md:flex-row justify-between md:items-start">
+      <div v-else class="flex flex-col xl:flex-row justify-between md:items-start">
         <div class="w-full max-w-[1255px]">
           <!--          Форма-->
           <div class="flex flex-col gap-5">
 
-            <div class="border border-[#D2D2D2] rounded-[20px] py-4 px-4 md:py-[35px] md:px-[40px]">
+            <div class="border border-[#D2D2D2] rounded-[20px] py-[24px] px-[20px] 2xl:py-[35px] 2xl:px-[40px]">
               <h2 class="font-comfort font-bold text-[20px] md:text-4xl text-[#2E2F2A] mb-2 md:mb-[30px]">1. Ваши контактные данные</h2>
-              <div class="flex flex-col md:flex-row justify-between">
-                <OrderInput placeholder="Фамилия и имя" name="FIO" v-model="orderForm.FIO"/>
-                <OrderInput placeholder="Телефон" name="phone" v-model="orderForm.phone"/>
-                <OrderInput placeholder="Почта" name="email" v-model="orderForm.email"/>
+              <div class="flex flex-col 2xl:flex-row justify-between">
+                <OrderInput placeholder="Фамилия и имя" name="FIO" v-model="orderForm.FIO" :class="inputClass(errors.FIO)"/>
+                <OrderInput placeholder="Телефон" name="phone" v-model="orderForm.phone" :class="inputClass(errors.phone)"/>
+                <OrderInput placeholder="Почта" name="email" v-model="orderForm.email" :class="inputClass(errors.email)"/>
               </div>
             </div>
 
-            <div class="border border-[#D2D2D2] rounded-[20px] py-4 px-4 md:py-[35px] md:px-[40px]">
+            <div class="border border-[#D2D2D2] rounded-[20px] py-[24px] px-[20px] 2xl:py-[35px] 2xl:px-[40px]">
               <h2 class="font-comfort font-bold text-[20px] md:text-4xl text-[#2E2F2A] mb-2 md:mb-[30px]">2. Адрес доставки</h2>
 
-              <div class="flex flex-col md:flex-row gap-4 md:gap-11">
+              <div class="flex flex-col justify-between md:flex-row gap-5 lg:gap-11 lg:justify-normal">
                 <button
                     @click="orderForm.delivery = 'PICKUP'"
                     :class="[
-                      'border-2 rounded-2xl font-montserrat text-xl md:text-2xl py-[18px] px-[25px] flex flex-col md:min-w-[350px] justify-center items-start min-h-[100px]',
+                      'border-2 rounded-2xl font-montserrat text-xl 2xl:text-2xl py-[15px] px-[25px] flex flex-col min-w-[0px] md:min-w-[330px] 2xl:min-w-[350px] justify-center items-start min-h-[100px]',
                       orderForm.delivery === 'PICKUP'
                         ? 'bg-[#EBF0E8] border-[#97AB94]'
                         : 'bg-white border-[#D2D2D2]'
                     ]">
+
                   <span>Самовывоз</span>
                   <span class="font-comfort text-[18px] mt-[10px]">Бесплатно</span>
                 </button>
@@ -49,7 +50,7 @@
                 <button
                     @click="orderForm.delivery = 'COURIER'"
                     :class="[
-                      'border-2 rounded-2xl font-montserrat text-xl md:text-2xl py-[18px] px-[25px] flex flex-col md:min-w-[350px] justify-center items-start min-h-[100px]',
+                      'border-2 rounded-2xl font-montserrat text-xl 2xl:text-2xl py-[15px] px-[25px] flex flex-col min-w-[0px] md:min-w-[330px] 2xl:min-w-[350px] justify-center items-start min-h-[100px]',
                       orderForm.delivery === 'COURIER'
                         ? 'bg-[#EBF0E8] border-[#97AB94]'
                         : 'bg-white border-[#D2D2D2]'
@@ -60,21 +61,21 @@
 
               <div class="flex flex-col gap-5 max-w-[1000px] mt-[30px]">
                 <div v-if="orderForm.delivery === 'COURIER'" class="flex flex-col justify-between gap-5">
-                  <OrderInput placeholder="Город / населённый пункт" name="city" v-model="orderForm.city"/>
-                  <OrderInput placeholder="Адрес" name="address" v-model="orderForm.address"/>
+                  <OrderInput placeholder="Город / населённый пункт" name="city" v-model="orderForm.city" :class="inputClass(errors.city)"/>
+                  <OrderInput placeholder="Адрес" name="address" v-model="orderForm.address" :class="inputClass(errors.address)"/>
                 </div>
 
                 <OrderInput placeholder="Комментарий" name="comment" v-model="orderForm.comment"/>
               </div>
             </div>
 
-            <div class="border border-[#D2D2D2] rounded-[20px] py-4 px-4 md:py-[35px] md:px-[40px]">
+            <div class="border border-[#D2D2D2] rounded-[20px] py-[24px] px-[20px] 2xl:py-[35px] 2xl:px-[40px]">
               <h2 class="font-comfort font-bold text-[20px] md:text-4xl text-[#2E2F2A] mb-2 md:mb-[30px]">3. Способы оплаты</h2>
-              <div class="flex flex-col md:flex-row gap-4 md:gap-11">
+              <div class="flex flex-col justify-between md:flex-row gap-5 lg:gap-11 lg:justify-normal">
                 <button
                     @click="orderForm.paymentMethod = 'CASH'"
                     :class="[
-                      'border-2 rounded-2xl font-montserrat text-xl md:text-2xl py-[18px] px-[25px] flex flex-col md:min-w-[350px] justify-center items-start min-h-[100px] text-left',
+                      'border-2 rounded-2xl font-montserrat text-xl 2xl:text-2xl py-[15px] px-[25px] flex flex-col min-w-[0px] md:min-w-[330px] 2xl:min-w-[350px] justify-center items-start min-h-[100px]',
                       orderForm.paymentMethod === 'CASH'
                         ? 'bg-[#EBF0E8] border-[#97AB94]'
                         : 'bg-white border-[#D2D2D2]'
@@ -85,7 +86,7 @@
                 <button
                     @click="orderForm.paymentMethod = 'CARD'"
                     :class="[
-                      'border-2 rounded-2xl font-montserrat text-xl md:text-2xl py-[18px] px-[25px] flex flex-col md:min-w-[350px] justify-center items-start min-h-[100px] text-left',
+                     'border-2 rounded-2xl font-montserrat text-xl 2xl:text-2xl py-[15px] px-[25px] flex flex-col min-w-[0px] md:min-w-[330px] 2xl:min-w-[350px] justify-center items-start min-h-[100px]',
                       orderForm.paymentMethod === 'CARD'
                         ? 'bg-[#EBF0E8] border-[#97AB94]'
                         : 'bg-white border-[#D2D2D2]'
@@ -98,7 +99,7 @@
           </div>
         </div>
 
-        <div class="md:ml-12 mt-12 md:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px] md:min-w-[455px]">
+        <div class="xl:ml-12 mt-[30px] xl:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px] w-full 2xl:min-w-[455px]">
           <h1 class="font-comfort font-bold text-16px md:text-[30px] text-[#2E2F2A] mb-3">Состав заказа</h1>
           <div class="flex flex-col justify-between gap-5 py-5 border-y-[2px] border-[#ECEBE4] font-montserrat mb-10 text-[#2E2F2A]">
             <div class="flex justify-between text-base md:text-[22px]">
@@ -110,7 +111,7 @@
                       {{item.name}}
                     </td>
                     <td>
-                      <div class="font-montserrat text-[14px] md:text-lg">
+                      <div class="font-montserrat text-[15px] md:text-lg">
                         {{item.quantity}} шт. х
                         <span class="font-bold">{{formatPrice(item.price)}} ₽</span>
                       </div>
@@ -147,7 +148,7 @@
                 <td class="text-base md:text-[25px]">
                   Итого:
                 </td>
-                <td class="font-montserrat text-base md:text-[24px] font-semibold">
+                <td class="font-montserrat text-base sm:text-[18px] md:text-[24px] font-semibold">
                   {{ formatPrice(totalPrice) }} ₽
                 </td>
               </tr>
@@ -156,8 +157,7 @@
           </div>
 
 
-          <CartButton @click="createOrder(orderForm)" class="mx-auto w-full mt-7" title="Оформить заказ"/>
-
+          <CartButton @click="submitOrder" :in-cart="false" class="mx-auto w-full mt-7" title="Оформить заказ"/>
         </div>
       </div>
     </div>
@@ -199,14 +199,14 @@
 
 <script setup>
 import {computed, inject, onMounted, reactive, watch} from "vue";
-import CartItem from "@/pages/CartItem.vue";
 import CartButton from "@/components/ui/CartButton.vue";
 import OrderInput from "@/components/ui/OrderInput.vue";
+import {useToast} from "vue-toastification";
 
 const {cart, totalPrice, countCart, createOrder, orderSuccess} = inject("cart");
 
 const localOrderSuccess = computed(() => orderSuccess.value);
-
+const toast = useToast();
 
 const orderForm = reactive({
   FIO: "",
@@ -218,6 +218,59 @@ const orderForm = reactive({
   comment: "",
   paymentMethod: "CASH",
 })
+
+// Ошибки
+const errors = reactive({
+  FIO: false,
+  phone: false,
+  email: false,
+  city: false,
+  address: false,
+});
+
+// Класс для input
+const inputClass = (hasError) => [
+  "py-[18px] pl-[25px] border-b-2 outline-none transition",
+  hasError ? "border-red-500" : "border-[#D2D2D2]",
+];
+
+// Валидация формы
+const validateForm = () => {
+  errors.FIO = !orderForm.FIO.trim();
+  errors.phone = orderForm.phone.replace(/\D/g, "").length !== 11; // только 11 цифр
+  errors.email = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(orderForm.email);
+
+  // если доставка курьером
+  if (orderForm.delivery === "COURIER") {
+    errors.city = !orderForm.city.trim();
+    errors.address = !orderForm.address.trim();
+  } else {
+    errors.city = false;
+    errors.address = false;
+  }
+
+  return !Object.values(errors).some(Boolean);
+};
+
+// Отправка заказа
+const submitOrder = async () => {
+  if (!validateForm()) {
+    toast.error("Пожалуйста, заполните все обязательные поля корректно.", { position: "bottom-right" });
+    return;
+  }
+
+  try {
+    await createOrder(orderForm); // вызываем функцию из inject
+    toast.success("Заказ успешно оформлен!", { position: "bottom-right" });
+
+    // очищаем форму
+    Object.keys(orderForm).forEach(key => {
+      orderForm[key] = key === "delivery" ? "PICKUP" : key === "paymentMethod" ? "CASH" : key === "personalData" ? false : "";
+    });
+  } catch (e) {
+    toast.error("Ошибка отправки заказа. Попробуйте ещё раз.", { position: "bottom-right" });
+  }
+};
 
 onMounted(() => {
   orderSuccess.value = null;

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${pointDTO.name} + ' | Детали категории'">Детали поинта</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-[1746px] mx-auto px-4 sm:px-5 py-8">
+        <!-- Кнопка назад -->
+        <a th:href="@{/admin/points}"
+           class="inline-flex items-center text-[#97AB94] hover:text-[#7a9185] mb-6 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                      clip-rule="evenodd"/>
+            </svg>
+            Назад к списку категорий
+        </a>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Заголовок -->
+            <div class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-white" th:text="${pointDTO.name}"></h1>
+                    <form th:action="@{/admin/point/delete/{id}(id=${pointDTO.id})}"
+                          method="post"
+                          onsubmit="return confirm('Удалить товар?');">
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                        <button type="submit"
+                                class="bg-red-600 text-white px-6 py-3 rounded-lg">
+                            Удалить
+                        </button>
+
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Основная информация -->
+            <div class="p-6">
+                <div class="">
+                    <!-- Левая колонка - основная информация -->
+                    <form class="flex justify-between gap-5" th:action="@{/admin/point/submitPoint}" th:object="${pointDTO}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="w-full">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Основная информация</h2>
+
+                            <dl class="space-y-4">
+                                <div class="flex justify-between border-b pb-2">
+                                    <dt class="text-gray-600">ID атрибута:</dt>
+                                    <dd class="font-medium">
+                                        <input type="hidden" th:field="*{id}">
+                                        <span th:text="*{id}"></span>
+                                    </dd>
+                                </div>
+                                <div class="flex justify-between border-b pb-2">
+                                    <dt class="text-gray-600">Название:</dt>
+                                    <dd class="font-medium">
+                                        <label>
+                                            <input class="border rounded" th:field="*{name}" type="text">
+                                        </label>
+                                    </dd>
+                                </div>
+
+                            </dl>
+
+
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                            <!-- Действия -->
+                            <div class="mt-8 pt-6 border-t border-gray-200">
+                                <div class="flex space-x-4">
+                                    <a th:href="@{/admin/points}"
+                                       class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+                                        ← Назад
+                                    </a>
+                                    <button type="submit"
+                                            class="bg-[#97AB94] text-white px-6 py-3 rounded-lg hover:bg-[#7a9185] transition-colors font-medium">
+                                        Сохранить
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,32 +1,29 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-10 px-5 md:px-0">
-    <div class="font-montserrat font-medium text-base md:text-2xl leading-[140%] text-[#3C3C3C] flex flex-col gap-3">
-      <h1 class="font-comfort font-bold text-[45px] md:text-[60px] text-[#97AB94] uppercase mb-10">Доставка</h1>
+  <div class="max-w-[1746px] mx-auto px-5 2xl:px-0">
+    <div class="font-montserrat font-medium text-base md:text-2xl leading-[140%] text-[#3C3C3C]">
 
-      <p>Мы понимаем, что время — это ценный ресурс. <br />
-        Именно поэтому предлагаем удобную и быструю доставку вашего фуршета прямо к месту проведения мероприятия.</p>
-
-      <h1 class="font-comfort font-bold text-[25px] md:text-[45px] text-[#97AB94] mb-5">Условия и стоимость доставки</h1>
-
-      <div class="flex flex-col gap-5">
-        <h2>Доставка по городу:</h2>
-        <ul>
-          <li>с 10:00 до 21:00 - 200р </li>
-          <li>с 22:00 до 10:00 - 600р</li>
-        </ul>
-
-        <h2>При определенной сумме заказа:</h2>
-        <ul>
-          <li>Бесплатно - от 3000р</li>
-        </ul>
-        <p>Доставка за чертой города обговариваются индивидуально</p>
+      <div class="flex flex-col gap-5 my-[40px]">
+        <h1 class="font-comfort font-bold text-[45px] md:text-[60px] text-[#97AB94]">Оплата</h1>
+        <p>Работаю по предоплате. Оплата 50% от стоимости заказа, вторая часть денежных средств оплачивается при
+          получении заказа. Дата считается забронированной если внесена предоплата или полная оплата заказа,до этого
+          дата считается свободной.</p>
       </div>
 
+      <div class="flex flex-col gap-5 mb-[40px]">
+        <h1 class="font-comfort font-bold text-[25px] md:text-[45px] text-[#97AB94]">Условия и стоимость доставки</h1>
 
-      <div class="mt-3">
-        <h1 class="font-comfort font-bold text-[25px] md:text-[45px] text-[#97AB94] mb-5">Способы оплаты:</h1>
+        <p>Доставка по городу: <span class="text-[#97AB94]">250р</span></p>
+        <p>При заказе <span class="text-[#97AB94]">от 10 000 рублей</span> доставка бесплатно.</p>
 
-        <p>Наличными или по карте сразу или после получения заказа</p>
+      </div>
+
+      <div class="flex flex-col gap-5 mt-3">
+        <h1 class="font-comfort font-bold text-[25px] md:text-[45px] text-[#97AB94] mb-5">Возврат</h1>
+
+        <p>Отменить заказ можно заранее, предоплата возвращается.</p>
+        <p class="flex"><img src="/image/icons/Warning.svg" alt="Warning" class="mr-5">
+          НО, за 2 дня до даты заказа отменить заказ не получится т.к начинается подготовка и закупка к заказу.
+          <br/>Все вопросы по отмене и возврату решаются индивидуально.</p>
       </div>
 
 

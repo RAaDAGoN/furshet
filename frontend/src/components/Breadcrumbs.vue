@@ -1,14 +1,11 @@
 <template>
-  <nav
-      v-if="breadcrumbs.length > 1"
-      class="max-w-[1746px] mx-auto mt-[15px] md:mt-[20px] px-5 md:px-0 flex gap-[10px]"
-  >
+  <nav v-if="breadcrumbs.length > 1"
+      class="max-w-[1746px] mx-auto mt-[15px] md:mt-[20px] px-5 2xl:px-0 flex gap-[10px] flex-wrap">
     <div v-for="(crumb, index) in breadcrumbs" :key="index" class="text-[#9C9C9C]">
       <router-link
           v-if="index !== breadcrumbs.length - 1"
           :to="crumb.path"
-          class="font-montserrat font-medium text-[12px] md:text-[18px]"
-      >
+          class="font-montserrat font-medium text-[12px] md:text-[18px]">
         {{ crumb.title }}
       </router-link>
       <span v-else class="font-montserrat font-medium text-[12px] md:text-[18px] text-[#3C3C3C]">
@@ -27,7 +24,6 @@ import { useBreadcrumbsStore } from "@/components/stores/breadcrumbs.js";
 const route = useRoute();
 const bcStore = useBreadcrumbsStore();
 
-// чистим ТОЛЬКО при уходе с menu
 watch(
     () => route.path,
     (path) => {

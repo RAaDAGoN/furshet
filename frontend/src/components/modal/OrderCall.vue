@@ -20,7 +20,7 @@
 
 
 
-      <div class="p-5">
+      <div>
         <h1 class="font-comfort font-bold text-[22px] md:text-[45px] text-[#393939] leading-[140%]">Заказать звонок</h1>
         <p class="font-montserrat font-regular text-base md:text-[21px] text-[#393939] leading-[110%]">Хотите получить персональное предложение? Оставьте данные и мы свяжемся с вами в ближайшее время!</p>
 

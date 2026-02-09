@@ -1,12 +1,12 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-10 px-5 md:px-0">
+  <div class="max-w-[1746px] mx-auto pt-10 px-5 2xl:px-0">
     <div class="font-montserrat font-medium text-base md:text-2xl leading-[140%] text-[#3C3C3C] flex flex-col gap-3">
       <h1 class="font-comfort font-bold text-[36px] md:text-[60px] text-[#97AB94] mb-10">О нас</h1>
 
       <p>Все началось с маленькой мечты. Я всегда любила готовить и устраивать вечеринки для друзей и семьи. Каждый раз, когда я видела, как гости наслаждаются моими блюдами и общением, я чувствовала, что нашла свое призвание. После окончания кулинарной школы я решила, что хочу создать что-то большее, чем просто домашнюю кухню. Я начала с небольших заказов на фуршеты для друзей и знакомых. Постепенно моя репутация росла, и ко мне стали обращаться все больше людей.</p>
       <p>Со временем я поняла, что фуршет — это не просто еда, а целая философия. Это возможность создать атмосферу праздника, где каждый гость чувствует себя особенным. Я начала экспериментировать с новыми рецептами, изучать тренды в кулинарии и уделять внимание каждой детали.</p>
 
-      <div class="flex flex-col gap-3 md:flex-row justify-between items-center my-12">
+      <div class="flex gap-3 flex-wrap 2xl:flex-row justify-center items-center my-12">
         <img src="/image/A1.jpg" alt="a1">
         <img src="/image/A2.jpg" alt="a2">
         <img src="/image/A3.jpg" alt="a3">

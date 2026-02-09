@@ -1,13 +1,9 @@
 package com.api.furshet.controller;
 
 import com.api.furshet.domain.entity.*;
-import com.api.furshet.domain.enums.PaymentMethods;
-import com.api.furshet.domain.enums.ProductLabelType;
-import com.api.furshet.domain.enums.TypeCallbackRequest;
-import com.api.furshet.domain.enums.TypeDelivery;
+import com.api.furshet.domain.enums.*;
 import com.api.furshet.dto.*;
 import com.api.furshet.service.*;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -17,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -34,6 +29,10 @@ public class AdminController {
     private final CallbackRequestService callbackRequestService;
     private final LabelService labelService;
     private final AttributeService attributeService;
+    private final MenuService menuService;
+    private final CateringService cateringService;
+    private final PointService pointService;
+    private final TelegramUsersService telegramUsersService;
 
     @GetMapping("")
     public String mainPage(){
@@ -79,6 +78,7 @@ public class AdminController {
         dto.setCategoryId(product.getCategory().getId());
         dto.setActive(product.getActive());
         dto.setDescription(product.getDescription());
+        dto.setTypeMenu(product.getTypeMenu());
 
         dto.setLabelIds(
                 product.getProductLabel().stream()
@@ -103,6 +103,7 @@ public class AdminController {
         model.addAttribute("productDto", dto);
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("productImages", product.getProductImages());
+        model.addAttribute("typeMenu", TypeMenu.values());
         model.addAttribute("labels", labelService.findAllActive());
         model.addAttribute("attributes", attributeService.getAttributes());
 
@@ -356,4 +357,216 @@ public class AdminController {
         return "redirect:/admin/attributes";
     }
 
+
+    @PostMapping("/attribute/delete/{id}")
+    public String deleteAttribute(@PathVariable Long id) {
+        attributeService.delete(id);
+        return "redirect:/admin/attributes";
+    }
+
+    // Конец аттрибуты
+
+    // Начало метки(labels)
+    @GetMapping("/labels")
+    public String labelsPage(Model model) {
+        List<Label> labels = labelService.findAll();
+        model.addAttribute("labels", labels);
+        return "labels/labels";
+    }
+
+    @GetMapping("/label/new")
+    public String createLabel(Model model) {
+        Label label = new Label();
+        model.addAttribute("labelDTO", label);
+
+        return "labels/label";
+    }
+
+    @GetMapping("/label/edit/{id}")
+    public String editLabel(@PathVariable Long id, Model model) {
+        Label label = labelService.findById(id);
+
+        LabelDTO labelDTO = new LabelDTO();
+        labelDTO.setId(label.getId());
+        labelDTO.setCode(label.getCode());
+        labelDTO.setName(label.getName());
+        labelDTO.setColor(label.getColor());
+        labelDTO.setActive(label.getActive());
+
+        model.addAttribute("labelDTO", labelDTO);
+
+        return "labels/label";
+    }
+
+    @PostMapping("/label/submitLabel")
+    public String updateLabel(@ModelAttribute LabelDTO labelDTO) {
+        labelService.update(labelDTO);
+        return "redirect:/admin/labels";
+    }
+
+
+    @PostMapping("/label/delete/{id}")
+    public String deleteLabel(@PathVariable Long id) {
+        labelService.delete(id);
+        return "redirect:/admin/labels";
+    }
+
+
+    // Конец метки(labels)
+
+    // Начало меню
+    @GetMapping("/menuList")
+    public String menuPage(Model model) {
+        List<Menu> menu = menuService.findAll();
+        model.addAttribute("menuList", menu);
+        return "menu/listMenu";
+    }
+
+    @GetMapping("/menu/new")
+    public String createMenu(Model model) {
+        Menu menu = new Menu();
+        model.addAttribute("menuDTO", menu);
+
+        model.addAttribute("typeMenu", TypeMenu.values());
+        return "menu/menu";
+    }
+
+    @GetMapping("/menu/edit/{id}")
+    public String editMenu(@PathVariable Long id, Model model) {
+
+        Menu menu = menuService.findById(id);
+        MenuDTO menuDTO = new MenuDTO();
+        menuDTO.setId(menu.getId());
+        menuDTO.setName(menu.getName());
+        menuDTO.setActive(menu.getActive());
+        menuDTO.setFilename(menu.getFilename());
+        menuDTO.setTranslate(menu.getTranslate());
+        model.addAttribute("menuDTO", menuDTO);
+
+        model.addAttribute("typeMenu", TypeMenu.values());
+
+        return "menu/menu";
+    }
+
+
+    @PostMapping("/menu/submitMenu")
+    public String updateMenu(@ModelAttribute MenuDTO menuDTO,
+                             @RequestParam("file")MultipartFile file) {
+        menuService.update(menuDTO, file);
+        return "redirect:/admin/menuList";
+    }
+
+    // Конец меню
+
+    // Начало кейтеринг
+    @GetMapping("/caterings")
+    public String cateringPage(Model model) {
+        List<Catering> caterings = cateringService.findAll();
+        model.addAttribute("caterings", caterings);
+        return "catering/caterings";
+    }
+
+    @GetMapping("/catering/new")
+    public String createCatering(Model model) {
+        CateringDTO cateringDTO = new CateringDTO();
+        model.addAttribute("cateringDTO", cateringDTO);
+        model.addAttribute("typePhoto", TypePhoto.values());
+        model.addAttribute("point", pointService.findAll());
+
+        return "catering/catering";
+    }
+
+    @GetMapping("/catering/edit/{id}")
+    public String editCatering(@PathVariable Long id, Model model) {
+        Catering catering = cateringService.findById(id);
+        CateringDTO cateringDTO = new CateringDTO();
+        cateringDTO.setId(catering.getId());
+        cateringDTO.setPointId(catering.getPoint().getId());
+        cateringDTO.setTypePhoto(catering.getTypePhoto());
+        cateringDTO.setFilename(catering.getFilename());
+
+        model.addAttribute("cateringDTO", cateringDTO);
+        model.addAttribute("typePhoto", TypePhoto.values());
+        model.addAttribute("point", pointService.findAll());
+
+        return "catering/catering";
+    }
+
+    @PostMapping("/catering/submitCatering")
+    public String updateCatering(@ModelAttribute CateringDTO cateringDTO,
+                             @RequestParam("file")MultipartFile file) {
+        cateringService.update(cateringDTO, file);
+        return "redirect:/admin/caterings";
+    }
+
+    // Конец кейтеринг
+
+    // Начало point
+
+    @GetMapping("/points")
+    public String cateringPoints(Model model) {
+        List<Point> points = pointService.findAll();
+        model.addAttribute("points", points);
+        return "point/points";
+    }
+
+    @GetMapping("/point/new")
+    public String createPoint(Model model) {
+        Point point = new Point();
+        model.addAttribute("pointDTO", point);
+        return "point/point";
+    }
+
+    @GetMapping("/point/edit/{id}")
+    public String editPoint(@PathVariable Long id, Model model) {
+        Point point = pointService.findById(id);
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setId(point.getId());
+        pointDTO.setName(point.getName());
+
+        model.addAttribute("pointDTO", pointDTO);
+
+        return "point/point";
+    }
+
+    @PostMapping("/point/submitPoint")
+    public String updatePoint(@ModelAttribute PointDTO pointDTO) {
+        pointService.update(pointDTO);
+        return "redirect:/admin/points";
+    }
+
+    // Конец point
+
+    // Начало Пользователи
+    @GetMapping("/users")
+    public String usersPage(Model model) {
+        List<TelegramUsers> users = telegramUsersService.findAll();
+        model.addAttribute("users", users);
+        return "TelegramUsers/users";
+    }
+
+    @GetMapping("/users/new")
+    public String createUser(Model model) {
+        TelegramUsers telegramUsers = new TelegramUsers();
+        model.addAttribute("usersDTO", telegramUsers);
+        return "TelegramUsers/user";
+    }
+
+    @GetMapping("/user/edit/{id}")
+    public String editUser(@PathVariable Long id, Model model) {
+        TelegramUsers telegramUsers = telegramUsersService.findById(id);
+        TelegramUsersDTO telegramUsersDTO = new TelegramUsersDTO();
+        telegramUsersDTO.setId(telegramUsers.getId());
+        telegramUsersDTO.setName(telegramUsers.getName());
+
+        model.addAttribute("telegramUsersDTO", telegramUsersDTO);
+
+        return "TelegramUsers/user";
+    }
+
+    @PostMapping("/user/submitUser")
+    public String updateUser(@ModelAttribute TelegramUsersDTO telegramUsersDTO) {
+        telegramUsersService.update(telegramUsersDTO);
+        return "redirect:/admin/users";
+    }
 }

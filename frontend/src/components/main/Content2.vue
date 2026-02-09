@@ -1,18 +1,18 @@
 <template>
-  <div class="max-w-[1746px] mx-auto h-full flex flex-col md:flex-row items-center justify-between mt-12 md:mt-[110px] ">
+  <div class="max-w-[1746px] mx-auto h-full flex flex-col xl:flex-row items-center justify-between mt-12 lg:mt-[110px] px-5 2xl:px-0 ">
 
-    <div class="px-4 sm:px-5">
+    <div class="xl:mr-2 2xl:mr-0">
       <img src="/image/Content2.png" alt="content1" />
     </div>
 
-    <div class="max-w-[855px] flex flex-col  gap-5 px-4 sm:px-5">
+    <div class="max-w-[855px] flex flex-col gap-5">
       <div>
-        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] md:text-[60px] uppercase mt-10 md:mt-0">Доставка по всей вологде</h1>
-        <p class="font-montserrat font-medium text-[#3C3C3C] text-[18px] md:text-2xl">Мы понимаем, что время — это ценный ресурс. <br/>Именно поэтому предлагаем удобную и быструю доставку вашего фуршета прямо к месту проведения мероприятия.</p>
+        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] lg:text-[30px] xl:text-[60px] uppercase mt-10 md:mt-0">Доставка по всей вологде</h1>
+        <p class="font-montserrat font-medium text-[#3C3C3C] sm:text-[18px] md:text-[20px] xl:text-[24px]">Мы понимаем, что время — это ценный ресурс. <br/>Именно поэтому предлагаем удобную и быструю доставку вашего фуршета прямо к месту проведения мероприятия.</p>
       </div>
 
       <div>
-        <h1 class="font-comfort font-bold text-[#97AB94] text-[22px] md:text-[45px] mb-5">Преимущества нашей доставки</h1>
+        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] lg:text-[30px] 2xl:text-[45px] mb-5">Преимущества нашей доставки</h1>
 
         <div class="grid md:grid-cols-2 md:grid-rows-2 gap-6">
 

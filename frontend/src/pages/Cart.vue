@@ -16,8 +16,8 @@
         </router-link>
       </div>
 
-      <div v-else class="flex flex-col md:flex-row justify-between ">
-        <div class="w-full max-w-[1255px] border-t-2 pt-10 border-[#97AB94]">
+      <div v-else class="flex flex-col xl:flex-row justify-between ">
+        <div class="w-full max-w-[1255px]">
           <div class="hidden md:grid md:grid-cols-6 gap-4 mb-4 bg-[#EBF0E8] py-[15px] font-montserrat font-medium text-lg">
             <p class="text-left">Ваш заказ</p>
             <p></p>
@@ -35,9 +35,10 @@
               :price="item.price"
               :count="item.count"
           />
+
         </div>
 
-        <div class="md:ml-12 mt-12 md:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px]">
+        <div class="xl:ml-12 mt-[30px] xl:mt-0 2xl:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px]">
           <h1 class="font-comfort font-bold text-16px md:text-[30px] text-[#2E2F2A] mb-3">Оформление заказа</h1>
           <div class="flex flex-col justify-between gap-5 py-5 border-y-[2px] border-[#ECEBE4] font-montserrat mb-10">
             <div class="flex justify-between text-base md:text-[22px]">
@@ -55,9 +56,8 @@
             <h2 class="text-base md:text-[25px]">Итого:</h2>
             <p class="text-base md:text-[21px]">{{ totalPrice }} ₽</p>
           </div>
-          <p class="font-montserrat font-medium text-xs md:text-lg text-[#929292]">Без учета стоимости доставки</p>
+          <p class="font-montserrat font-medium text-xs md:text-lg text-[#929292] mt-[5px]">Без учета стоимости доставки</p>
 
-<!--          <CartButton @click="createOrder" class="mx-auto w-full mt-7" title="Оформить заказ"/>-->
           <router-link to="/cart/order" >
             <CartButton class="mx-auto w-full mt-7" title="Перейти к оформлению"/>
           </router-link>

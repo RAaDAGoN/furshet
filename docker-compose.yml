@@ -17,6 +17,8 @@ services:
   backend:
     build:
       context: ./backend
+    volumes:
+      - ./uploads:/app/uploads  
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/furshet
       SPRING_DATASOURCE_USERNAME: postgres

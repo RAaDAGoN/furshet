@@ -97,6 +97,17 @@
                                         <input type="checkbox" th:field="*{active}">
                                     </dd>
                                 </div>
+                                <div class="flex justify-between border-b pb-2">
+                                    <dt class="text-gray-600">Тип меню:</dt>
+                                    <dd>
+                                        <select th:field="*{typeMenu}">
+                                            <option th:each="type : ${typeMenu}"
+                                                    th:value="${type.name}"
+                                                    th:text="${type.translate}">
+                                            </option>
+                                        </select>
+                                    </dd>
+                                </div>
 
                                 <div class="">
                                     <dt class="text-gray-600">Описание:</dt>

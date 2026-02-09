@@ -15,11 +15,6 @@
           class="w-full h-full object-cover"
       />
 
-<!--      <img-->
-<!--          src="/image/Slide1.png"-->
-<!--          alt="Slide 1"-->
-<!--          class="w-full h-full object-cover"-->
-<!--      />-->
     </picture>
 
     <!-- Затемнение -->

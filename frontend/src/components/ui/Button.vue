@@ -3,9 +3,11 @@
       px-6 py-3
       text-sm
       sm:text-xs
-      md:text-2xl
+      md:text-[16px]
+      lg:text-[18px]
+      2xl:text-[24px]
       md:px-1 md:py-4
-      lg:px-8
+      2xl:px-8
       border-[1px]
       border-white
       hover:bg-transparent

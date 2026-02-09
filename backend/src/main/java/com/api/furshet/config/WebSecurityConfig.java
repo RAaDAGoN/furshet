@@ -48,6 +48,8 @@ public class WebSecurityConfig {
                                 "/login",
                                 "/error",
                                 "/css/**",
+                                "/menu/**",
+                                "/caterings/**",
                                 "/media/**",
                                 "/js/**",
                                 "/images/**",

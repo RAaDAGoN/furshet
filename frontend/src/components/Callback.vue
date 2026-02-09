@@ -1,9 +1,10 @@
 <template>
-  <div class="relative w-full bg-black bg-[url(/image/FooterMobile.png)] bg-cover bg-center bg-no-repeat aspect-[380/665] md:bg-[url(/image/Food2.png)] md:aspect-auto md:min-h-[600px] mt-12 md:mt-28 ">
+  <div
+      class="relative w-full bg-black bg-[url(/image/FooterMobile.png)] bg-cover bg-bottom bg-no-repeat aspect-[380/665] lg:bg-[url(/image/Food2.png)] lg:aspect-auto md:max-h-[896px] lg:min-h-[600px] mt-12 lg:mt-28 ">
     <div class="absolute inset-0 bg-black/30">
       <div class="absolute inset-0 bg-black/30"></div>
 
-      <div class="relative z-10 max-w-[1746px] mx-auto px-4 md:px-8  flex py-[0px] pt-[20px] md:py-[60px]">
+      <div class="relative z-10 max-w-[1746px] mx-auto px-5 2xl:px-0  flex py-[0px] pt-[20px] md:py-[60px]">
         <div class="">
           <h1 class="text-white text-[22px] md:text-[45px] font-comfort font-bold mb-2 md:mb-6 leading-[130%]">
             Важное событие,<br class="hidden md:block"/>
@@ -15,13 +16,13 @@
           </p>
 
           <form @submit.prevent="callbackOrder" class="font-montserrat mt-[40px] ">
-            <div class="flex flex-col ju md:flex-row gap-5 mb-[30px] text-[16px] md:text-[18px]">
+            <div class="flex flex-col ju md:flex-row gap-[30px] mb-[30px] text-[16px] md:text-[18px]">
               <input
                   ref="name"
                   v-model="orderData.FIO"
                   :class="inputClass(errors.FIO)"
                   name="userName"
-                  class="outline-none border-b border-white/40 bg-transparent pl-5 pb-3 text-white placeholder-white/70"
+                  class="outline-none border-b border-white/40 bg-transparent pl-5 text-white placeholder-white/70"
                   placeholder="Ваше имя" type="text"
               />
               <input
@@ -29,18 +30,18 @@
                   v-model="orderData.phone"
                   :class="inputClass(errors.phone)"
                   name="userPhone"
-                  class="outline-none border-b border-white/40 bg-transparent pl-5 pb-3 text-white placeholder-white/70"
+                  class="outline-none border-b border-white/40 bg-transparent pl-5 text-white placeholder-white/70"
                   placeholder="Телефон" type="text"
               />
             </div>
 
-            <div class="flex flex-col ju md:flex-row gap-5 mb-[30px] text-[16px] md:text-[18px]">
+            <div class="flex flex-col ju md:flex-row gap-[30px] text-[16px] md:text-[18px]">
               <input
                   ref="amount"
                   v-model="orderData.amountPeople"
                   :class="inputClass(errors.amountPeople)"
                   name="userCount"
-                  class="outline-none border-b border-white/40 bg-transparent pl-5 pb-3 text-white placeholder-white/70"
+                  class="outline-none border-b border-white/40 bg-transparent pl-5 text-white placeholder-white/70"
                   placeholder="Количество человек" type="text"
               />
               <input
@@ -48,7 +49,7 @@
                   v-model="orderData.data"
                   :class="inputClass(errors.data)"
                   name="userDate"
-                  class="outline-none border-b border-white/40 bg-transparent pl-5 pb-3 text-white placeholder-white/70"
+                  class="outline-none border-b border-white/40 bg-transparent pl-5 text-white placeholder-white/70"
                   placeholder="Дата" type="text"
               />
             </div>

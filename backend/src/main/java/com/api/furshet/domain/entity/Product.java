@@ -1,5 +1,6 @@
 package com.api.furshet.domain.entity;
 
+import com.api.furshet.domain.enums.TypeMenu;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<ProductImages> productImages = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private TypeMenu typeMenu;
 
     private String description;
 }

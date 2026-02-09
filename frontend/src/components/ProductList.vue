@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-[1746px] mx-auto">
     <div v-if="products.length > 0"
-         class="grid grid-cols-2 auto-rows-fr md:grid-cols-4 gap-5 md:gap-11 text-base font-comfort font-medium text-white md:text-4xl min-h-[200px]"
+         class="grid grid-cols-2 auto-rows-fr xl:grid-cols-3 2xl:grid-cols-4 gap-5 md:gap-11 text-base font-comfort font-medium text-white md:text-4xl min-h-[200px]"
          >
       <MenuItem v-for="product in products"
                 :key="product.id"
@@ -12,7 +12,7 @@
                 :image="product.productImages?.length
                 ? `${API_URL}/media/${product.productImages[0].filename}`
                 : null"
-                :to="{name: 'Product', params: { categorySlug: $route.params.slug, productSlug: slugify(product.name) }}"
+                :to="{name: 'Product', params: { categorySlug: slugify(product.category.name), productSlug: slugify(product.name) }}"
       />
     </div>
   </div>

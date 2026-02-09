@@ -1,12 +1,15 @@
 package com.api.furshet.service;
 
+import com.api.furshet.bot.UpdateConsumer;
 import com.api.furshet.domain.entity.Order;
 import com.api.furshet.domain.entity.OrderItem;
 import com.api.furshet.domain.entity.Product;
+import com.api.furshet.domain.entity.TelegramUsers;
 import com.api.furshet.dto.OrderRequestDTO;
 import com.api.furshet.repository.OrderRepository;
 import com.api.furshet.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,9 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final UpdateConsumer updateConsumer;
+    private final TelegramUsersService telegramUsersService;
+
 
     public Order createOrder(OrderRequestDTO orderRequestDTO) {
         Order order = Order.builder()
@@ -49,7 +55,40 @@ public class OrderService {
 
         order.setOrderItems(orderItems);
 
+        List<TelegramUsers> users = telegramUsersService.findAll();
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("📦 Новый заказ ").append(order.getId()).append("\n\n");
+        sb.append("👤 Клиент: ").append(order.getFIO()).append("\n");
+        sb.append("📞 Телефон: ").append(order.getPhone()).append("\n");
+        if (order.getEmail() != null && !order.getEmail().isEmpty()) {
+            sb.append("📧 Email: ").append(order.getEmail()).append("\n");
+        }
+        sb.append("🏠 Доставка: ").append(order.getDelivery()).append("\n");
+        sb.append("📍 Город: ").append(order.getCity()).append("\n");
+        sb.append("🏠 Адрес: ").append(order.getAddress()).append("\n");
+        if (order.getComment() != null && !order.getComment().isEmpty()) {
+            sb.append("💬 Комментарий: ").append(order.getComment()).append("\n");
+        }
+        sb.append("💳 Оплата: ").append(order.getPaymentMethod()).append("\n\n");
+
+        // Список товаров
+        sb.append("🛒 Товары:\n");
+        double total = 0;
+        for (OrderItem item : order.getOrderItems()) {
+            double itemTotal = item.getPrice() * item.getQuantity();
+            total += itemTotal;
+            sb.append("- ")
+                    .append(item.getProduct().getName())
+                    .append(" x").append(item.getQuantity())
+                    .append(" = ").append(itemTotal).append("₽\n");
+        }
+        sb.append("\n💰 Итого: ").append(total).append("₽");
+
+        String message = sb.toString();
+        for  (TelegramUsers user : users) {
+            updateConsumer.sendOrder(message, Long.parseLong(user.getName()));
+        }
 
         return orderRepository.save(order);
     }

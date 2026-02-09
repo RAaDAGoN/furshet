@@ -6,20 +6,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ProductLabelType {
-    BESTSELLERS,
-    POPULAR,
-    NEW,
-    PROFITABLY,
-    FOR_CHILDREN,
-    DISCOUNT
+    BESTSELLERS("Хит продаж", "EB4747"),
+    POPULAR("Популярное", "97AB94"),
+    NEW("Новинка", "FF6E00"),
+    PROFITABLY("Выгодно", "97AB94"),
+    FOR_CHILDREN("Для детей", "1FA0D3"),
+    DISCOUNT("Скидка", "EFC312");
+
+    private final String russianName;
+    private final String color;
+
 }
 
 
-//BESTSELLERS("Хит продаж"),
-//POPULAR("Популярное"),
-//NEW("Новинка"),
-//PROFITABLY("Выгодно"),
-//FOR_CHILDREN("Для детей"),
-//DISCOUNT("Скидка");
-//
-//private final String russianName;

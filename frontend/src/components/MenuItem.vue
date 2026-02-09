@@ -2,8 +2,18 @@
   <router-link
       v-if="active && !blocked"
       :to="to"
-      :style="{ backgroundImage: image ? `url('${image}')` : 'url(\'/image/Menu1.png\')' }"
-      class="relative block bg-cover overflow-hidden group max-w-[405px] h-[213px] md:h-[540px]"
+      :style="{
+        backgroundImage: image
+        ? `url('${image}')`
+        : 'url(\'/image/NotFound.svg\')',
+        ...(!image && {
+                  backgroundSize: '30%',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center center',
+                  backgroundColor: '#ECEFEB'
+                })
+      }"
+      class="relative block bg-cover overflow-hidden group max-w-[405px] h-[213px] md:h-[456px] lg:h-[540px]"
   >
     <!-- Градиенты -->
     <div class="absolute inset-0">

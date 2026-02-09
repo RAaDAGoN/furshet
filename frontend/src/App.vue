@@ -8,8 +8,11 @@
 
 
     <div class="min-h-svh">
-      <div class="h-[56px] md:h-[135px]"></div>
-      <Breadcrumbs />
+      <div class="h-[52px] md:h-[56px] lg:h-[80px] xl:h-[128px]"></div>
+      <Transition name="breadcrumb" mode="out-in">
+        <Breadcrumbs />
+      </Transition>
+
 
       <RouterView v-slot="{ Component }">
         <Transition name="page" mode="out-in">
@@ -22,6 +25,7 @@
 
     <Callback />
     <Footer/>
+
   </div>
 </template>
 
@@ -37,6 +41,7 @@ import Footer from "@/components/Footer.vue";
 import OrderCall from "@/components/modal/OrderCall.vue";
 import Callback from "@/components/Callback.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import ScrollToTop from "@/components/ui/ScrollToTop.vue";
 
 const menuOpen = ref(false)
 
@@ -203,4 +208,35 @@ onMounted(async () => {
 .page-leave-to {
   @apply opacity-0 -translate-x-10;
 }
+
+/* появление */
+.breadcrumb-enter-from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.breadcrumb-enter-active {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.breadcrumb-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* исчезновение */
+.breadcrumb-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.breadcrumb-leave-active {
+  transition: opacity 0.1s ease, transform 0.1s ease;
+}
+
+.breadcrumb-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
 </style>

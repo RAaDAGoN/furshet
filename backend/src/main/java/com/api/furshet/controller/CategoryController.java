@@ -19,19 +19,6 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-//    @PostMapping
-//    public ResponseEntity<Category> create(@RequestBody CategoryDTO dto) {
-//        return new ResponseEntity<>(categoryService.create(dto), HttpStatus.OK);
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<List<Category>> create(@RequestBody List<CategoryDTO> dto) {
-//        List<Category> categories = dto.stream()
-//                .map(categoryService::create)
-//                .collect(Collectors.toList());
-//        return new ResponseEntity<>(categories, HttpStatus.CREATED);
-//    }
-
     @PostMapping
     public ResponseEntity<List<Category>> create(@RequestPart("categories") List<CategoryDTO> dtolist,
                                                  @RequestPart("file") MultipartFile file) {
@@ -46,11 +33,6 @@ public class CategoryController {
     public ResponseEntity<List<Category>> getAll() {
         return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
     }
-
-//    @PutMapping
-//    public ResponseEntity<Category> update(@RequestBody Category category) {
-//        return new ResponseEntity<>(categoryService.update(category), HttpStatus.OK);
-//    }
 
     @DeleteMapping
     public HttpStatus delete(@PathVariable Long id) {

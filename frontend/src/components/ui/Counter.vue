@@ -1,9 +1,20 @@
 <template>
-  <div class="flex justify-between items-center border-[1.5px] rounded-1 border-[#D2D2D2] py-[15px] px-[17px] md:py-3 md:px-[25px] max-h-[56px]  md:w-[140px] max-w-[140px]">
-    <button @click="increment"><img src="/image/icons/+.svg" alt=""></button>
-    <p class="text-lg md:text-2xl mx-5">{{ count }}</p>
-    <button v-if="count < 1" @click="decrement"><img src="/image/icons/-.svg" alt=""></button>
-    <button v-else @click="decrement"><img src="/image/icons/-.svg" alt=""></button>
+  <div class="flex justify-between items-center border-[1.5px] rounded-1 border-[#D2D2D2] py-[15px] px-[12px] md:py-[17px] md:px-[16px] max-h-[48px] w-[100px] md:w-[120px] max-w-[120px]">
+    <button @click="increment">
+      <img src="/image/icons/PlusActive.svg" alt="">
+    </button>
+
+    <p class="font-montserrat font-medium text-[18px] md:text-[21px]">{{ count }}</p>
+
+    <button
+        @click="decrement"
+        :disabled="count <= 1"
+    >
+      <img :src="count > 1
+        ? '/image/icons/MinusActive.svg'
+        : '/image/icons/-.svg' " alt="">
+    </button>
+
   </div>
 </template>
 
@@ -25,7 +36,6 @@ const emit = defineEmits(['update:modelValue'])
 
 const count = ref(1);
 
-// Загружаем количество из корзины при монтировании
 onMounted(() => {
   if (props.itemId) {
     count.value = getQuantity(props.itemId);
@@ -34,7 +44,7 @@ onMounted(() => {
 
 watch(() => props.modelValue, (newVal) => {
   if (newVal !== undefined && newVal !== count.value) {
-    count.value = newVal; // синхронизируем локальный count с родителем
+    count.value = newVal;
   }
 });
 

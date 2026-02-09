@@ -1,16 +1,10 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-5 md:pt-10 px-5 md:px-0">
+  <div class="max-w-[1746px] mx-auto pt-5 md:pt-10 px-5 2xl:px-0">
 
     <div v-if="product" class="flex flex-col">
-      <div v-if="isLoading">
-        <h1 class="text-lg md:text-xl">Загрузка ...</h1>
-      </div>
-      <!--Фото и цена-->
-      <div v-else-if="product" class="flex flex-col lg:flex-row justify-between gap-6 md:gap-11">
-        <!--      -->
+      <div class="flex flex-col lg:flex-row justify-between gap-6 md:gap-11">
         <div class="w-full lg:max-w-[50%]">
           <swiper
-              v-if="product?.productImages?.length && thumbsSwiper"
               :key="product.id"
               :modules="modules"
               :slides-per-view="1"
@@ -21,35 +15,53 @@
           >
             <swiper-slide
                 v-for="image in product.productImages"
-                :key="image.id"
-            >
+                :key="image.id">
               <img
                   class="w-full h-[200px] md:h-[400px] lg:h-[555px] object-cover rounded-lg"
                   :src="`${API_URL}/media/${image.filename}`"
-                  :alt="image.filename"
+                  :alt="image.filename "
+
               />
+            </swiper-slide>
+            <swiper-slide
+                class="w-full object-contain rounded-lg bg-[#ECEFEB] p-6"
+                v-if="!product.productImages.length">
+              <div  class="w-full h-full flex items-center justify-center">
+                <img
+                    src="/image/NotFound.svg"
+                    alt="Изображение не найдено"
+                />
+              </div>
             </swiper-slide>
           </swiper>
 
           <swiper
-              v-if="product?.productImages?.length"
               :key="product.id + '-thumbs'"
               :modules="modules"
               :slides-per-view="4"
               :space-between="10"
               :watch-slides-progress="true"
               @swiper="setThumbsSwiper"
-              class="thumbs-swiper hidden md:block"
-          >
+              class="thumbs-swiper hidden md:block">
             <swiper-slide
                 v-for="image in product.productImages"
-                :key="image.id"
-            >
+                :key="image.id">
               <img
                   class="thumb-image"
                   :src="`${API_URL}/media/${image.filename}`"
                   :alt="image.filename"
               />
+            </swiper-slide>
+            <swiper-slide
+                class="w-full object-contain rounded-lg bg-[#ECEFEB] p-6"
+                v-if="!product.productImages.length">
+              <div  class="w-full h-full flex items-center justify-center">
+                <img
+                    src="/image/NotFound.svg"
+                    alt="Изображение не найдено"
+                    class="h-full"
+                />
+              </div>
             </swiper-slide>
           </swiper>
         </div>
@@ -80,33 +92,34 @@
 
             <div class="flex justify-center sm:justify-start">
               <CartButton v-if="!isInCart"
-                          class="w-full sm:max-w-[255px]"
+                          class="w-full max-w-[230px] md:max-w-[255px]"
                           title="В корзину"
                           @click="addToCartHandler"
+                          :in-cart="true"
+                          :product="true"
               />
 
               <CartButton v-else
-                          class="w-full sm:max-w-[255px]"
+                          class="w-full max-w-[230px] md:max-w-[255px]"
                           title="В корзине"
                           @click="deleteHandler"
+                          :in-cart="false"
+                          :product="true"
               />
             </div>
           </div>
         </div>
 
-        <!--      -->
       </div>
-      <!--Описание-->
       <div class="mt-8 md:mt-16 lg:mt-[110px]">
-        <h1 class="font-comfort font-bold text-xl md:2text-xl lg:text-4xl text-[#97AB94] uppercase text-center md:text-left">
+        <h1 class="font-comfort font-bold text-xl md:2text-xl lg:text-4xl text-[#97AB94] uppercase">
           Описание
         </h1>
         <p class="text-lg md:text-xl">{{product.description}}</p>
       </div>
-      <!--Рекомендации-->
       <div v-if="recommendations && recommendations.length > 0" class="mt-8 md:mt-16 lg:mt-[110px]">
         <div v-if="!isLoading">
-          <h1 class="font-comfort font-bold text-2xl md:text-4xl lg:text-6xl text-[#97AB94] uppercase text-center md:text-left">
+          <h1 class="font-comfort font-bold text-2xl md:text-4xl lg:text-6xl text-[#97AB94] uppercase">
             Рекомендуемые позиции
           </h1>
           <h2 class="font-comfort font-bold text-sm md:text-base mt-4 md:mt-6 text-center md:text-left">
@@ -136,9 +149,9 @@
       </div>
     </div>
 
-    <div v-else>
-      <PageNotFound />
-    </div>
+<!--    <div v-else>-->
+<!--      <PageNotFound />-->
+<!--    </div>-->
 
 
   </div>

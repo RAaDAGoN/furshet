@@ -42,6 +42,7 @@ public class ProductService {
                 .productImages(new ArrayList<>())
                 .productAttribute(new ArrayList<>())
                 .productLabel(new ArrayList<>())
+                .typeMenu(dto.getTypeMenu())
                 .build();
 
         // ---------- LABELS ----------
@@ -150,6 +151,7 @@ public class ProductService {
             product.setCategory(categoryService.findById(dto.getCategoryId()));
             product.setActive(dto.getActive());
             product.setDescription(dto.getDescription());
+            product.setTypeMenu(dto.getTypeMenu());
 
             product.getProductLabel().clear();
 
