@@ -1,10 +1,14 @@
 package com.api.furshet.service;
 
 import com.api.furshet.domain.entity.Feedback;
+import com.api.furshet.domain.entity.TelegramUsers;
 import com.api.furshet.domain.enums.TypeFeedback;
 import com.api.furshet.dto.FeedbackDTO;
+import com.api.furshet.mail.FeedbackMail;
+import com.api.furshet.mail.OrderMail;
 import com.api.furshet.repository.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +17,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeedbackService {
     private final FeedbackRepository feedbackRepository;
+
+    private final TelegramUsersService telegramUsersService;
+
+    @Autowired
+    private FeedbackMail feedbackMail;
+
 
     public Feedback create(FeedbackDTO feedbackDTO) {
         Feedback feedback = Feedback.builder()
@@ -25,7 +35,17 @@ public class FeedbackService {
                 .typeFeedback(feedbackDTO.getTypeFeedback() != null ? feedbackDTO.getTypeFeedback() : TypeFeedback.IN_PROGRESS)
                 .build();
 
-        return feedbackRepository.save(feedback);
+        Feedback savedFeedback = feedbackRepository.save(feedback);
+
+        List<TelegramUsers> users = telegramUsersService.findAll();
+
+        List<String> emails = users.stream()
+                .map(TelegramUsers::getName)
+                .toList();
+
+        feedbackMail.sendOrderEmail(emails, feedback);
+
+        return savedFeedback;
     }
 
     public Feedback update(FeedbackDTO feedbackDTO) {

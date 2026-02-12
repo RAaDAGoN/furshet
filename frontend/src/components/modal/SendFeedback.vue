@@ -1,60 +1,56 @@
 <template>
-  <div @click="()=>emit('closeSendFeedback')" class="fixed top-0 left-0 h-full w-full bg-black z-40 opacity-70 "></div>
+  <div @click="()=>emit('closeSendFeedback')" class="fixed top-0 left-0 h-full w-full bg-black z-40 opacity-70"></div>
 
   <div class="relative h-full w-full">
     <div
-        class="bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col md:flex-row justify-between max-w-[560px] p-[40px]">
-      <div class="flex flex-col gap-[20px]">
+        class="bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 flex flex-col md:flex-row justify-between w-[calc(100%-32px)] md:w-auto max-w-[560px] px-[17px] py-[28px] 2xl:px-[40px] 2xl:py-[40px]">
+
+      <div class="flex flex-col gap-[20px] w-full">
         <div class="text-[#393939] flex flex-col gap-[10px]">
-          <h1 class="font-comfort font-bold text-[45px] leading-[140%]">Оставить отзыв</h1>
-          <p class="font-montserrat font-normal text-[21px] leading-[110%]">Нам важно ваше мнение!<br/>
+          <h1 class="font-comfort font-bold text-[22px] 2xl:text-[45px] leading-[140%]">Оставить отзыв</h1>
+          <p class="font-montserrat font-normal text-[16px] xl:text-[21px] leading-[110%]">Нам важно ваше мнение!<br/>
             Поделитесь впечатлениями о нашем сервисе и помогите нам стать лучше.</p>
         </div>
 
         <div>
-
           <form @submit.prevent="fetchFeedback" class="flex flex-col gap-[30px]" action="" method="post">
             <div class="flex flex-col gap-[20px]">
-              <span class="font-montserrat font-normal text-[21px] leading-[110%]">Ваша оценка {{ rating }}</span>
-              <div class="w-full max-w-md">
-                <div class="relative">
+              <span class="font-montserrat font-normal text-[16px] 2xl:text-[21px] leading-[110%]">Ваша оценка {{ rating }}</span>
 
-                  <!-- Линия -->
+              <div class="w-full">
+                <div class="relative">
                   <div class="absolute top-1/2 left-0 w-full h-1 bg-[#EBF0E8] -translate-y-1/2 rounded"></div>
 
-                  <!-- Активная линия -->
                   <div
-                      class="absolute top-1/2 left-0 h-1 bg-[#EBF0E8] -translate-y-1/2 rounded transition-all"
+                      class="absolute top-1/2 left-0 h-1 bg-[#97AB94] -translate-y-1/2 rounded transition-all"
                       :style="{ width: (rating / 5) * 100 + '%' }"
                   ></div>
 
-                  <!-- Точки -->
                   <div class="relative flex items-center justify-between">
                     <button
                         v-for="(value, index) in steps"
                         :key="value"
                         type="button"
                         @click="setRating(value)"
-                        class="w-4 h-4 rounded-full border-2 transition-all"
-                        :class="[value <= rating
-                          ? 'bg-[#97AB94] border-[#97AB94]'
-                          : 'bg-[#EBF0E8] border-[#EBF0E8]',
+                        class="rounded-full border-2 transition-all"
+                        :class="[
+                          value <= rating
+                            ? 'bg-[#97AB94] border-[#97AB94]'
+                            : 'bg-white border-[#EBF0E8]',
                           index % 2 === 0
-                          ? 'w-[10px] h-[10px]'
-                          : 'w-[14px] h-[14px]'
-
+                            ? 'w-[10px] h-[10px]'
+                            : 'w-[14px] h-[14px]'
                         ]"
                     ></button>
                   </div>
 
-                  <!-- Скрытый range (для формы) -->
                   <input
                       type="range"
                       min="0.5"
                       max="5"
                       step="0.5"
                       v-model="rating"
-                      class="absolute inset-0 opacity-0 cursor-pointer"
+                      class="absolute inset-0 opacity-0 cursor-pointer w-full"
                   />
                 </div>
               </div>
@@ -65,18 +61,16 @@
               <OrderInput placeholder="Ваш отзыв" name="comment" v-model="feedbackForm.comment"/>
             </div>
 
-            <div class="flex items-center gap-[40px]">
-              <Button2 type="submit" title="Отправить отзыв" :in-cart="true"/>
+            <div class="flex flex-col lg:flex-row items-center gap-[12px] 2xl:gap-[40px] w-full">
+              <Button2 class="w-full" type="submit" title="Отправить отзыв" :in-cart="true"/>
               <p @click="()=>emit('closeSendFeedback')"
-                 class="font-montserrat font-medium text-[#97AB94] text-[24px] leading-[140%] cursor-pointer underline">
-                Закрыть</p>
+                 class="font-montserrat font-medium text-[#97AB94] text-[18px] 2xl:text-[24px] leading-[140%] cursor-pointer underline">
+                Закрыть
+              </p>
             </div>
           </form>
-
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
@@ -146,6 +140,11 @@ const fetchFeedback = async () => {
     feedbackForm.FI = ""
     feedbackForm.comment = ""
     rating.value = 5
+
+    toast.success("Отзыв успешно отправлен", {
+      position: "bottom-right",
+      timeout: 3000,
+    });
 
     emit("closeSendFeedback")
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h2 { color: #333; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+<h2>📦 Новый заказ #<span th:text="${order.id}"></span></h2>
+<p>👤 Клиент: <span th:text="${order.FIO}"></span></p>
+<p>📞 Телефон: <span th:text="${order.phone}"></span></p>
+<p>📧 Email: <span th:text="${order.email}"></span></p>
+<p>🏠 Доставка: <span th:text="${order.delivery}"></span>, <span th:text="${order.city}"></span>, <span th:text="${order.address}"></span></p>
+<p>💬 Комментарий: <span th:text="${order.comment}"></span></p>
+<p>💳 Оплата: <span th:text="${order.paymentMethod}"></span></p>
+
+<h3>🛒 Состав заказа:</h3>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Кол-во</th>
+        <th>Цена</th>
+        <th>Итого</th>
+    </tr>
+    <tr th:each="item : ${orderItems}">
+        <td th:text="${item.product.name}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.price}"></td>
+        <td th:text="${item.price * item.quantity}"></td>
+    </tr>
+</table>
+
+<p>Итого: <span th:text="${total}"></span>₽</p>
+</body>
+</html>

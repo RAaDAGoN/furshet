@@ -132,7 +132,7 @@
                     Доставка:
                   </td>
                   <td class="font-montserrat font-bold">
-                    200 ₽
+                    250 ₽
                   </td>
                 </tr>
                 </tbody>
@@ -149,13 +149,41 @@
                   Итого:
                 </td>
                 <td class="font-montserrat text-base sm:text-[18px] md:text-[24px] font-semibold">
-                  {{ formatPrice(totalPrice) }} ₽
+                  {{ totalCartPrice(totalPrice) }} ₽
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
 
+          <div class="flex items-start space-x-3 mt-4">
+            <div class="relative inline-flex items-center">
+              <input
+                  v-model="personalData"
+                  class="appearance-none w-6 h-6 border-2 border-[#97AB94] rounded checked:bg-[#97AB94] cursor-pointer mt-1"
+                  type="checkbox"
+                  value="1"
+                  id="personal-data"
+              >
+              <!-- Кастомная галочка -->
+              <svg
+                  v-if="personalData"
+                  class="absolute w-4 h-4 left-1 top-[8px] text-white pointer-events-none"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+              >
+                <path d="M20 6L9 17L4 12" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <label for="personal-data" class="font-montserrat font-medium text-xs md:text-lg text-[#3C3C3C] leading-[110%] cursor-pointer">
+              Оформляя заказ, вы соглашаетесь, что ознакомлены с
+              <router-link to="/delivery" class="text-[#97AB94] underline cursor-pointer ml-1">
+                условиями доставки
+              </router-link>
+            </label>
+          </div>
 
           <CartButton @click="submitOrder" :in-cart="false" class="mx-auto w-full mt-7" title="Оформить заказ"/>
         </div>
@@ -198,13 +226,13 @@
 </template>
 
 <script setup>
-import {computed, inject, onMounted, reactive, watch} from "vue";
+import {computed, inject, onMounted, reactive, ref, watch} from "vue";
 import CartButton from "@/components/ui/CartButton.vue";
 import OrderInput from "@/components/ui/OrderInput.vue";
 import {useToast} from "vue-toastification";
 
 const {cart, totalPrice, countCart, createOrder, orderSuccess} = inject("cart");
-
+const personalData = ref(false);
 const localOrderSuccess = computed(() => orderSuccess.value);
 const toast = useToast();
 
@@ -259,6 +287,14 @@ const submitOrder = async () => {
     return;
   }
 
+  if (!personalData.value) {
+    toast.error("Пункт не отмечен", {
+      position: "bottom-right",
+      timeout: 3000
+    })
+    return;
+  }
+
   try {
     await createOrder(orderForm); // вызываем функцию из inject
     toast.success("Заказ успешно оформлен!", { position: "bottom-right" });
@@ -287,6 +323,13 @@ watch(orderForm, () => {
 
 const formatPrice = (price) => {
   return new Intl.NumberFormat('ru-RU').format(price)
+}
+
+const totalCartPrice = (price) => {
+  if (orderForm.delivery === "COURIER"){
+    return formatPrice(price + 250);
+  }
+  return formatPrice(price);
 }
 
 </script>

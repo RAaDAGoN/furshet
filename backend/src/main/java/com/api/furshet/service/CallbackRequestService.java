@@ -1,8 +1,11 @@
 package com.api.furshet.service;
 
 import com.api.furshet.domain.entity.CallbackRequest;
+import com.api.furshet.domain.entity.TelegramUsers;
 import com.api.furshet.dto.CallbackRequestDto;
 import com.api.furshet.dto.CategoryDTO;
+import com.api.furshet.mail.CallbackMail;
+import com.api.furshet.mail.OrderMail;
 import com.api.furshet.repository.CallbackRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CallbackRequestService {
     private final CallbackRequestRepository callbackRequestRepository;
+
+    private final TelegramUsersService telegramUsersService;
+
+    private final CallbackMail callbackMail;
 
     public CallbackRequest create(CallbackRequestDto dto) {
 
@@ -25,7 +32,16 @@ public class CallbackRequestService {
                 .typeCallbackRequest(dto.getTypeCallbackRequest())
                 .build();
 
-        return callbackRequestRepository.save(callbackRequest);
+        CallbackRequest savedCallbackRequest = callbackRequestRepository.save(callbackRequest);
+
+        List<TelegramUsers> users = telegramUsersService.findAll();
+        List<String> emails = users.stream()
+                .map(TelegramUsers::getName)
+                .toList();
+
+        callbackMail.sendOrderEmail(emails, callbackRequest);
+
+        return savedCallbackRequest;
     }
 
     public List<CallbackRequest> findAll() {

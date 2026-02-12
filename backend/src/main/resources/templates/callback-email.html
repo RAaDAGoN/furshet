@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 8px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        p {
+            margin: 8px 0;
+        }
+        .highlight {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>📦 Новая заявка на звонок</h2>
+
+    <table>
+        <tr>
+            <th>Поле</th>
+            <th>Значение</th>
+        </tr>
+        <tr>
+            <td>Тип заявки</td>
+            <td th:text="${callback.typeCallbackRequest.translate}"></td>
+        </tr>
+        <tr>
+            <td>ФИО</td>
+            <td th:text="${callback.FIO}"></td>
+        </tr>
+        <tr>
+            <td>Телефон</td>
+            <td th:text="${callback.phone}"></td>
+        </tr>
+        <tr th:if="${callback.email}">
+            <td>Email</td>
+            <td th:text="${callback.email}"></td>
+        </tr>
+        <tr th:if="${callback.amountPeople}">
+            <td>Количество человек</td>
+            <td th:text="${callback.amountPeople}"></td>
+        </tr>
+        <tr th:if="${callback.data}">
+            <td>Дата</td>
+            <td th:text="${callback.data}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

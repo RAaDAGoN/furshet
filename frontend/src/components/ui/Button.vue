@@ -6,7 +6,7 @@
       md:text-[16px]
       lg:text-[18px]
       2xl:text-[24px]
-      md:px-1 md:py-4
+      md:px-5 md:py-4
       2xl:px-8
       border-[1px]
       border-white
