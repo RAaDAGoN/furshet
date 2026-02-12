@@ -1,15 +1,17 @@
 package com.api.furshet.service;
 
-import com.api.furshet.bot.UpdateConsumer;
+//import com.api.furshet.bot.UpdateConsumer;
 import com.api.furshet.domain.entity.Order;
 import com.api.furshet.domain.entity.OrderItem;
 import com.api.furshet.domain.entity.Product;
 import com.api.furshet.domain.entity.TelegramUsers;
 import com.api.furshet.dto.OrderRequestDTO;
+import com.api.furshet.mail.EmailService;
 import com.api.furshet.repository.OrderRepository;
 import com.api.furshet.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,11 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final UpdateConsumer updateConsumer;
+//    private final UpdateConsumer updateConsumer;
     private final TelegramUsersService telegramUsersService;
+
+    @Autowired
+    private EmailService emailService;
 
 
     public Order createOrder(OrderRequestDTO orderRequestDTO) {
@@ -86,8 +91,11 @@ public class OrderService {
         sb.append("\n💰 Итого: ").append(total).append("₽");
 
         String message = sb.toString();
+
+        // отправка email сообщения
         for  (TelegramUsers user : users) {
-            updateConsumer.sendOrder(message, Long.parseLong(user.getName()));
+//            updateConsumer.sendOrder(message, Long.parseLong(user.getName()));
+            emailService.sendEmail(user.getName(), "Новый заказ", message);
         }
 
         return orderRepository.save(order);

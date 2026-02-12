@@ -98,6 +98,9 @@
     <Content2/>
 
     <Content3/>
+
+    <feedback />
+
     <Content4/>
 
 
@@ -118,6 +121,7 @@ import Content4 from "@/components/main/Content4.vue";
 import api from "@/utils/api.js";
 import {API_URL} from "@/main.js";
 import MainMenuCard from "@/components/MainMenuCard.vue";
+import Feedback from "@/components/main/Feedback.vue";
 
 const {openCart} = inject("cart");
 

@@ -7,13 +7,22 @@
         </div>
 
       </div>
-      <div class="grid grid-cols-2 lg:grid-cols-3 xl:flex gap-[20px] flex-wrap">
-        <img src="/image/VoGU.png" alt="img">
-        <img src="/image/VTB.png" alt="img">
-        <img src="/image/Maxi.png" alt="img">
-        <img src="/image/Antey.png" alt="img">
-        <img src="/image/Fitnes.png" alt="img">
+      <div
+          class="
+    grid gap-6 items-center
+    grid-cols-1
+    md:grid-cols-2
+    lg:grid-rows-2 lg:grid-cols-3
+    xl:grid-cols-5 xl:grid-rows-1
+  "
+      >
+        <img src="/image/VoGU.png" class="w-full object-contain" />
+        <img src="/image/VTB.png" class="w-full object-contain" />
+        <img src="/image/Maxi.png" class="w-full object-contain" />
+        <img src="/image/Antey.png" class="w-full object-contain" />
+        <img src="/image/Fitnes.png" class="w-full object-contain" />
       </div>
+
     </div>
   </div>
 </template>

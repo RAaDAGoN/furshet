@@ -51,6 +51,7 @@ public class WebSecurityConfig {
                                 "/menu/**",
                                 "/caterings/**",
                                 "/media/**",
+                                "/feedbacks/**",
                                 "/js/**",
                                 "/images/**",
                                 "/categories/**",
@@ -74,7 +75,7 @@ public class WebSecurityConfig {
                 )
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/orders/**", "/callbacks/**")
+                        .ignoringRequestMatchers("/orders/**", "/callbacks/**", "/feedbacks/**")
                 );
 
         return http.build();

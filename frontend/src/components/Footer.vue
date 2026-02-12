@@ -13,7 +13,7 @@
             <p class="flex gap-[15px]">Круглосуточно</p>
           </div>
 
-          <div class="hidden md:flex gap-4 items-center">
+          <div class="flex gap-4 items-center mb-[20px]">
             <a href="https://vk.com/furshet_vol35" target="_blank">
               <svg class="w-[36px] h-[36px] text-[#595959] hover:text-[#97AB94] transition-colors">
                 <use href="#vk"></use>

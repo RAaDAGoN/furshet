@@ -1,0 +1,22 @@
+<template>
+  <button class="bg-[#97AB94] text-white font-montserrat font-semibold cursor-pointer
+      px-6 py-3
+      text-sm
+      sm:text-xs
+      md:text-[16px]
+      lg:text-[18px]
+      2xl:text-[24px]
+      md:px-1 md:py-4
+      2xl:px-[28px]
+      leading-[110%]
+">
+    {{ title }}
+  </button>
+</template>
+
+<script setup>
+defineProps({
+  title: String,
+})
+</script>
+

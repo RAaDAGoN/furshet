@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="'Отзыв # '+ ${feedbackDTO.id} + ' | Отзывы покупателей'">Детали фото</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-[1746px] mx-auto px-4 sm:px-5 py-8">
+        <!-- Кнопка назад -->
+        <a th:href="@{/admin/feedbacks}"
+           class="inline-flex items-center text-[#97AB94] hover:text-[#7a9185] mb-6 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                      clip-rule="evenodd"/>
+            </svg>
+            Назад к списку отзывов
+        </a>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Заголовок -->
+            <div class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] px-4 sm:px-6 py-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+                    <h1 class="text-xl sm:text-2xl font-bold text-white break-words" th:text="'Отзыв #'+ ${feedbackDTO.id}"><span th:text="+ '(' + ${ feedbackDTO.typeFeedback != null ? feedbackDTO.typeFeedback.translate : 'new'}  + ')'"></span></h1>
+
+                    <div class="flex flex-wrap gap-2">
+                        <!-- Кнопка "Опубликовать" -->
+                        <form th:action="@{/admin/feedback/{id}/publish(id=${feedbackDTO.id})}"
+                              method="post"
+                              class="inline"
+                              th:if="${feedbackDTO.typeFeedback != feedbackDTO.typeFeedback.ACCEPTED}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit"
+                                    class="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Опубликовать
+                            </button>
+                        </form>
+
+                        <!-- Кнопка "Отклонить" -->
+                        <form th:action="@{/admin/feedback/{id}/reject(id=${feedbackDTO.id})}"
+                              method="post"
+                              class="inline"
+                              th:if="${feedbackDTO.typeFeedback != feedbackDTO.typeFeedback.REJECTED}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit"
+                                    class="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-lg text-sm sm:text-base font-medium transition-colors flex items-center gap-1"
+                                    onclick="return confirm('Отклонить отзыв?')">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                                Отклонить
+                            </button>
+                        </form>
+                    </div>
+
+
+
+
+                    <form th:action="@{/admin/feedback/delete/{id}(id=${feedbackDTO.id})}"
+                          method="post"
+                          onsubmit="return confirm('Удалить отзыв?');"
+                          class="w-full sm:w-auto">
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                        <button type="submit"
+                                class="bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg w-full sm:w-auto text-sm sm:text-base">
+                            Удалить
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Основная информация -->
+            <div class="p-4 sm:p-6">
+                <div class="">
+                    <!-- Левая колонка - основная информация -->
+                    <form class="flex flex-col lg:flex-row justify-between gap-5" th:action="@{/admin/feedback/submitFeedback}" th:object="${feedbackDTO}" method="post"
+                          enctype="multipart/form-data">
+                        <div class="w-full">
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">Основная информация</h2>
+
+                            <dl class="space-y-4">
+                                <div class="flex flex-col sm:flex-row justify-between border-b pb-2 gap-2 sm:gap-0">
+                                    <dt class="text-gray-600 text-sm sm:text-base"># отзыва:</dt>
+                                    <dd class="font-medium text-sm sm:text-base">
+                                        <input type="hidden" th:field="*{id}">
+                                        <span th:text="*{id}"></span>
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between border-b pb-2 gap-2 sm:gap-0">
+                                    <dt class="text-gray-600 text-sm sm:text-base">Имя фамилия:</dt>
+                                    <dd class="font-medium w-full sm:w-auto">
+                                        <label class="block w-full">
+                                            <input class="border rounded w-full px-2 py-1 text-sm sm:text-base" th:field="*{FI}" type="text">
+                                        </label>
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between border-b pb-2 gap-2 sm:gap-0">
+                                    <dt class="text-gray-600 text-sm sm:text-base">Оценка покупателя:</dt>
+                                    <dd class="font-medium w-full sm:w-auto">
+                                        <label class="block w-full">
+                                            <input class="border rounded w-full px-2 py-1 text-sm sm:text-base" th:field="*{rating}" type="text">
+                                        </label>
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between border-b pb-2 gap-2 sm:gap-0">
+                                    <dt class="text-gray-600 text-sm sm:text-base">Дата отзыва:</dt>
+                                    <dd class="font-medium w-full sm:w-auto">
+                                        <label class="block w-full">
+                                            <input class="border rounded w-full px-2 py-1 text-sm sm:text-base" th:field="*{date}" type="text">
+                                        </label>
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between border-b pb-2 gap-2 sm:gap-0">
+                                    <dt class="text-gray-600 text-sm sm:text-base">Отзыв:</dt>
+                                    <dd class="font-medium w-full sm:w-auto">
+                                        <label class="block w-full">
+                                            <textarea class="border rounded w-full px-2 py-1 text-sm sm:text-base" th:field="*{comment}" type="text"></textarea>
+                                        </label>
+                                    </dd>
+                                </div>
+                                <div class="flex flex-col sm:flex-row justify-between border-b pb-2 gap-2 sm:gap-0">
+                                    <dt class="text-gray-600 text-sm sm:text-base">Активен:</dt>
+                                    <dd class="text-sm sm:text-base">
+                                        <input type="checkbox" th:field="*{active}" class="mt-1 sm:mt-0">
+                                    </dd>
+                                </div>
+
+
+                            </dl>
+
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                            <!-- Действия -->
+                            <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
+                                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                    <a th:href="@{/admin/caterings}"
+                                       class="bg-gray-200 text-gray-800 px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-center text-sm sm:text-base">
+                                        ← Назад
+                                    </a>
+                                    <button type="submit"
+                                            class="bg-[#97AB94] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-[#7a9185] transition-colors font-medium text-sm sm:text-base">
+                                        Сохранить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

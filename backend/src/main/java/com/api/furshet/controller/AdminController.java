@@ -33,9 +33,10 @@ public class AdminController {
     private final CateringService cateringService;
     private final PointService pointService;
     private final TelegramUsersService telegramUsersService;
+    private final FeedbackService feedbackService;
 
     @GetMapping("")
-    public String mainPage(){
+    public String mainPage() {
         return "admin";
     }
 
@@ -94,7 +95,7 @@ public class AdminController {
 
 
         boolean hasBlockedAttribute = product.getProductAttribute().stream()
-                        .anyMatch(pa -> Boolean.TRUE.equals(pa.getAttribute().getBanOnDeletion()));
+                .anyMatch(pa -> Boolean.TRUE.equals(pa.getAttribute().getBanOnDeletion()));
 
         model.addAttribute("canDelete", !hasBlockedAttribute);
         model.addAttribute("hasBlockedAttribute", hasBlockedAttribute ? "Невозможно удалить товар: присутствует атрибут с запретом на удаление" : null);
@@ -116,7 +117,7 @@ public class AdminController {
                                 @RequestParam(value = "newImages", required = false) List<MultipartFile> images,
                                 @RequestParam(value = "deleteImageIds", required = false) List<Long> deleteId) {
         try {
-            for(MultipartFile file : images) {
+            for (MultipartFile file : images) {
                 System.out.println(file.getOriginalFilename());
             }
             productService.update(productDTO, images, deleteId);
@@ -158,7 +159,7 @@ public class AdminController {
     }
 
     @GetMapping("/category/edit/{id}")
-    public String editCategory(@PathVariable Long id, Model model){
+    public String editCategory(@PathVariable Long id, Model model) {
         Category category = categoryService.findById(id);
 
         CategoryDTO dto = new CategoryDTO();
@@ -176,7 +177,7 @@ public class AdminController {
 
     @PostMapping("/category/submitProduct")
     public String updateCategory(@ModelAttribute CategoryDTO categoryDTO,
-                                 @RequestParam("file")MultipartFile file) {
+                                 @RequestParam("file") MultipartFile file) {
         categoryService.update(categoryDTO, file);
         return "redirect:/admin/categories";
     }
@@ -200,7 +201,7 @@ public class AdminController {
 
     @GetMapping("/order/new")
     public String createOrder(Model model) {
-        OrderRequestDTO orderDTO = new  OrderRequestDTO();
+        OrderRequestDTO orderDTO = new OrderRequestDTO();
 
         model.addAttribute("orderDto", orderDTO);
         model.addAttribute("paymentMethod", PaymentMethods.values());
@@ -211,7 +212,7 @@ public class AdminController {
     }
 
     @GetMapping("/order/edit/{id}")
-    public String editOrder(@PathVariable Long id, Model model){
+    public String editOrder(@PathVariable Long id, Model model) {
         Order order = orderService.findById(id);
 
         OrderRequestDTO dto = new OrderRequestDTO();
@@ -227,15 +228,15 @@ public class AdminController {
         dto.setPaymentMethod(order.getPaymentMethod());
 
         List<OrderItemRequestDTO> items = order.getOrderItems().stream()
-                        .map(item -> {
-                            OrderItemRequestDTO itemDTO = new OrderItemRequestDTO();
-                            itemDTO.setId(item.getId());
-                            itemDTO.setProductId(item.getProduct().getId());
-                            itemDTO.setProductName(item.getProduct().getName());
-                            itemDTO.setQuantity(item.getQuantity());
-                            return  itemDTO;
-                        })
-                        .toList();
+                .map(item -> {
+                    OrderItemRequestDTO itemDTO = new OrderItemRequestDTO();
+                    itemDTO.setId(item.getId());
+                    itemDTO.setProductId(item.getProduct().getId());
+                    itemDTO.setProductName(item.getProduct().getName());
+                    itemDTO.setQuantity(item.getQuantity());
+                    return itemDTO;
+                })
+                .toList();
         System.out.println(items);
         dto.setOrderItems(items);
 
@@ -451,7 +452,7 @@ public class AdminController {
 
     @PostMapping("/menu/submitMenu")
     public String updateMenu(@ModelAttribute MenuDTO menuDTO,
-                             @RequestParam("file")MultipartFile file) {
+                             @RequestParam("file") MultipartFile file) {
         menuService.update(menuDTO, file);
         return "redirect:/admin/menuList";
     }
@@ -494,7 +495,7 @@ public class AdminController {
 
     @PostMapping("/catering/submitCatering")
     public String updateCatering(@ModelAttribute CateringDTO cateringDTO,
-                             @RequestParam("file")MultipartFile file) {
+                                 @RequestParam("file") MultipartFile file) {
         cateringService.update(cateringDTO, file);
         return "redirect:/admin/caterings";
     }
@@ -559,7 +560,7 @@ public class AdminController {
         telegramUsersDTO.setId(telegramUsers.getId());
         telegramUsersDTO.setName(telegramUsers.getName());
 
-        model.addAttribute("telegramUsersDTO", telegramUsersDTO);
+        model.addAttribute("usersDTO", telegramUsersDTO);
 
         return "TelegramUsers/user";
     }
@@ -568,5 +569,70 @@ public class AdminController {
     public String updateUser(@ModelAttribute TelegramUsersDTO telegramUsersDTO) {
         telegramUsersService.update(telegramUsersDTO);
         return "redirect:/admin/users";
+    }
+
+    // Конец Пользователи
+
+    // Начало отзывы
+    @GetMapping("/feedbacks")
+    public String feedbacksPage(Model model) {
+        List<Feedback> feedbacks = feedbackService.findAll();
+        model.addAttribute("feedbacks", feedbacks);
+        model.addAttribute("typeFeedback", TypeFeedback.values());
+        return "feedback/feedbacks";
+    }
+
+    @GetMapping("/feedback/new")
+    public String createFeedback(Model model) {
+        Feedback feedback = new Feedback();
+        model.addAttribute("feedbackDTO", feedback);
+        model.addAttribute("typeFeedback", TypeFeedback.values());
+        return "feedback/feedback";
+    }
+
+    @GetMapping("/feedback/edit/{id}")
+    public String editFeedback(@PathVariable Long id, Model model) {
+        Feedback feedback = feedbackService.findById(id);
+        FeedbackDTO feedbackDTO = new FeedbackDTO();
+        feedbackDTO.setId(feedback.getId());
+        feedbackDTO.setFI(feedback.getFI());
+        feedbackDTO.setRating(feedback.getRating());
+        feedbackDTO.setDate(feedback.getDate());
+        feedbackDTO.setComment(feedback.getComment());
+        feedbackDTO.setActive(feedback.getActive());
+        feedbackDTO.setTypeFeedback(feedback.getTypeFeedback());
+
+        model.addAttribute("feedbackDTO", feedbackDTO);
+        model.addAttribute("typeFeedback", TypeFeedback.values());
+
+        return "feedback/feedback";
+    }
+
+    @PostMapping("/feedback/submitFeedback")
+    public String updateFeedback(@ModelAttribute FeedbackDTO feedbackDTO) {
+        feedbackService.update(feedbackDTO);
+        return "redirect:/admin/feedbacks";
+    }
+
+
+
+    @PostMapping("/feedback/{id}/publish")
+    public String publishFeedback(@PathVariable Long id) {
+        feedbackService.updateFeedbackStatus(id, TypeFeedback.ACCEPTED);
+
+        return "redirect:/admin/feedbacks";
+    }
+
+    @PostMapping("/feedback/{id}/reject")
+    public String rejectFeedback(@PathVariable Long id) {
+        feedbackService.updateFeedbackStatus(id, TypeFeedback.REJECTED);
+
+        return "redirect:/admin/feedbacks";
+    }
+
+    @PostMapping("/feedback/delete/{id}")
+    public String deleteFeedback(@PathVariable Long id) {
+        feedbackService.delete(id);
+        return "redirect:/admin/feedbacks";
     }
 }

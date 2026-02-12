@@ -23,6 +23,7 @@ import Catering from "@/pages/staticPage/Catering.vue";
 import {slugify} from "@/utils/slugify.js";
 import api from "@/utils/api.js";
 import AllMenu from "@/pages/AllMenu.vue";
+import Feedbacks from "@/pages/Feedbacks.vue";
 
 const app = createApp(App)
 
@@ -37,6 +38,7 @@ const routes = [
     { path: '/cart', component: Cart, name: 'Cart', meta: { breadcrumb: 'Корзина'} },
     { path: '/cart/order', component: Order, name: 'Order', meta: { breadcrumb: 'Оформление заказа'} },
     { path: '/catering', component: Catering, name: 'Catering', meta: { breadcrumb: 'Кейтеринг' } },
+    { path: '/feedbacks', component: Feedbacks, name: 'Feedback', meta: { breadcrumb: 'Отзывы' } },
 
 
     { path: '/menu/:categorySlug', component: MenuProduct, name: 'MenuProduct' },

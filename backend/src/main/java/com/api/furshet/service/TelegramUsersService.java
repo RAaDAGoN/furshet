@@ -25,7 +25,7 @@ public class TelegramUsersService {
         if (dto.getId() != null) {
             TelegramUsers telegramUsers = telegramUsersRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("User not found " + dto.getId()));
 
-            telegramUsers.setName(dto.getName());
+            telegramUsers.setName(dto.getName() != null ? dto.getName() : telegramUsers.getName());
 
             return telegramUsersRepository.save(telegramUsers);
         } else {

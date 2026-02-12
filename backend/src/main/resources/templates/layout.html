@@ -10,34 +10,239 @@
     <title layout:title-pattern="$CONTENT_TITLE | Админ-панель">Админ-панель</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
 </head>
-<body>
-<header class="text-[30px] bg-[#97AB94] py-3 px-2 text-white">
-    <div class="max-w-[1746px] mx-auto py-[10px] flex justify-between items-center px-4 sm:px-5">
-        <div>
-            <h1><a href="/admin">Панель администратора | Фуршет</a></h1>
-        </div>
-        <div>
-            <a href="/logout" class="underline cursor-pointer hover:opacity-80 transition-opacity">Выйти</a>
+<body class="bg-gray-50">
+<header class="bg-gradient-to-r from-[#97AB94] to-[#7a9185] shadow-lg">
+    <!-- Верхняя часть с логотипом и выходом -->
+    <div class="max-w-[1746px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <!-- Логотип и название -->
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:block">
+                    <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">
+                        <a href="/admin" class="hover:text-gray-100 transition-colors flex items-center">
+                            <span class="hidden md:inline">Административная панель</span>
+                            <span class="md:hidden">Админ-панель</span>
+                            <span class="text-white/70 ml-2 text-lg">| Фуршет</span>
+                        </a>
+                    </h1>
+                    <p class="text-white/80 text-xs sm:text-sm mt-1 hidden sm:block">Управление системой кейтеринга</p>
+                </div>
+            </div>
+
+            <!-- Выход и информация о пользователе -->
+            <div class="flex items-center space-x-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-white/90 text-sm">Администратор системы</p>
+
+                </div>
+                <a href="/logout"
+                   class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-all duration-300 
+                          flex items-center space-x-2 hover:shadow-md active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    <span class="text-sm font-medium">Выйти</span>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="border border-white w-full h-full"></div>
-    <div class="max-w-[1746px] mx-auto py-[10px] flex justify-between items-center px-4 sm:px-5">
-        <ul class="text-lg flex space-x-8">
-            <li><a th:href="@{/admin/products}" class="hover:text-gray-200 transition-colors font-medium">Товары</a></li>
-            <li><a th:href="@{/admin/categories}" class="hover:text-gray-200 transition-colors">Категории</a></li>
-            <li><a th:href="@{/admin/orders}" class="hover:text-gray-200 transition-colors">Заказы</a></li>
-            <li><a th:href="@{/admin/callbacks}" class="hover:text-gray-200 transition-colors">Заявки</a></li>
-            <li><a th:href="@{/admin/attributes}" class="hover:text-gray-200 transition-colors">Атрибуты</a></li>
-            <li><a th:href="@{/admin/labels}" class="hover:text-gray-200 transition-colors">Метки</a></li>
-            <li><a th:href="@{/admin/menuList}" class="hover:text-gray-200 transition-colors">Настройки меню</a></li>
-            <li><a th:href="@{/admin/caterings}" class="hover:text-gray-200 transition-colors">Кейтеринг</a></li>
-            <li><a th:href="@{/admin/points}" class="hover:text-gray-200 transition-colors">Поинты</a></li>
-            <li><a th:href="@{/admin/users}" class="hover:text-gray-200 transition-colors">Пользователи</a></li>
-        </ul>
+
+    <!-- Навигационное меню -->
+    <div class="bg-white/10 backdrop-blur-sm border-t border-white/20">
+        <div class="max-w-[1746px] mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="py-3">
+                <div class="flex items-center justify-between">
+                    <!-- Основная навигация -->
+                    <div class="flex-1 overflow-x-auto scrollbar-hide">
+                        <ul class="flex space-x-1 md:space-x-2 lg:space-x-4 min-w-max">
+                            <li>
+                                <a th:href="@{/admin/products}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Товары</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/categories}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Категории</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/orders}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Заказы</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/callbacks}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Заявки</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/attributes}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Атрибуты</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/labels}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Метки</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/menuList}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Меню</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/caterings}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Кейтеринг</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/points}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Поинты</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/admin/users}"
+                                   class="flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg hover:bg-white/20 transition-all duration-300 group">
+                                    <svg class="w-4 h-4 text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a5.5 5.5 0 01-5.5 5.5"/>
+                                    </svg>
+                                    <span class="text-white text-sm font-medium whitespace-nowrap">Пользователи</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Кнопка для мобильного меню -->
+                    <div class="lg:hidden ml-4">
+                        <button id="mobileMenuButton" class="p-2 rounded-lg hover:bg-white/20 transition-colors">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Мобильное выпадающее меню -->
+                <div id="mobileMenu" class="hidden lg:hidden mt-4 bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/20">
+                    <div class="grid grid-cols-2 gap-2">
+                        <a th:href="@{/admin/products}" class="flex items-center space-x-2 px-3 py-2 rounded hover:bg-white/20 transition-colors">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                            <span class="text-white text-sm">Товары</span>
+                        </a>
+                        <a th:href="@{/admin/categories}" class="flex items-center space-x-2 px-3 py-2 rounded hover:bg-white/20 transition-colors">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            <span class="text-white text-sm">Категории</span>
+                        </a>
+                        <!-- Остальные пункты меню в аналогичном формате -->
+                    </div>
+                </div>
+            </nav>
+        </div>
     </div>
 </header>
 
-<main layout:fragment="content">
+<main layout:fragment="content" class="min-h-screen">
 </main>
+
+<script>
+    // Обработка мобильного меню
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('block');
+            });
+
+            // Закрытие меню при клике вне его
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('block');
+                }
+            });
+        }
+
+        // Подсветка активного пункта меню
+        const currentPath = window.location.pathname;
+        const menuLinks = document.querySelectorAll('nav a');
+
+        menuLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('bg-white/30');
+                link.classList.remove('hover:bg-white/20');
+            }
+        });
+    });
+</script>
+
+<style>
+    /* Скрытие скроллбара для горизонтального меню */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Плавные переходы */
+    * {
+        transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+    }
+</style>
+
 </body>
 </html>
