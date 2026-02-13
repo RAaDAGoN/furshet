@@ -51,6 +51,7 @@ public class WebSecurityConfig {
                                 "/menu/**",
                                 "/caterings/**",
                                 "/media/**",
+                                "/uploads/**",
                                 "/feedbacks/**",
                                 "/js/**",
                                 "/images/**",
