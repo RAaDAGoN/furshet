@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1746px] mx-auto px-5 2xl:px-0">
+  <div class="max-w-[1746px] mx-auto px-5">
     <div v-if="categories.length > 0" class="">
       <div  class="flex flex-col md:flex-row md:items-center mx-auto my-[10px] md:my-[30px]">
         <h1 class="text-[#97AB94] font-comfort text-[28px] md:text-5xl mr-7 leading-[130%]">МЕНЮ</h1>

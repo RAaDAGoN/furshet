@@ -9,16 +9,23 @@
 
     <div class="min-h-svh">
       <div class="h-[52px] md:h-[56px] lg:h-[80px] xl:h-[128px]"></div>
+
       <Transition name="breadcrumb" mode="out-in">
         <Breadcrumbs />
       </Transition>
 
 
-      <RouterView v-slot="{ Component }">
-        <Transition name="page" mode="out-in">
-          <component :is="Component" />
-        </Transition>
-      </RouterView>
+
+      <div class="relative overflow-hidden">
+        <RouterView v-slot="{ Component }">
+          <Transition name="page" mode="out-in">
+            <component :is="Component" class="w-full" />
+          </Transition>
+        </RouterView>
+      </div>
+
+
+<!--      <RouterView />-->
 
 
     </div>
@@ -187,26 +194,36 @@ onMounted(async () => {
 </script>
 
 <style>
-/* Tailwind + CSS для перехода */
-.page-enter-active,
-.page-leave-active {
-  @apply transition duration-500 ease-in-out;
+.page-wrapper {
+  position: relative;
+  overflow: hidden;
 }
 
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Вход */
 .page-enter-from {
-  @apply opacity-0 translate-x-10;
+  opacity: 0;
+  transform: translateY(8px);
 }
 
 .page-enter-to {
-  @apply opacity-100 translate-x-0;
+  opacity: 1;
+  transform: translateY(0);
 }
 
+/* Выход */
 .page-leave-from {
-  @apply opacity-100 translate-x-0;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .page-leave-to {
-  @apply opacity-0 -translate-x-10;
+  opacity: 0;
+  transform: translateY(-8px);
 }
 
 /* появление */

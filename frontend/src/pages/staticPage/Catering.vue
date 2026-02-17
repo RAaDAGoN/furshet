@@ -1,9 +1,9 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-10 px-5 2xl:px-0">
-    <div class="font-montserrat font-medium text-base md:text-2xl leading-[140%] text-[#3C3C3C] flex flex-col">
-      <h1 class="font-comfort font-bold text-[36px] md:text-[60px] text-[#97AB94] mb-10">Кейтеринг</h1>
+  <div class="max-w-[1746px] mx-auto pt-10 px-5">
+    <div class="font-montserrat font-medium text-base xl:text-[22px] 3xl:text-[24px] leading-[140%] text-[#3C3C3C] flex flex-col">
+      <h1 class="font-comfort font-bold text-[36px] 2xl:text-[45px] 3xl:text-[60px] text-[#97AB94] mb-5">Кейтеринг</h1>
 
-      <div class="flex flex-col gap-[12px]">
+      <div class="flex flex-col gap-[12px] ">
         <p>Мы предлагаем профессиональные услуги кейтеринга для любых мероприятий: от корпоративных вечеринок до частных
           праздников. Доверяйте организацию вашего мероприятия профессионалам. Мы сделаем все, чтобы ваш фуршет стал
           настоящим украшением вашего праздника!</p>

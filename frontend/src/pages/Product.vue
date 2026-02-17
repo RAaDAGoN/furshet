@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-5 md:pt-10 px-5 2xl:px-0">
+  <div class="max-w-[1746px] mx-auto pt-5 md:pt-10 px-5">
 
     <div v-if="product" class="flex flex-col">
       <div class="flex flex-col lg:flex-row justify-between gap-6 md:gap-11">
@@ -67,18 +67,18 @@
         </div>
 
 
-        <div class="w-full flex flex-col justify-between py-4 md:py-8 space-y-4 md:space-y-6">
-          <div class="space-y-3 md:space-y-4">
-            <h1 class="font-comfort font-bold text-2xl md:text-3xl lg:text-4xl leading-[140%]">{{ product.name }}</h1>
+        <div class="w-full flex flex-col gap-10 text-[#1B1B1C]">
+          <div class="flex flex-col gap-[10px]">
+            <h1 class="font-comfort font-bold text-2xl md:text-3xl 2xl:text-[30px] 3xl:text-[45px] leading-[140%]">{{ product.name }}</h1>
 
-            <p class="flex flex-col gap-1 font-montserrat font-medium text-base md:text-xl lg:text-2xl leading-[140%]">
+            <p class="flex flex-col gap-1 font-montserrat font-medium text-base md:text-xl xl:text-[22px] 3xl:text-[24px] leading-[140%]">
               <span>{{ product.amount }} шт.</span>
 <!--              <span>2 вида</span>-->
             </p>
 
             <div class="font-comfort leading-[140%] space-y-2">
-              <h2 class="font-bold text-xl md:text-2xl lg:text-4xl">Состав:</h2>
-              <ul v-for="attr in product.productAttribute" class="font-medium text-base md:text-xl lg:text-2xl space-y-1">
+              <h2 class="font-bold text-xl md:text-2xl 2xl:text-[30px] 3xl:text-[45px]">Состав:</h2>
+              <ul v-for="attr in product.productAttribute" class="font-medium text-base md:text-xl xl:text-[22px] 3xl:text-[24px] space-y-1">
                 <li>{{attr.attribute.name}}</li>
               </ul>
             </div>
@@ -92,7 +92,7 @@
 
             <div class="flex justify-center sm:justify-start">
               <CartButton v-if="!isInCart"
-                          class="w-full max-w-[230px] md:max-w-[255px]"
+                          class="w-full max-w-fullmd:max-w-[255px]"
                           title="В корзину"
                           @click="addToCartHandler"
                           :in-cart="true"
@@ -100,7 +100,7 @@
               />
 
               <CartButton v-else
-                          class="w-full max-w-[230px] md:max-w-[255px]"
+                          class="w-full max-w-full md:max-w-[255px]"
                           title="В корзине"
                           @click="deleteHandler"
                           :in-cart="false"
@@ -119,7 +119,7 @@
       </div>
       <div v-if="recommendations && recommendations.length > 0" class="mt-8 md:mt-16 lg:mt-[110px]">
         <div v-if="!isLoading">
-          <h1 class="font-comfort font-bold text-2xl md:text-4xl lg:text-6xl text-[#97AB94] uppercase">
+          <h1 class="font-comfort font-bold text-2xl md:text-4xl 2xl:text-[45px] 3xl:text-[60px] text-[#97AB94] uppercase">
             Рекомендуемые позиции
           </h1>
           <h2 class="font-comfort font-bold text-sm md:text-base mt-4 md:mt-6 text-center md:text-left">

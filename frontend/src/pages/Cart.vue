@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-[1746px] mx-auto p-5 pt-10">
 
-    <h1 class="font-comfort font-bold text-4xl md:text-[60px] text-[#97AB94] mb-6 md:mb-10">Корзина</h1>
+    <h1 class="font-comfort font-bold text-4xl 2xl:text-[45px] 3xl:text-[60px] text-[#97AB94] mb-6 md:mb-10">Корзина</h1>
 
     <div v-if="localOrderSuccess === null">
       <div v-if="cart.length === 0" class="flex flex-col items-center justify-center text-sm md:text-[#3C3C3C]">

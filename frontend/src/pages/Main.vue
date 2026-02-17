@@ -1,33 +1,35 @@
 <template>
   <div>
 
-    <Slider/>
+        <Slider/>
 
-    <Content1/>
+        <Content1/>
 
     <div class="bg-[#EBF0E8] pt-[30px] pb-[60px] mt-[80px]">
-      <div class="max-w-[1746px] mx-auto px-5 2xl:px-0">
+      <div class="max-w-[1746px] mx-auto px-5">
 
-
-        <div class="flex gap-[10px] md:gap-[30px] md:items-center flex-col md:flex-row mb-[20px] md:mb-[0px]">
-          <h1 class="font-comfort font-bold text-[28px] md:text-[60px] text-[#97AB94] uppercase">Меню</h1>
-          <p class="font-montserrat font-medium text-[16px] md:text-[21px] text-[#3C3C3C]">Ознакомьтесь с нашим разнообразным меню для
+        <div class="flex gap-[10px] md:gap-[30px] md:items-center flex-col md:flex-row ">
+          <h1 class="font-comfort font-bold text-[28px] 2xl:text-[45px] 3xl:text-[60px] text-[#97AB94] uppercase">Меню</h1>
+          <p class="font-montserrat font-medium text-[16px] md:text-[21px] text-[#3C3C3C]">Ознакомьтесь с нашим
+            разнообразным меню для
             вашего фуршетного стола</p>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-[20px] md:gap-[45px]">
+        <div class="flex flex-col lg:flex-row gap-[20px] md:gap-[45px] font-comfort">
           <router-link to="/menu"
                        v-for="item in regular"
                        :key="item.id"
                        class="relative group overflow-hidden z-10 flex flex-col md:mt-[15px] w-full h-[240px] md:h-[420px]"
           >
 
-            <MainMenuCard :filename="item.filename" />
+            <MainMenuCard :filename="item.filename"/>
 
             <!-- Градиенты -->
             <div class="absolute inset-0">
-              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/100 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
-              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#97AB94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div
+                  class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/100 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
+              <div
+                  class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#97AB94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
             <div class="flex-grow relative z-10"></div>
@@ -43,12 +45,14 @@
                        :key="item.id"
                        class="relative group overflow-hidden z-10 flex flex-col md:mt-[15px] w-full h-[240px] md:h-[420px]"
           >
-            <MainMenuCard :filename="item.filename" />
+            <MainMenuCard :filename="item.filename"/>
 
             <!-- Градиенты -->
             <div class="absolute inset-0">
-              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/100 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
-              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#97AB94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div
+                  class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/100 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
+              <div
+                  class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#97AB94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
             <div class="flex-grow relative z-10"></div>
@@ -63,12 +67,14 @@
                        :key="item.id"
                        class="relative group overflow-hidden z-10 flex flex-col md:mt-[15px] w-full h-[240px] md:h-[420px]"
           >
-            <MainMenuCard :filename="item.filename" />
+            <MainMenuCard :filename="item.filename"/>
 
             <!-- Градиенты -->
             <div class="absolute inset-0">
-              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/100 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
-              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#97AB94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div
+                  class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/100 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
+              <div
+                  class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#97AB94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
 
             <div class="flex-grow relative z-10"></div>
@@ -78,30 +84,30 @@
             </h1>
           </router-link>
         </div>
-
       </div>
 
     </div>
+
     <div class="bg-[#30592A80] mt-[50px] lg:mt-[110px] relative ">
       <div class="max-w-[1755px] mx-auto flex flex-col justify-start ">
-        <div class="text-white px-5 2xl:px-0 py-6">
+        <div class="text-white px-5 py-6">
           <h1 class="font-comfort font-semibold text-2xl lg:text-5xl">Не знаете что выбрать?</h1>
-          <p class="font-montserrat text-base md:text-2xl">Поможем выбрать фуршетные боксы, которые понравятся всем!</p>
+          <p class="font-montserrat text-base md:text-2xl">Поможем выбрать фуршетные боксы, <br class="hidden lg:block xl:hidden"> которые понравятся всем!</p>
           <Button @click="openCart" class="mt-[30px]" title="Заказать звонок"/>
         </div>
 
-        <img class="lg:absolute bottom-0 right-0 z-10 " src="/image/Food.png" alt="Food">
+        <img class="lg:absolute bottom-0 right-0 z-10 lg:w-[50%] xl:w-[24%]" src="/image/Food.png" alt="Food">
       </div>
 
     </div>
 
-    <Content2/>
+        <Content2/>
 
-    <Content3/>
+        <Content3/>
 
-    <feedback />
+        <feedback/>
 
-    <Content4/>
+        <Content4/>
 
 
   </div>

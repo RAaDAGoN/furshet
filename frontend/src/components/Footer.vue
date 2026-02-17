@@ -1,7 +1,7 @@
 <template>
 
   <footer class="bg-[#303030]">
-    <div class="flex flex-col lg:flex-row px-5 2xl:px-0 justify-between max-w-[1746px] mx-auto pt-5 pb-5 md:pt-12 md:pb-16">
+    <div class="flex flex-col lg:flex-row px-5 justify-between max-w-[1746px] mx-auto pt-5 pb-5 md:pt-12 md:pb-16">
 
       <!-- контакты -->
       <div class="flex flex-col lg:flex-row md:gap-[20px] lg:gap-[100px]">

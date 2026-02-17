@@ -1,7 +1,7 @@
 <template>
   <div class="bg-[#97AB94] h-full w-full fixed right-0 top-[52px] lg:top-[80px] z-40 text-white flex flex-col items-center px-5 lg:px-0">
 
-    <ul class="max-w-[1746px] mx-auto flex items-center justify-center md:justify-between gap-[10px] text-[12px] md:text-lg w-full font-montserrat font-normal mt-3">
+    <ul class="max-w-[1746px] mx-auto flex items-center flex-wrap justify-center gap-[10px] md:gap-[40px] text-[14px] md:text-lg w-full font-montserrat font-normal mt-3">
       <li><a class="flex gap-[15px]" href="https://yandex.ru/maps/-/CPAhzVjR" target="_blank">г. Вологда, ул. Мира 96</a></li>
       <li><a class="flex gap-[15px]" href="tel:89005068151">8 (900) 506-81-51</a></li>
       <li>Круглосуточно</li>

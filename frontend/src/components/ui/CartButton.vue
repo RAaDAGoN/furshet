@@ -5,7 +5,10 @@
            text-sm sm:text-xs md:text-2xl
            md:px-1 md:py-4 lg:px-8
            border-[2px] overflow-hidden relative
-           transition-colors duration-300"
+           transition-colors duration-300
+           hover:bg-transparent
+           hover:text-[#97AB94]
+"
       :class="inCart
       ? 'bg-[#97AB94] text-white border-[#97AB94]'
       : 'bg-none text-[#97AB94] border-[#97AB94]'"

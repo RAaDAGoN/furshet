@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1746px] mx-auto pt-10 px-5 2xl:px-0">
+  <div class="max-w-[1746px] mx-auto pt-10 px-5">
     <div
         class="font-montserrat font-medium text-2xl leading-[140%] text-[#3C3C3C] flex flex-col lg:flex-row justify-between gap-3 md:gap-8">
 
@@ -40,10 +40,9 @@
         <div class="relative w-full h-[400px] lg:h-full rounded-lg">
           <div class="absolute inset-0 w-full h-full">
             <a href="https://yandex.ru/maps/21/vologda/?utm_medium=mapframe&utm_source=maps"
-               class="text-[#eee] text-xs absolute top-0 left-0 pointer-events-none">Вологда</a>
+               class="text-[#eee] text-xs absolute top-0 left-0 pointer-events-none"></a>
             <a href="https://yandex.ru/maps/21/vologda/house/ulitsa_mira_96/Z0AYfg9gSUIPQFtjfX5xeH5nZA==/?ll=39.881146%2C59.208909&utm_medium=mapframe&utm_source=maps&z=18.2"
-               class="text-[#eee] text-xs absolute top-[14px] left-0 pointer-events-none">Улица Мира, 96 — Яндекс Карты
-              Карты</a>
+               class="text-[#eee] text-xs absolute top-[14px] left-0 pointer-events-none"></a>
             <iframe
                 src="https://yandex.ru/map-widget/v1/?ll=39.881146%2C59.208909&mode=whatshere&whatshere%5Bpoint%5D=39.879918%2C59.209084&whatshere%5Bzoom%5D=17&z=18.2"
                 class="absolute top-0 left-0 w-full h-full border-0"

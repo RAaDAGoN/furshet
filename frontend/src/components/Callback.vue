@@ -4,7 +4,7 @@
     <div class="absolute inset-0 bg-black/30">
       <div class="absolute inset-0 bg-black/30"></div>
 
-      <div class="relative z-10 max-w-[1746px] mx-auto px-5 2xl:px-0  flex py-[0px] pt-[20px] md:py-[60px]">
+      <div class="relative z-10 max-w-[1746px] mx-auto px-5  flex py-[0px] pt-[20px] md:py-[60px]">
         <div class="">
           <h1 class="text-white text-[22px] md:text-[45px] font-comfort font-bold mb-2 md:mb-6 leading-[130%]">
             Важное событие,<br class="hidden md:block"/>

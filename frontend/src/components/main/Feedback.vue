@@ -1,16 +1,16 @@
 <template>
-  <div class="max-w-[1746px] mx-auto h-full md:flex items-center justify-between mt-12 md:mt-[110px] px-5 2xl:px-0">
+  <div class="max-w-[1746px] mx-auto h-full md:flex items-center justify-between mt-12 md:mt-[110px] px-5">
     <div class="flex flex-col gap-[30px] w-full">
       <div class="flex items-center justify-between w-full">
         <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] 2xl:text-[60px] leading-[130%] uppercase">Отзывы</h1>
 
-        <div class="flex items-center justify-between gap-[30px]">
-          <router-link to="/feedbacks" class="font-montserrat font-medium text-[#97AB94] text-[18px] 2xl:text-[24px] leading-[140%] underline">Смотреть все</router-link>
+        <div class="flex flex-col md:flex-row items-center justify-between gap-[30px]">
+          <router-link to="/feedbacks" class="font-montserrat font-medium text-[#97AB94] text-[18px] 2xl:text-[24px] leading-[140%] underline hover:no-underline">Смотреть все</router-link>
           <CartButton class="hidden lg:block" @click="openSendFeedback" title="Оставить отзыв" :in-cart="true"/>
         </div>
       </div>
 
-      <div class="2xl:flex gap-[20px] 2xl:flex-wrap md:grid md:grid-cols-2 xl:grid-cols-3">
+      <div class="gap-[20px] md:grid md:grid-cols-2 xl:grid-cols-3">
 
         <div v-for="f in feedbacks" @click="selectFeedback(f)" :key="f.id"
              class="hidden 2xl:flex flex-col md:grid gap-[16px] 2xl:flex-nowrap border border-[#D5D9E4] rounded-[20px] w-full  max-w-[568px] max-h-[242px] p-5 cursor-pointer select-none ">

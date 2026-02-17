@@ -5,7 +5,7 @@
     ]"
   >
     <div class="border-b border-white border-opacity-50 hidden xl:block ">
-      <ul class="max-w-[1746px] mx-auto py-[10px] flex items-center justify-center gap-12 xl:justify-end sm:text-lg w-full font-montserrat font-normal px-5 ">
+      <ul class="max-w-[1746px] mx-auto py-[10px] flex items-center justify-center gap-12 xl:justify-end sm:text-lg w-full font-montserrat font-normal px-5">
         <li><a class="flex gap-[15px]" href="https://yandex.ru/maps/-/CPAhzVjR" target="_blank">г. Вологда, ул. Мира
           96</a></li>
         <li><a class="flex gap-[15px]" href="tel:89005068151">8 (900) 506-81-51</a></li>
@@ -13,7 +13,7 @@
       </ul>
     </div>
 
-    <div class="max-w-[1746px] mx-auto py-[10px] flex items-center justify-between px-5 2xl:px-0">
+    <div class="max-w-[1746px] mx-auto py-[10px] flex items-center  px-5" :class="isActive ? 'justify-normal md:justify-between' : 'justify-between'">
 
       <div class="flex items-center">
         <router-link to="/" @click="()=> emit('closeMenu')"
@@ -31,12 +31,12 @@
         'hidden lg:block ml-[20px] 2xl:ml-[45px]': !isActive,
         'block ml-[20px] 2xl:ml-[45px]': isActive,
       }">
-          <div class="relative">
+          <div class="relative min-w-0" ref="searchWrapper">
             <input type="text" placeholder="Поиск" autocomplete="off"
                    id="search-input"
                    ref="element"
                    v-model="searchQuery"
-                   :class="isActive ? 'w-[215px] sm:w-[315px] md:w-[405px]' : 'w-[255px]'"
+                   :class="isActive ? 'w-[215px] sm:w-[295px] md:w-[350px] 2xl:w-[300px] 3xl:w-[405px]' : 'w-[255px]'"
                    @click.stop="toggleClass"
                    class="bg-[#B1C0AF] transition-[width] duration-500 ease-in-out outline-none rounded-[10px] lg:rounded-[20px] py-[18px] px-[20px] w-[255px] h-[36px] lg:h-[60px] font-montserrat placeholder:font-normal text-[21px] placeholder:text-[#ECECEC] text-white font-medium">
             <i class="absolute right-[11px] top-[5px] md:right-[20px] lg:top-[17px] bg-[url(/image/icons/Search.svg)] bg-no-repeat w-[22px] h-[22px] md:w-[26px] md:h-[26px]"></i>
@@ -110,8 +110,8 @@
       <!--Список пунктов меню      -->
       <div class="flex justify-end items-center gap-[0px] md:gap-4">
         <ul
-            :class="isActive ? 'xl:gap-[10px] 2xl:gap-[20px]' : 'xl:gap-[20px] 2xl:gap-[50px]'"
-            class="hidden xl:flex items-center justify-end gap-2 md:gap-2 lg:gap-[36px]  font-montserrat font-semibold text-sm md:text-lg 2xl:text-xl  transition-all duration-500 ease-in-out">
+            :class="isActive ? 'xl:gap-[10px] 2xl:gap-[20px]' : 'xl:gap-[20px] 2xl:gap-[20px] 3xl:gap-[50px]'"
+            class="hidden xl:flex items-center justify-end gap-2 md:gap-2 lg:gap-[36px] font-montserrat font-semibold text-sm md:text-lg 2xl:text-[18px] 3xl:text-[21px] transition-all duration-500 ease-in-out">
           <router-link to="/about">О нас</router-link>
           <router-link to="/catering">Кейтеринг</router-link>
           <router-link to="/menu">Меню</router-link>
@@ -140,7 +140,7 @@
 
         </router-link>
 
-        <div class="transition-all duration-200 ease-in-out transform">
+        <div class="transition-all duration-200 ease-in-out transform" :class="isActive ? 'hidden md:block' : 'block'">
           <img v-if="!menuOpen" class="xl:hidden" src="/image/icons/burger.svg" alt="Menu1"
                @click="()=> emit('openMenu')">
 
@@ -192,6 +192,7 @@ const handleScroll = () => {
 const searchQuery = ref("");
 const categories = ref([])
 const products = ref([])
+const searchWrapper = ref(null);
 
 
 const fetchCategories = async () => {
@@ -242,7 +243,12 @@ const toggleClass = () => {
 }
 
 const handleClickOutside = (event) => {
-  if (element.value && !element.value.contains(event.target)) {
+  // if (element.value && !element.value.contains(event.target)) {
+  //   isActive.value = false;
+  //   searchQuery.value = "";
+  // }
+
+  if (searchWrapper.value && !searchWrapper.value.contains(event.target)) {
     isActive.value = false;
     searchQuery.value = "";
   }
@@ -272,8 +278,6 @@ onUnmounted(() => {
 .close-search {
   width: 255px;
 }
-
-
 
 .title-close {
   display: none;

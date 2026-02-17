@@ -1,8 +1,8 @@
 <template>
-  <div class="max-w-[1746px] mx-auto px-5 2xl:px-0">
+  <div class="max-w-[1746px] mx-auto px-5">
     <h1 class="text-[#97AB94] font-comfort text-[28px] mt-[20px] md:mt-[40px] md:text-5xl mr-7 leading-[130%]">МЕНЮ</h1>
 
-    <div class="flex flex-wrap gap-4 font-montserrat font-medium text-[16px] md:text-[24px] text-[#97AB94]  my-[40px] mb-[30px]">
+    <div class="flex flex-wrap gap-4 font-montserrat font-medium text-[16px] md:text-[24px] text-[#97AB94]  my-[20px] mb-[30px]">
       <button  v-for="category in categoriesWithProducts" @click="scrollToCategory(category.slug)" class="border-[2px] border-[#97AB94] rounded-[30px] py-[12px] px-[30px]">{{ category.name }}</button>
     </div>
 

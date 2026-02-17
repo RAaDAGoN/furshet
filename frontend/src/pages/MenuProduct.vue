@@ -2,7 +2,7 @@
   <div class="max-w-[1746px] mx-auto px-5 lg:px-0">
 
     <div v-if="category && category.active" class="mb-8">
-      <h1 class="text-3xl font-bold uppercase text-[#97AB94] my-[20px] md:my-[30px]">{{ category.name }}</h1>
+      <h1 class="font-comfort text-3xl font-bold uppercase text-[#97AB94] my-[20px] md:my-[30px]">{{ category.name }}</h1>
 
       <ProductList :products="products"/>
     </div>

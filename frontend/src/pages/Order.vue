@@ -1,6 +1,6 @@
 <template>
-  <div class="max-w-[1746px] mx-auto p-5 pt-10" >
-    <h1 class="font-comfort font-bold text-[27px] md:text-[60px] text-[#97AB94] mb-[10px] md:mb-10">Оформление заказа</h1>
+  <div class="max-w-[1746px] mx-auto p-5 2xl:pt-5 3xl:pt-10" >
+    <h1 class="font-comfort font-bold text-[27px] 2xl:text-[45px] 3xl:text-[60px] text-[#97AB94] mb-[10px] md:mb-10">Оформление заказа</h1>
 
     <div v-if="localOrderSuccess === null">
       <div v-if="cart.length === 0" class="flex flex-col items-center justify-center text-sm md:text-[#3C3C3C]">
@@ -23,7 +23,7 @@
 
             <div class="border border-[#D2D2D2] rounded-[20px] py-[24px] px-[20px] 2xl:py-[35px] 2xl:px-[40px]">
               <h2 class="font-comfort font-bold text-[20px] md:text-4xl text-[#2E2F2A] mb-2 md:mb-[30px]">1. Ваши контактные данные</h2>
-              <div class="flex flex-col 2xl:flex-row justify-between">
+              <div class="flex flex-col 3xl:flex-row justify-between 2xl:gap-[20px]">
                 <OrderInput placeholder="Фамилия и имя" name="FIO" v-model="orderForm.FIO" :class="inputClass(errors.FIO)"/>
                 <OrderInput placeholder="Телефон" name="phone" v-model="orderForm.phone" :class="inputClass(errors.phone)"/>
                 <OrderInput placeholder="Почта" name="email" v-model="orderForm.email" :class="inputClass(errors.email)"/>
@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        <div class="xl:ml-12 mt-[30px] xl:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px] w-full 2xl:min-w-[455px]">
+        <div class="xl:ml-12 mt-[30px] xl:mt-0 border border-[#ECEBE4] rounded-[15px] p-[32px] w-full 2xl:min-w-[455px] 2xl:max-w-[500px]">
           <h1 class="font-comfort font-bold text-16px md:text-[30px] text-[#2E2F2A] mb-3">Состав заказа</h1>
           <div class="flex flex-col justify-between gap-5 py-5 border-y-[2px] border-[#ECEBE4] font-montserrat mb-10 text-[#2E2F2A]">
             <div class="flex justify-between text-base md:text-[22px]">

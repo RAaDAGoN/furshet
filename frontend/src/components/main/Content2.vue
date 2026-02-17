@@ -1,18 +1,18 @@
 <template>
-  <div class="max-w-[1746px] mx-auto h-full flex flex-col xl:flex-row items-center justify-between mt-12 lg:mt-[110px] px-5 2xl:px-0 ">
+  <div class="max-w-[1746px] mx-auto h-full flex flex-col xl:flex-row items-center justify-between xl:gap-[25px] mt-12 lg:mt-[110px] px-5">
 
-    <div class="xl:mr-2 2xl:mr-0">
+    <div>
       <img src="/image/Content2.png" alt="content1" />
     </div>
 
     <div class="max-w-[855px] flex flex-col gap-5">
       <div>
-        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] lg:text-[30px] xl:text-[60px] uppercase mt-10 md:mt-0">Доставка по всей вологде</h1>
-        <p class="font-montserrat font-medium text-[#3C3C3C] sm:text-[18px] md:text-[20px] xl:text-[24px]">Мы понимаем, что время — это ценный ресурс. <br/>Именно поэтому предлагаем удобную и быструю доставку вашего фуршета прямо к месту проведения мероприятия.</p>
+        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] lg:text-[30px] 2xl:text-[45px] 3xl:text-[60px] uppercase mt-10 md:mt-0">Доставка по всей вологде</h1>
+        <p class="font-montserrat font-medium text-[#3C3C3C] sm:text-[18px] md:text-[20px] xl:text-[22px] 3xl:text-[24px]">Мы понимаем, что время — это ценный ресурс. <br/>Именно поэтому предлагаем удобную и быструю доставку вашего фуршета прямо к месту проведения мероприятия.</p>
       </div>
 
       <div>
-        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] lg:text-[30px] 2xl:text-[45px] mb-5">Преимущества нашей доставки</h1>
+        <h1 class="font-comfort font-bold text-[#97AB94] text-[28px] lg:text-[30px] 3xl:text-[45px] mb-5">Преимущества нашей доставки</h1>
 
         <div class="grid md:grid-cols-2 md:grid-rows-2 gap-6">
 
@@ -33,14 +33,13 @@
 
           <div class="md:flex items-center justify-center">
             <router-link to="/menu">
-              <h1 class="font-comfort font-semibold text-[#97AB94] text-2xl flex justify-center items-center gap-[15px] group hover:cursor-pointer">
+              <h1 class="font-comfort font-semibold text-[#97AB94] text-[18px] xl:text-[22px] 3xl:text-[24px] flex justify-center items-center gap-[15px] group hover:cursor-pointer">
                 Заказать доставку
                 <img
-                    width="36"
-                    height="15"
+                    class="transition-transform duration-300 group-hover:translate-x-2 w-25px h-[15px]"
                     src="/image/icons/arrow.svg"
                     alt="Next arrow"
-                    class="transition-transform duration-300 group-hover:translate-x-2"
+
                 >
               </h1>
             </router-link>
