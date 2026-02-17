@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                                                 "style-src 'self' 'unsafe-inline'; " +
                                                 "img-src 'self' data: blob:; " +
                                                 "font-src 'self' data:; " +
-                                                "connect-src 'self' http://localhost:8080; "
+                                                "connect-src 'self' https://api.furshetvol35.ru; "
                                 )
                         )
                 )
@@ -51,6 +51,7 @@ public class WebSecurityConfig {
                                 "/menu/**",
                                 "/caterings/**",
                                 "/media/**",
+                                "/uploads/**",
                                 "/feedbacks/**",
                                 "/js/**",
                                 "/images/**",
@@ -90,10 +91,12 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-		"http://144.31.165.137",
-        "http://localhost:5173",
-        "http://localhost:3000",
-                "http://192.168.31.147:5173"
+//		"http://144.31.165.137",
+//        "http://localhost:5173",
+//        "http://localhost:3000",
+//        "http://192.168.31.147:5173",
+        "https://furshetvol35.ru",
+        "https://api.furshetvol35.ru"
 		));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));

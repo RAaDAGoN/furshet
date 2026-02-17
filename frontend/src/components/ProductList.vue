@@ -10,7 +10,7 @@
                 :mark="product.productLabel"
                 :title="product.name"
                 :image="product.productImages?.length
-                ? `${API_URL}/media/${product.productImages[0].filename}`
+                ? `${API_URL}uploads/${product.productImages[0].filename}`
                 : null"
                 :to="{name: 'Product', params: { categorySlug: slugify(product.category.name), productSlug: slugify(product.name) }}"
       />
