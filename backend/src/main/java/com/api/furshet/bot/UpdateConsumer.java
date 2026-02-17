@@ -17,7 +17,7 @@
 //    private final TelegramClient telegramClient;
 //
 //    public UpdateConsumer() {
-//        this.telegramClient = new OkHttpTelegramClient("8449982739:AAG9DLliXJlq7eWjcC-dRBb85SEeQjyJjXo");
+//        this.telegramClient = new OkHttpTelegramClient("");
 //    }
 //
 //    @Override

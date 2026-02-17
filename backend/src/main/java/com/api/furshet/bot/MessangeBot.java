@@ -11,7 +11,7 @@
 //
 //    @Override
 //    public String getBotToken() {
-//        return "8449982739:AAG9DLliXJlq7eWjcC-dRBb85SEeQjyJjXo";
+//        return "";
 //    }
 //
 //    @Override
