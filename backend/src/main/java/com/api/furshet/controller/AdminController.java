@@ -4,12 +4,18 @@ import com.api.furshet.domain.entity.*;
 import com.api.furshet.domain.enums.*;
 import com.api.furshet.dto.*;
 import com.api.furshet.service.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +42,19 @@ public class AdminController {
     private final FeedbackService feedbackService;
 
     @GetMapping("")
-    public String mainPage() {
+    public String mainPage(HttpServletRequest request, HttpServletResponse response) {
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+
+        if (token != null) {
+            Cookie cookie = new  Cookie("XSRF-TOKEN", token.getToken());
+            cookie.setPath("/");
+            cookie.setSecure(true);
+            cookie.setHttpOnly(false);
+            cookie.setAttribute("SameSite", "None");
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+        }
+
         return "admin";
     }
 
@@ -146,13 +164,16 @@ public class AdminController {
     }
 
     @GetMapping("/category/new")
-    public String createCategory(Model model) {
+    public String createCategory(Model model, HttpServletRequest request) {
 
         CategoryDTO categoryDto = new CategoryDTO();
         if (categoryDto.getActive() == null) {
             categoryDto.setActive(true);
         }
 
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+
+        model.addAttribute("_csrf", token );
         model.addAttribute("categoryDto", categoryDto);
 
         return "categories/category";
